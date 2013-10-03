@@ -11,3 +11,10 @@
 *.lai
 *.la
 *.a
+
+# Qt Generated Stuff
+Makefile
+moc_*
+
+# Temporary files
+*~
