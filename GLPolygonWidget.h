@@ -26,8 +26,9 @@ protected:
 
 private:
 	/* Determines how much the polygon should be moved/rotated
- 	 * when a mosue event occurs. */
-	void processMouseEvent(QMouseEvent* event);
+ 	 * when a mosue event occurs. Returns true if mouse event
+ 	 * changed state of the polygon.  */
+	bool processMouseEvent(QMouseEvent* event);
 
 	GLPolygon* polygon;
 	float oldMouseY;

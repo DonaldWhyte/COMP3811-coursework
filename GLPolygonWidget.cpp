@@ -30,8 +30,10 @@ void GLPolygonWidget::paintGL()
 	glFlush();
 }
 
-void GLPolygonWidget::processMouseEvent(QMouseEvent* event)
+bool GLPolygonWidget::processMouseEvent(QMouseEvent* event)
 {
+	bool changeMade = false; // set to true if state of polygon changed
+
 	// Check which mouse buttons are pressed
 	if (event->buttons() & Qt::LeftButton) //  if left button pressed
 	{
@@ -40,13 +42,18 @@ void GLPolygonWidget::processMouseEvent(QMouseEvent* event)
 		float newY = -(static_cast<float>(event->y()) / this->height()) + (radius / 2);
 		polygon->setX(newX);
 		polygon->setY(newY);
+		changeMade = true;
 	}
 	if (event->buttons() & Qt::RightButton) // if right button pressed
 	{
 		float difference = oldMouseY - event->y();
 		float newDegrees = polygon->rotationDegrees() + difference;
 		polygon->setRotationDegrees(newDegrees);
+		changeMade = true;
 	}
+
+	// If no mouse button pressed and no change made, just return false
+	if (!changeMade) return false;
 
 	// Ensure polygon does not go out of bounds
 	if (polygon->x() < -1.0f) polygon->setX(-1.0f);
@@ -58,19 +65,20 @@ void GLPolygonWidget::processMouseEvent(QMouseEvent* event)
 	
 	// Accept event so it's not processed further and redraw widget to reflect changes
 	event->accept();
-	repaint();
 	// Also keep track of the Y value for later use
 	oldMouseY = event->y();
+
+	return true; // change made to return true
 }
 
 void GLPolygonWidget::mouseMoveEvent(QMouseEvent* event)
 {
-	processMouseEvent(event);
-	emit changed();
+	if (processMouseEvent(event))
+		emit changed();
 }
 
 void GLPolygonWidget::mousePressEvent(QMouseEvent* event)
 {
-	processMouseEvent(event);
-	emit changed();
+	if (processMouseEvent(event))
+		emit changed();
 }

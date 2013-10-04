@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 	GLPolygonWindow* window = new GLPolygonWindow(NULL, polygon);
 	GLPolygonController* controller = new GLPolygonController(window, polygon);
 
-	window->resize(512, 512);
+	window->resize(640, 640);
 	window->show();
 
 	app.exec();
