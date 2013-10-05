@@ -12,39 +12,8 @@ static const float VERTEX_COLOURS[3][3] = {
 };
 
 
-GLPolygon::GLPolygon(int vertices, float x, float y, float rotation) :
-	nVertices(vertices), posX(x), posY(y), rotationDeg(rotation)
+GLPolygon::GLPolygon(int vertices) : nVertices(vertices)
 {
-}
-
-float GLPolygon::x() const
-{
-	return posX;
-}
-
-float GLPolygon::y() const
-{
-	return posY;
-}
-
-float GLPolygon::rotationDegrees() const
-{
-	return rotationDeg;
-}
-
-void GLPolygon::setX(float newX)
-{
-	posX = newX;
-}
-
-void GLPolygon::setY(float newY)
-{
-	posY = newY;
-}
-
-void GLPolygon::setRotationDegrees(float newDegrees)
-{
-	rotationDeg = newDegrees;
 }
 
 void GLPolygon::setNumVertices(int newNumVertices)
@@ -57,7 +26,7 @@ int GLPolygon::numVertices() const
 	return nVertices;
 }
 
-void GLPolygon::render() const
+void GLPolygon::render()
 {
 	// Angle between two different vertices from central
 	// point of the polygon
@@ -93,13 +62,11 @@ void GLPolygon::render() const
 			maxY = positions[i].y();
 	}
 	BoundingBox bbox = BoundingBox(positions);
-	float centreX = minX + ((maxX - minY) / 2.0f);
-	float centreY = minX + ((maxX - minY) / 2.0f);
 
 	// Setup polygon transformations
 	glPushMatrix();
 	glLoadIdentity();
-	glTranslatef(posX, posY, 0.0f);
+	glTranslatef(pos.x,  pos.y, pos.z);
 	glRotatef(rotationDeg, 0.0f, 0.0f, 1.0f);
 	// Draw centre point then remaining vertices
 	glBegin(GL_TRIANGLE_FAN);
