@@ -1,6 +1,8 @@
 #ifndef GL_TETRA_H
 #define GL_TETRA_H
 
+#include "Drawable.h"
+
 enum RenderMethod
 {
 	RENDER_METHOD_POINTS = 0,
@@ -17,7 +19,7 @@ enum PlatonicSolidType
 	PLATONIC_ICOSAHEDRON
 };
 
-class GLPlatonicSolid
+class GLPlatonicSolid : public Drawable
 {
 
 public:
