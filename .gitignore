@@ -19,3 +19,5 @@ COMP3811-coursework
 
 # Temporary files
 *~
+# Hidden files
+.*
