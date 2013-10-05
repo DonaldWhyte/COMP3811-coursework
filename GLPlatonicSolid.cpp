@@ -2,11 +2,11 @@
 #include "GLPlatonicSolid.h"
 
 GLPlatonicSolid::GLPlatonicSolid(PlatonicSolidType type, RenderMethod method) :
-	solidType(type), method(method)
+	method(method), solidType(type)
 {
 }
 
-RenderMethod renderMethod() const
+RenderMethod GLPlatonicSolid::renderMethod() const
 {
 	return method;
 }
