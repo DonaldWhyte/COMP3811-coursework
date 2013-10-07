@@ -2,6 +2,7 @@
 #define GL_TETRA_H
 
 #include "Drawable.h"
+#include "Geometry.h"
 
 enum RenderMethod
 {
@@ -10,33 +11,29 @@ enum RenderMethod
 	RENDER_METHOD_TRIANGLES
 };
 
-enum PlatonicSolidType
-{
-	PLATONIC_TETRAHEDRON = 0,
-	PLATONIC_CUBE,
-	PLATONIC_OCTAHEDRON,
-	PLATONIC_DODECAHEDRON,
-	PLATONIC_ICOSAHEDRON
-};
-
 class GLPlatonicSolid : public Drawable
 {
 
 public:
-	GLPlatonicSolid(PlatonicSolidType type = PLATONIC_CUBE, RenderMethod method = RENDER_METHOD_TRIANGLES);
+	GLPlatonicSolid(RenderMethod method = RENDER_METHOD_TRIANGLES);
 
 	RenderMethod renderMethod() const;
 	void setRenderMethod(RenderMethod newMethod);
 
-	PlatonicSolidType type() const;
-	void setType(PlatonicSolidType newType);
-
 	/* Draw platonic solid on screen. */
 	void render();
 
+	/* These define the actual polyhedra rendered. */
+	virtual const Vector3List& getVertices() const = 0;
+	virtual const LineList& getLines() const = 0;
+	virtual const TriangleList& getTriangles() const = 0;
+
 private:
+	void renderAsPoints();
+	void renderAsLines();
+	void renderAsTriangles();
+
 	RenderMethod method;
-	PlatonicSolidType solidType;
 
 };
 
