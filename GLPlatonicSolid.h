@@ -32,7 +32,7 @@ public:
 	void setType(PlatonicSolidType newType);
 
 	/* Draw platonic solid on screen. */
-	void render() const;
+	void render();
 
 private:
 	RenderMethod method;

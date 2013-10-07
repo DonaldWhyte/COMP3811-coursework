@@ -26,7 +26,7 @@ void GLPlatonicSolid::setType(PlatonicSolidType newType)
 	solidType = newType;
 }
 
-void GLPlatonicSolid::render() const
+void GLPlatonicSolid::render()
 {
 }
 

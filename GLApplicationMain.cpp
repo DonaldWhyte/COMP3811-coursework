@@ -2,13 +2,13 @@
 #include "GLWindow.h"
 #include "GLApplicationController.h"
 
-#include "GLPolygon.h"
+#include "GLPlatonicSolid.h"
 
 int main(int argc, char* argv[])
 {
 	QApplication app(argc, argv);
 
-	GLPolygon* drawable = new GLPolygon(6);
+	GLPlatonicSolid* drawable = new GLPlatonicSolid(PLATONIC_CUBE, RENDER_METHOD_TRIANGLES);
 	GLWindow* window = new GLWindow(NULL, drawable);
 	GLApplicationController* controller = new GLApplicationController(window, drawable);
 
