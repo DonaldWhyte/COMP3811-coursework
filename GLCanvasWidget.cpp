@@ -19,6 +19,10 @@ void GLCanvasWidget::initializeGL()
 	glClearColor(0.3, 0.3, 0.3, 0.0);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
+
+	glPointSize(5.0f);
+	glLineWidth(3.0f);
+
 	setupProjection(this->width(), this->height());
 	setupViewport(this->width(), this->height());
 }
