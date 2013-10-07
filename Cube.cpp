@@ -20,6 +20,20 @@ Cube::Cube()
 	lines.push_back( Line(3, 7) ); lines.push_back( Line(2, 6) );
 	lines.push_back( Line(4, 5) ); lines.push_back( Line(5, 7) );
 	lines.push_back( Line(7, 6) ); lines.push_back( Line(6, 4) );
+
+	triangles.reserve(12);
+	triangles.push_back( Triangle(0, 1, 3) );
+	triangles.push_back( Triangle(0, 3, 2) );
+	triangles.push_back( Triangle(0, 1, 4) );
+	triangles.push_back( Triangle(1, 4, 5) );
+	triangles.push_back( Triangle(0, 2, 4) );
+	triangles.push_back( Triangle(2, 6, 4) );
+	triangles.push_back( Triangle(5, 4, 6) );
+	triangles.push_back( Triangle(5, 6, 7) );
+	triangles.push_back( Triangle(2, 3, 7) );
+	triangles.push_back( Triangle(2, 7, 6) );
+	triangles.push_back( Triangle(1, 5, 7) );
+	triangles.push_back( Triangle(1, 7, 3) );
 }
 
 const Vector3List& Cube::getVertices() const

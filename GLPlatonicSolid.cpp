@@ -1,6 +1,11 @@
 #include <QGLWidget>
 #include "GLPlatonicSolid.h"
 
+static const float TRIANGLE_COLORS[2][3] = {
+	{ 1.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f}
+};
+
+#include <iostream> // REMOVE
 void GLPlatonicSolid::render()
 {
 	// Apply standard drawable transformations
@@ -9,6 +14,7 @@ void GLPlatonicSolid::render()
 
 	glTranslatef(pos.x, pos.y, pos.z);
 	glRotatef(rotationDeg, 1.0f, 1.0f, 1.0f);
+	std::cout << rotationDeg << std::endl;
 	glScalef(SCALING_FACTOR, SCALING_FACTOR, SCALING_FACTOR);
 
 	switch (method)
@@ -58,16 +64,22 @@ void GLPlatonicSolid::renderAsLines()
 void GLPlatonicSolid::renderAsTriangles()
 {
 	const Vector3List& vertices = getVertices();
-	const TriangleList& lines = getTriangles();
+	const TriangleList& triangles = getTriangles();
 
 	glBegin(GL_TRIANGLES);
-	for (TriangleList::const_iterator it = lines.begin(); (it != lines.end()); it++)
+	for (int i = 0; (i < triangles.size()); i++)
 	{
-		const Vector3& v1 = vertices[it->v1];
-		const Vector3& v2 = vertices[it->v2];
-		const Vector3& v3 = vertices[it->v3];
+		// Assign colour to the triangle
+		const float* triCol = TRIANGLE_COLORS[i % 2];
+		glColor3f(triCol[0], triCol[1], triCol[2]);
+		// Specify the triangle itself
+		const Triangle& tri = triangles[i];
+		const Vector3& v1 = vertices[tri.v1];
+		const Vector3& v2 = vertices[tri.v2];
+		const Vector3& v3 = vertices[tri.v3];
 		glVertex3f(v1.x, v1.y, v1.z);
 		glVertex3f(v2.x, v2.y, v2.z);
 		glVertex3f(v3.x, v3.y, v3.z);
 	}
+	glEnd();
 }

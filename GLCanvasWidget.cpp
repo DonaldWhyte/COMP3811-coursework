@@ -33,7 +33,6 @@ void GLCanvasWidget::resizeGL(int width, int height)
 	setupViewport(width, height);
 }
 
-#include <iostream>
 void GLCanvasWidget::setupProjection(int width, int height)
 {
 	// Compute frustrum parameters for a perspective projection
@@ -47,8 +46,7 @@ void GLCanvasWidget::setupProjection(int width, int height)
 	// Setup projection and viewport
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glFrustum(-xMax, xMax, -yMax, yMax, zNear, zFar);
-	std::cout << xMax << " " << yMax << " " << zNear << " " << zFar << std::endl;
+	glFrustum(-xMax, xMax, -yMax, yMax, zNear, zFar); // TODO: fix
 	glMatrixMode(GL_MODELVIEW);
 }
 
