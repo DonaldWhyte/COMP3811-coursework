@@ -14,6 +14,8 @@ void GLPolygonWidget::setPolygon(GLPolygon* newPolygon)
 void GLPolygonWidget::initializeGL()
 {
 	glClearColor(0.3, 0.3, 0.3, 0.0);
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
 }
 
 void GLPolygonWidget::resizeGL(int width, int height)
@@ -23,7 +25,7 @@ void GLPolygonWidget::resizeGL(int width, int height)
 
 void GLPolygonWidget::paintGL()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	polygon->render();
 
