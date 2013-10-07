@@ -50,8 +50,7 @@ private:
 				QLabel* yLabel;
 		QBoxLayout* rowTwoLayout;
 			QLabel* xLabel;
-		QBoxLayout* rowThreeLayout;
-			QLabel* numVerticesLabel;
+			QBoxLayout* rotationLayout;
 
 };
 

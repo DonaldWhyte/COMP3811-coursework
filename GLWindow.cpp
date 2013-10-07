@@ -36,15 +36,12 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 	xSlider = new QSlider(Qt::Horizontal);
 	rowTwoLayout->addWidget(xSlider);
 
-	rotationDial = new QDial();
-	rowTwoLayout->addWidget(rotationDial);
-
-	// Row three, which contains number of vertices slider and animation checkbox
-	rowThreeLayout = new QBoxLayout(QBoxLayout::LeftToRight);
-	windowLayout->addLayout(rowThreeLayout);
-
-	animationCheckBox = new QCheckBox("Animate Polygon");
-	rowThreeLayout->addWidget(animationCheckBox);
+	rotationLayout = new QBoxLayout(QBoxLayout::TopToBottom);
+	rowTwoLayout->addLayout(rotationLayout);
+		rotationDial = new QDial();
+		rotationLayout->addWidget(rotationDial);
+		animationCheckBox = new QCheckBox("Animate Polygon");
+		rotationLayout->addWidget(animationCheckBox);
 
 	resetInterface();
 }
@@ -54,15 +51,15 @@ GLWindow::~GLWindow()
 	// Done in reverse-order, bottom of visual hierarchy to the top
 	delete yLabel;
 	delete ySlider;
-	delete xLabel;
-	delete animationCheckBox;
 	delete rotationDial;
+	delete animationCheckBox;
+	delete xLabel;
+	delete rotationLayout;
 	delete xSlider;
 	delete ySliderLayout;
 	delete canvasWidget;
 	delete rowOneLayout;
 	delete rowTwoLayout;
-	delete rowThreeLayout;
 	delete windowLayout;
 	delete actionQuit;
 	delete fileMenu;
