@@ -1,15 +1,13 @@
 #include <QCoreApplication>
-#include "GLPolygonController.h"
+#include "GLApplicationController.h"
 
-GLPolygonController::GLPolygonController(GLPolygonWindow* window, GLPolygon* polygon)
-	: window(window), polygon(polygon), animating(false)
+GLApplicationController::GLApplicationController(GLWindow* window, Drawable* drawableObject)
+	: window(window), drawable(drawableObject), animating(false)
 {
-	connect(window->polygonWidget, SIGNAL(changed()),
-		this, SLOT(polygonWidgetChanged()));
+	connect(window->canvasWidget, SIGNAL(changed()),
+		this, SLOT(canvasWidgetChanged()));
 	connect(window->actionQuit, SIGNAL(triggered()),
 		QCoreApplication::instance(), SLOT(quit()));
-	connect(window->nVerticesSlider, SIGNAL(valueChanged(int)),
-		this, SLOT(nVerticesSliderChanged(int)));
 	connect(window->xSlider, SIGNAL(valueChanged(int)),
 		this, SLOT(xSliderChanged(int)));
 	connect(window->ySlider, SIGNAL(valueChanged(int)),
@@ -24,50 +22,44 @@ GLPolygonController::GLPolygonController(GLPolygonWindow* window, GLPolygon* pol
 	animationTimer->start(ANIMATION_FRAME_LENGTH);
 }
 
-void GLPolygonController::polygonWidgetChanged()
+void GLApplicationController::canvasWidgetChanged()
 {
 	window->resetInterface();
 }
 
-void GLPolygonController::nVerticesSliderChanged(int newValue)
-{
-	polygon->setNumVertices(newValue);
-	window->resetInterface();
-}
-
-void GLPolygonController::xSliderChanged(int newValue)
+void GLApplicationController::xSliderChanged(int newValue)
 {
 	float newX = static_cast<float>(newValue) / 100.0f;
-	polygon->setX(newX);
+	drawable->setX(newX);
 	window->resetInterface();
 }
 
-void GLPolygonController::ySliderChanged(int newValue)
+void GLApplicationController::ySliderChanged(int newValue)
 {
 	float newY = static_cast<float>(newValue) / 100.0f;
-	polygon->setY(newY);
+	drawable->setY(newY);
 	window->resetInterface();
 }
 
-void GLPolygonController::rotationDialChanged(int newValue)
+void GLApplicationController::rotationDialChanged(int newValue)
 {
-	polygon->setRotationDegrees( static_cast<float>(newValue) );
+	drawable->setRotationDegrees( static_cast<float>(newValue) );
 	window->resetInterface();
 }
 
-void GLPolygonController::animationCheckBoxChanged(int newState)
+void GLApplicationController::animationCheckBoxChanged(int newState)
 {
 	animating = (newState == Qt::Checked);
 }
 
-void GLPolygonController::nextAnimationFrame()
+void GLApplicationController::nextAnimationFrame()
 {
 	if (!animating) return;
 
-	float degrees = polygon->rotationDegrees();
+	float degrees = drawable->rotationDegrees();
 	if (degrees < 0.0f || degrees > 360.0f)
 		degrees = 0.0f;
-	polygon->setRotationDegrees( degrees + 1.0f );
+	drawable->setRotationDegrees( degrees + 1.0f );
 
 	window->resetInterface();
 }

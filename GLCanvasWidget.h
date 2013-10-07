@@ -1,19 +1,19 @@
-#ifndef GL_POLYGON_WIDGET_H
-#define GL_POLYGON_WIDGET_H
+#ifndef GL_CANVAS_WIDGET_H
+#define GL_CANVAS_WIDGET_H
 
 #include <QGLWidget>
 #include <QMouseEvent>
-#include "GLPolygon.h"
+#include "Drawable.h"
 
-/* Widget that uses OpenGL to render the polygon. */
-class GLPolygonWidget : public QGLWidget
+/* Widget that uses OpenGL to render a single object. */
+class GLCanvasWidget : public QGLWidget
 {
 
 	Q_OBJECT
 
 public:
-	GLPolygonWidget(QWidget* parent, GLPolygon* initialPolygon);
-	void setPolygon(GLPolygon* newPolygon);
+	GLCanvasWidget(QWidget* parent, Drawable* drawableObject);
+	void setDrawable(Drawable* newDrawable);
 
 protected:
 	void initializeGL();
@@ -26,11 +26,11 @@ protected:
 
 private:
 	/* Determines how much the polygon should be moved/rotated
- 	 * when a mosue event occurs. Returns true if mouse event
+ 	 * when a mouse event occurs. Returns true if mouse event
  	 * changed state of the polygon.  */
 	bool processMouseEvent(QMouseEvent* event);
 
-	GLPolygon* polygon;
+	Drawable* drawable;
 	float oldMouseY;
 
 signals:

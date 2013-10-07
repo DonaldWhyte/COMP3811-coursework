@@ -1,7 +1,7 @@
-#include "GLPolygonWindow.h"
+#include "GLWindow.h"
 
-GLPolygonWindow::GLPolygonWindow(QWidget* parent, GLPolygon* initialPolygon)
-	: QWidget(parent), polygon(initialPolygon)
+GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
+	: QWidget(parent), drawable(drawableObject)
 {
 	setWindowTitle("COMP3811 Computer Graphics - Coursework One - Donald Whyte");
 	windowLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
@@ -16,8 +16,8 @@ GLPolygonWindow::GLPolygonWindow(QWidget* parent, GLPolygon* initialPolygon)
 	rowOneLayout = new QBoxLayout(QBoxLayout::LeftToRight);
 	windowLayout->addLayout(rowOneLayout);
 
-	polygonWidget = new GLPolygonWidget(this, initialPolygon);
-	rowOneLayout->addWidget(polygonWidget);
+	canvasWidget = new GLCanvasWidget(this, drawableObject);
+	rowOneLayout->addWidget(canvasWidget);
 
 	ySliderLayout = new QBoxLayout(QBoxLayout::TopToBottom);
 	rowOneLayout->addLayout(ySliderLayout);
@@ -43,31 +43,23 @@ GLPolygonWindow::GLPolygonWindow(QWidget* parent, GLPolygon* initialPolygon)
 	rowThreeLayout = new QBoxLayout(QBoxLayout::LeftToRight);
 	windowLayout->addLayout(rowThreeLayout);
 
-	numVerticesLabel = new QLabel("# Vertices");
-	rowThreeLayout->addWidget(numVerticesLabel);
-
-	nVerticesSlider = new QSlider(Qt::Horizontal);
-	rowThreeLayout->addWidget(nVerticesSlider);
-
 	animationCheckBox = new QCheckBox("Animate Polygon");
 	rowThreeLayout->addWidget(animationCheckBox);
 
 	resetInterface();
 }
 
-GLPolygonWindow::~GLPolygonWindow()
+GLWindow::~GLWindow()
 {
 	// Done in reverse-order, bottom of visual hierarchy to the top
 	delete yLabel;
 	delete ySlider;
 	delete xLabel;
-	delete numVerticesLabel;
 	delete animationCheckBox;
 	delete rotationDial;
 	delete xSlider;
 	delete ySliderLayout;
-	delete nVerticesSlider;
-	delete polygonWidget;
+	delete canvasWidget;
 	delete rowOneLayout;
 	delete rowTwoLayout;
 	delete rowThreeLayout;
@@ -77,30 +69,26 @@ GLPolygonWindow::~GLPolygonWindow()
 	delete menuBar;
 }
 
-void GLPolygonWindow::setPolygon(GLPolygon* newPolygon)
+void GLWindow::setDrawable(Drawable* newDrawable)
 {
-	polygon = newPolygon;
+	drawable = newDrawable;
 }
 
-void GLPolygonWindow::resetInterface()
+void GLWindow::resetInterface()
 {
-	nVerticesSlider->setMinimum(3);
-	nVerticesSlider->setMaximum(30);
-	nVerticesSlider->setValue(polygon->numVertices());
-
 	xSlider->setMinimum(-100);
 	xSlider->setMaximum(100);
-	xSlider->setValue( static_cast<int>(polygon->x() * 100.0f) );
+	xSlider->setValue( static_cast<int>(drawable->x() * 100.0f) );
 	ySlider->setMinimum(-100);
 	ySlider->setMaximum(100);
-	ySlider->setValue( static_cast<int>(polygon->y() * 100.0f) );
+	ySlider->setValue( static_cast<int>(drawable->y() * 100.0f) );
 
 	rotationDial->setMinimum(0);
 	rotationDial->setMaximum(360);
-	rotationDial->setValue(polygon->rotationDegrees());
+	rotationDial->setValue(drawable->rotationDegrees());
 
 	update(); // force refresh
-	polygonWidget->update(); // wasn't repainting with update()...
+	canvasWidget->update(); // wasn't repainting with update()...
 }
 
 

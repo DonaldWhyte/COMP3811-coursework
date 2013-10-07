@@ -1,5 +1,5 @@
-#ifndef GL_POLYGON_WINDOW_H
-#define GL_POLYGON_WINDOW_H
+#ifndef GL_WINDOW_H
+#define GL_WINDOW_H
 
 #include <QLabel>
 #include <QMenuBar>
@@ -7,20 +7,21 @@
 #include <QDial>
 #include <QCheckBox>
 #include <QBoxLayout>
-#include "GLPolygon.h"
-#include "GLPolygonWidget.h"
+#include "Drawable.h"
+#include "GLCanvasWidget.h"
 
 /* Main window for application. */
-class GLPolygonWindow : public QWidget
+class GLWindow : public QWidget
 {
 
 	Q_OBJECT
 
 public:
-	GLPolygonWindow(QWidget* parent, GLPolygon* initialPolygon);
-	virtual ~GLPolygonWindow();
+	GLWindow(QWidget* parent, Drawable* drawableObject);
+	virtual ~GLWindow();
 
-	void setPolygon(GLPolygon* newPolygon);
+	void setDrawable(Drawable* newDrawable);
+
 	/* Called when the state of the model changes. Ensures all
  	 * widgets' states reflect the model's state and everything
  	 * is redrawn to the user. */
@@ -28,9 +29,8 @@ public:
 
 	/* These widgets are public so signals produced by
          * them can be handled by the controller. */
-	GLPolygonWidget* polygonWidget;
+	GLCanvasWidget* canvasWidget;
 
-	QSlider* nVerticesSlider;
 	QSlider* xSlider;
 	QSlider* ySlider;
 	QDial* rotationDial;
@@ -39,9 +39,9 @@ public:
 	QAction* actionQuit;
 
 private:
-	GLPolygon* polygon;
+	Drawable* drawable;
 
-	// Visual hierarchy
+	// Visua hierarchy
 	QMenuBar* menuBar;
 		QMenu* fileMenu;
 	QBoxLayout* windowLayout;
