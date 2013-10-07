@@ -25,6 +25,9 @@ protected:
 	void mousePressEvent(QMouseEvent* event);
 
 private:
+	void setupProjection(int width, int height);
+	void setupViewport(int width, int height);
+
 	/* Determines how much the polygon should be moved/rotated
  	 * when a mouse event occurs. Returns true if mouse event
  	 * changed state of the polygon.  */

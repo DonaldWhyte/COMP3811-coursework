@@ -1,4 +1,7 @@
+#include <math.h>
+
 #include "GLCanvasWidget.h"
+#include "Geometry.h"
 
 GLCanvasWidget::GLCanvasWidget(QWidget* parent, Drawable* drawableObject) :
 	QGLWidget(parent), drawable(drawableObject), oldMouseY(0.0f)
@@ -16,9 +19,36 @@ void GLCanvasWidget::initializeGL()
 	glClearColor(0.3, 0.3, 0.3, 0.0);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
+	setupProjection(this->width(), this->height());
+	setupViewport(this->width(), this->height());
 }
 
 void GLCanvasWidget::resizeGL(int width, int height)
+{
+	setupProjection(width, height);
+	setupViewport(width, height);
+}
+
+#include <iostream>
+void GLCanvasWidget::setupProjection(int width, int height)
+{
+	// Compute frustrum parameters for a perspective projection
+	float zNear = -100.0f;
+	float zFar = 100.0f;
+	float fovyInDegrees = 60.0f;
+	float aspectRatio = static_cast<float>(width) / height;
+	float yMax = zNear * tanf(fovyInDegrees * PI / 360.0f);
+	float xMax = yMax * aspectRatio;
+
+	// Setup projection and viewport
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glFrustum(-xMax, xMax, -yMax, yMax, zNear, zFar);
+	std::cout << xMax << " " << yMax << " " << zNear << " " << zFar << std::endl;
+	glMatrixMode(GL_MODELVIEW);
+}
+
+void GLCanvasWidget::setupViewport(int width, int height)
 {
 	glViewport(0, 0, width, height);
 }
@@ -27,7 +57,13 @@ void GLCanvasWidget::paintGL()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	drawable->render();
+	// Setup a look-at matrix for a camera perspective
+	glPushMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+		drawable->render();
+
+	glPopMatrix();
 
 	glFlush();
 }

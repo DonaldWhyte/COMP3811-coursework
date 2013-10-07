@@ -18,11 +18,12 @@ void GLPlatonicSolid::setRenderMethod(RenderMethod newMethod)
 void GLPlatonicSolid::render()
 {
 	// Apply standard drawable transformations
+	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
-	glLoadIdentity();
 
 	glTranslatef(pos.x, pos.y, pos.z);
 	glRotatef(rotationDeg, 1.0f, 1.0f, 1.0f);
+	glScalef(SCALING_FACTOR, SCALING_FACTOR, SCALING_FACTOR);
 
 	switch (method)
 	{

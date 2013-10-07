@@ -4,6 +4,7 @@
 #include <vector>
 #include "GLPolygon.h"
 #include "BoundingBox.h"
+#include "Geometry.h"
 
 static const float VERTEX_COLOURS[3][3] = {
 	{ 1.0f, 0.0f, 0.0f },
@@ -30,7 +31,6 @@ void GLPolygon::render()
 {
 	// Angle between two different vertices from central
 	// point of the polygon
-	static const double PI = 3.14159;
 	float angleDelta = PI / nVertices * 2;
 	// Add an extra vertex so triangle fan rendering works nicely
 	int vertexCount = nVertices + 1;
