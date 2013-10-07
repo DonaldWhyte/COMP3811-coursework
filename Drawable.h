@@ -3,6 +3,13 @@
 
 #include "Vector3.h"
 
+enum RenderMethod
+{
+	RENDER_METHOD_POINTS = 0,
+	RENDER_METHOD_LINES,
+	RENDER_METHOD_TRIANGLES
+};
+
 /* Abstract class for drawable objects in the scene. Contains properties
  * and behaviour common to many drawable objects. */
 class Drawable
@@ -16,6 +23,10 @@ public:
  	 * actual rendering functionality. */
 	virtual void render() = 0;
 
+	/* Used to provide hints on how to render the object.
+ 	 * Note that these may not be used by particular objects. */
+        RenderMethod renderMethod() const;
+        void setRenderMethod(RenderMethod newMethod);
         /* Used to retrieve position and orientation of object. */
 	float x() const;
 	float y() const;
@@ -30,6 +41,7 @@ public:
         void setRotationDegrees(float newDegrees);
 
 protected:
+	RenderMethod method;
         Vector3 pos;
         float rotationDeg;
 

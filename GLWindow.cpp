@@ -43,6 +43,17 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 		animationCheckBox = new QCheckBox("Animate Polygon");
 		rotationLayout->addWidget(animationCheckBox);
 
+	rowThreeLayout = new QBoxLayout(QBoxLayout::LeftToRight);
+	windowLayout->addLayout(rowThreeLayout);
+		renderModeLabel = new QLabel("Render Mode");
+		pointRadio = new QRadioButton("Points");
+		lineRadio = new QRadioButton("Lines");
+		triangleRadio = new QRadioButton("Triangles");
+		rowThreeLayout->addWidget(renderModeLabel);
+		rowThreeLayout->addWidget(pointRadio);
+		rowThreeLayout->addWidget(lineRadio);
+		rowThreeLayout->addWidget(triangleRadio);
+
 	resetInterface();
 }
 
@@ -58,8 +69,13 @@ GLWindow::~GLWindow()
 	delete xSlider;
 	delete ySliderLayout;
 	delete canvasWidget;
+	delete renderModeLabel;
+	delete pointRadio;
+	delete lineRadio;
+	delete triangleRadio;
 	delete rowOneLayout;
 	delete rowTwoLayout;
+	delete rowThreeLayout;
 	delete windowLayout;
 	delete actionQuit;
 	delete fileMenu;
@@ -73,6 +89,8 @@ void GLWindow::setDrawable(Drawable* newDrawable)
 
 void GLWindow::resetInterface()
 {
+	// TODO: fix bug when going from Triangle rendering mode to lines/points"
+	//       you have to click twice on a different mode for the redraw to happen
 	xSlider->setMinimum(-100);
 	xSlider->setMaximum(100);
 	xSlider->setValue( static_cast<int>(drawable->x() * 100.0f) );
@@ -83,6 +101,20 @@ void GLWindow::resetInterface()
 	rotationDial->setMinimum(0);
 	rotationDial->setMaximum(360);
 	rotationDial->setValue(drawable->rotationDegrees());
+
+	RenderMethod renderMethod = drawable->renderMethod();
+	switch (renderMethod)
+	{
+	case RENDER_METHOD_POINTS:
+		pointRadio->setChecked(true);
+		break;
+	case RENDER_METHOD_LINES:
+		lineRadio->setChecked(true);
+		break;
+	case RENDER_METHOD_TRIANGLES:
+		triangleRadio->setChecked(true);
+		break;
+	}
 
 	update(); // force refresh
 	canvasWidget->update(); // wasn't repainting with update()...

@@ -1,11 +1,21 @@
 #include "Drawable.h"
 
-Drawable::Drawable() : pos(0.0f, 0.0f, 0.0f), rotationDeg(0.0f)
+Drawable::Drawable() : method(RENDER_METHOD_TRIANGLES), pos(0.0f, 0.0f, 0.0f), rotationDeg(0.0f)
 {
 }
 
 Drawable::~Drawable()
 {
+}
+
+RenderMethod Drawable::renderMethod() const
+{
+        return method;
+}
+
+void Drawable::setRenderMethod(RenderMethod newMethod)
+{
+        method = newMethod;
 }
 
 float Drawable::x() const

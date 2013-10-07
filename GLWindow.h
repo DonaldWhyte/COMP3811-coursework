@@ -6,6 +6,7 @@
 #include <QSlider>
 #include <QDial>
 #include <QCheckBox>
+#include <QRadioButton>
 #include <QBoxLayout>
 #include "Drawable.h"
 #include "GLCanvasWidget.h"
@@ -36,6 +37,10 @@ public:
 	QDial* rotationDial;
 	QCheckBox* animationCheckBox;
 
+	QRadioButton* pointRadio;
+	QRadioButton* lineRadio;
+	QRadioButton* triangleRadio;
+
 	QAction* actionQuit;
 
 private:
@@ -51,6 +56,8 @@ private:
 		QBoxLayout* rowTwoLayout;
 			QLabel* xLabel;
 			QBoxLayout* rotationLayout;
+		QBoxLayout* rowThreeLayout;
+			QLabel* renderModeLabel;
 
 };
 

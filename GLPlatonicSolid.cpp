@@ -1,20 +1,6 @@
 #include <QGLWidget>
 #include "GLPlatonicSolid.h"
 
-GLPlatonicSolid::GLPlatonicSolid(RenderMethod method) : method(method)
-{
-}
-
-RenderMethod GLPlatonicSolid::renderMethod() const
-{
-	return method;
-}
-
-void GLPlatonicSolid::setRenderMethod(RenderMethod newMethod)
-{
-	method = newMethod;
-}
-
 void GLPlatonicSolid::render()
 {
 	// Apply standard drawable transformations

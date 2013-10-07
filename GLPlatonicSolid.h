@@ -4,22 +4,10 @@
 #include "Drawable.h"
 #include "Geometry.h"
 
-enum RenderMethod
-{
-	RENDER_METHOD_POINTS = 0,
-	RENDER_METHOD_LINES,
-	RENDER_METHOD_TRIANGLES
-};
-
 class GLPlatonicSolid : public Drawable
 {
 
 public:
-	GLPlatonicSolid(RenderMethod method = RENDER_METHOD_TRIANGLES);
-
-	RenderMethod renderMethod() const;
-	void setRenderMethod(RenderMethod newMethod);
-
 	/* Draw platonic solid on screen. */
 	void render();
 
@@ -34,8 +22,6 @@ private:
 	void renderAsPoints();
 	void renderAsLines();
 	void renderAsTriangles();
-
-	RenderMethod method;
 
 };
 

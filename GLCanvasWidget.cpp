@@ -23,7 +23,7 @@ void GLCanvasWidget::initializeGL()
 	glPointSize(5.0f);
 	glLineWidth(3.0f);
 
-	setupProjection(this->width(), this->height());
+	//setupProjection(this->width(), this->height());
 	setupViewport(this->width(), this->height());
 }
 

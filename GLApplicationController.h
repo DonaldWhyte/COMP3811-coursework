@@ -20,7 +20,10 @@ public slots:
 	void ySliderChanged(int newValue);
 	void rotationDialChanged(int newValue);
 	void animationCheckBoxChanged(int state);
-	void nextAnimationFrame(); // used 
+	void pointRadioChanged(bool checked);
+	void lineRadioChanged(bool checked);
+	void triangleRadioChanged(bool checked);
+	void nextAnimationFrame(); // used to provide animation to objects 
 
 private:
 	// Length of each frame for polygon animation. This is in milliseconds

@@ -9,7 +9,6 @@ int main(int argc, char* argv[])
 	QApplication app(argc, argv);
 
 	GLPlatonicSolid* drawable = new Cube();
-	drawable->setRenderMethod(RENDER_METHOD_LINES);
 	GLWindow* window = new GLWindow(NULL, drawable);
 	GLApplicationController* controller = new GLApplicationController(window, drawable);
 
