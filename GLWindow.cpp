@@ -54,12 +54,18 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 		rowThreeLayout->addWidget(lineRadio);
 		rowThreeLayout->addWidget(triangleRadio);
 
+	rowFourLayout = new QBoxLayout(QBoxLayout::LeftToRight);
+	windowLayout->addLayout(rowFourLayout);
+		colourTrianglesCheckBox = new QCheckBox("Colour Triangles");
+		rowFourLayout->addWidget(colourTrianglesCheckBox);
+
 	resetInterface();
 }
 
 GLWindow::~GLWindow()
 {
 	// Done in reverse-order, bottom of visual hierarchy to the top
+	delete colourTrianglesCheckBox;
 	delete yLabel;
 	delete ySlider;
 	delete rotationDial;
@@ -76,6 +82,7 @@ GLWindow::~GLWindow()
 	delete rowOneLayout;
 	delete rowTwoLayout;
 	delete rowThreeLayout;
+	delete rowFourLayout;
 	delete windowLayout;
 	delete actionQuit;
 	delete fileMenu;

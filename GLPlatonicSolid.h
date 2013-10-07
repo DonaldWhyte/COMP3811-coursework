@@ -8,6 +8,12 @@ class GLPlatonicSolid : public Drawable
 {
 
 public:
+	GLPlatonicSolid();
+
+	/* Get/set individually coloured triangles. */
+	const bool trianglesColoured() const;
+	void setColourTriangles(bool willColourTriangles);
+
 	/* Draw platonic solid on screen. */
 	void render();
 
@@ -17,11 +23,13 @@ public:
 	virtual const TriangleList& getTriangles() const = 0;
 
 private:
-	static const float SCALING_FACTOR = 0.5f;
-
 	void renderAsPoints();
 	void renderAsLines();
 	void renderAsTriangles();
+
+	static const float SCALING_FACTOR = 0.5f;
+
+	bool colourTriangles;
 
 };
 

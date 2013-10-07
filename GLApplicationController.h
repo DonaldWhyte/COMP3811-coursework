@@ -23,6 +23,7 @@ public slots:
 	void pointRadioChanged(bool checked);
 	void lineRadioChanged(bool checked);
 	void triangleRadioChanged(bool checked);
+	void colourTrianglesChanged(int newState);
 	void nextAnimationFrame(); // used to provide animation to objects 
 
 private:
@@ -35,6 +36,9 @@ private:
 
 	// If set to true, then the polygon drawn will be animated
 	bool animating;
+	// If set to true, triangles composing the faces of polyhedra
+	// will be coloured differently
+	bool colourTriangles;
 
 };
 

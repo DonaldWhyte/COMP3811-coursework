@@ -41,6 +41,8 @@ public:
 	QRadioButton* lineRadio;
 	QRadioButton* triangleRadio;
 
+	QCheckBox* colourTrianglesCheckBox;
+
 	QAction* actionQuit;
 
 private:
@@ -58,6 +60,7 @@ private:
 			QBoxLayout* rotationLayout;
 		QBoxLayout* rowThreeLayout;
 			QLabel* renderModeLabel;
+		QBoxLayout* rowFourLayout;
 
 };
 

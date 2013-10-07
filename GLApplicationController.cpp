@@ -1,6 +1,9 @@
 #include <QCoreApplication>
 #include "GLApplicationController.h"
 
+#include <typeinfo>
+#include "GLPlatonicSolid.h"
+
 GLApplicationController::GLApplicationController(GLWindow* window, Drawable* drawableObject)
 	: window(window), drawable(drawableObject), animating(false)
 {
@@ -23,6 +26,8 @@ GLApplicationController::GLApplicationController(GLWindow* window, Drawable* dra
 		this, SLOT(lineRadioChanged(bool)));
 	connect(window->triangleRadio, SIGNAL(clicked(bool)),
 		this, SLOT(triangleRadioChanged(bool)));
+	connect(window->colourTrianglesCheckBox, SIGNAL(stateChanged(int)),
+		this, SLOT(colourTrianglesChanged(int)));
 
 	animationTimer = new QTimer(this);
 	connect(animationTimer, SIGNAL(timeout()), this, SLOT(nextAnimationFrame()));
@@ -84,6 +89,20 @@ void GLApplicationController::triangleRadioChanged(bool clicked)
 		drawable->setRenderMethod(RENDER_METHOD_TRIANGLES);
 		window->resetInterface();
 	}	
+}
+
+void GLApplicationController::colourTrianglesChanged(int newState)
+{
+	colourTriangles = (newState == Qt::Checked);
+	// Check type of drawable -- if it's a platonic solid, update its state
+	try
+	{
+		GLPlatonicSolid* platonicSolid = dynamic_cast<GLPlatonicSolid*>(drawable);
+		platonicSolid->setColourTriangles(colourTriangles);
+	}
+	catch (const std::bad_cast& ex) { } // ignore casting error!
+
+	window->resetInterface();
 }
 
 void GLApplicationController::nextAnimationFrame()
