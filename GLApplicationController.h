@@ -23,6 +23,7 @@ public slots:
 	void pointRadioChanged(bool checked);
 	void lineRadioChanged(bool checked);
 	void triangleRadioChanged(bool checked);
+	void objectChooserIndexChanged(int newIndex);
 	void colourTrianglesChanged(int newState);
 	void nextAnimationFrame(); // used to provide animation to objects 
 

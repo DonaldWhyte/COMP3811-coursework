@@ -26,6 +26,8 @@ GLApplicationController::GLApplicationController(GLWindow* window, Drawable* dra
 		this, SLOT(lineRadioChanged(bool)));
 	connect(window->triangleRadio, SIGNAL(clicked(bool)),
 		this, SLOT(triangleRadioChanged(bool)));
+	connect(window->objectChooser, SIGNAL(currentIndexChanged(int)),
+		this, SLOT(objectChooserIndexChanged(int)));
 	connect(window->colourTrianglesCheckBox, SIGNAL(stateChanged(int)),
 		this, SLOT(colourTrianglesChanged(int)));
 
@@ -89,6 +91,13 @@ void GLApplicationController::triangleRadioChanged(bool clicked)
 		drawable->setRenderMethod(RENDER_METHOD_TRIANGLES);
 		window->resetInterface();
 	}	
+}
+
+void GLApplicationController::objectChooserIndexChanged(int newIndex)
+{
+	// TODO
+	
+	window->resetInterface();
 }
 
 void GLApplicationController::colourTrianglesChanged(int newState)
