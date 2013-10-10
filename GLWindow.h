@@ -8,6 +8,7 @@
 #include <QCheckBox>
 #include <QRadioButton>
 #include <QBoxLayout>
+#include <QComboBox>
 #include "Drawable.h"
 #include "GLCanvasWidget.h"
 
@@ -41,6 +42,7 @@ public:
 	QRadioButton* lineRadio;
 	QRadioButton* triangleRadio;
 
+	QComboBox* objectChooser;
 	QCheckBox* colourTrianglesCheckBox;
 
 	QAction* actionQuit;
@@ -61,6 +63,7 @@ private:
 		QBoxLayout* rowThreeLayout;
 			QLabel* renderModeLabel;
 		QBoxLayout* rowFourLayout;
+			QLabel* objectChooserLabel;
 
 };
 

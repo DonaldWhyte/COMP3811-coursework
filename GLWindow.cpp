@@ -1,8 +1,14 @@
 #include "GLWindow.h"
 
+static const int INITIAL_OBJECT_INDEX = 1;
+
 GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 	: QWidget(parent), drawable(drawableObject)
 {
+	// Define list of drawable objects
+	QStringList objectNameList;
+	objectNameList << "Tetrahedron" << "Cube" << "Octahedron" << "Dodecahedron" << "Icosahedron";
+
 	setWindowTitle("COMP3811 Computer Graphics - Coursework One - Donald Whyte");
 	windowLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
 
@@ -56,6 +62,12 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 
 	rowFourLayout = new QBoxLayout(QBoxLayout::LeftToRight);
 	windowLayout->addLayout(rowFourLayout);
+		objectChooserLabel = new QLabel("Platonic Solid");
+		rowFourLayout->addWidget(objectChooserLabel);
+		objectChooser = new QComboBox();
+		objectChooser->addItems(objectNameList);
+		objectChooser->setCurrentIndex(INITIAL_OBJECT_INDEX);
+		rowFourLayout->addWidget(objectChooser);
 		colourTrianglesCheckBox = new QCheckBox("Colour Triangles");
 		rowFourLayout->addWidget(colourTrianglesCheckBox);
 
@@ -66,6 +78,8 @@ GLWindow::~GLWindow()
 {
 	// Done in reverse-order, bottom of visual hierarchy to the top
 	delete colourTrianglesCheckBox;
+	delete objectChooserLabel;
+	delete objectChooser;
 	delete yLabel;
 	delete ySlider;
 	delete rotationDial;
