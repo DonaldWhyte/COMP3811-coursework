@@ -68,6 +68,24 @@ Matrix44 Matrix44::identity()
 	return Matrix44(&elements[0]);
 }
 
+Matrix44 Matrix44::translation(float x, float y, float z)
+{
+	Matrix44 mat = identity();
+	mat[0][3] = x;
+	mat[1][3] = y;
+	mat[2][3] = z;
+	return mat;
+}
+
+Matrix44 Matrix44::scale(float x, float y, float z)
+{
+	Matrix44 mat = identity();
+	mat[0][0] = x;
+	mat[1][1] = y;
+	mat[2][2] = z;
+	return mat;
+}
+
 Matrix44 Matrix44::xRotation(float degrees)
 {
 	// Convert degrees to radians for computatioms

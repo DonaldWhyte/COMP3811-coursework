@@ -24,6 +24,8 @@ public:
 
 	// Factory methods
 	static Matrix44 identity();
+	static Matrix44 translation(float x, float y, float z);
+	static Matrix44 scale(float x, float y, float z);
 	static Matrix44 xRotation(float degrees);
 	static Matrix44 yRotation(float degrees);
 	static Matrix44 zRotation(float degrees);

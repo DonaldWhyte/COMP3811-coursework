@@ -22,19 +22,19 @@ void GLPlatonicSolid::setColourTriangles(bool willColourTriangles)
 
 void GLPlatonicSolid::render()
 {
-	// Apply standard drawable transformations
+	// Clear existing transformations
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
+	glLoadIdentity();
 
-	glTranslatef(pos.x, pos.y, pos.z);
-	// Construct rotation matrix manually
-	Matrix44 rotationMat = Matrix44::yRotation(rotationDeg) * Matrix44::zRotation(rotationDeg) * Matrix44::xRotation(rotationDeg);
-	// Compute rotated vertices
+	// Construct transformation matrix manually
+	Matrix44 transformation = Matrix44::scale(SCALING_FACTOR, SCALING_FACTOR, SCALING_FACTOR);
+	transformation = transformation * Matrix44::translation(pos.x, pos.y, pos.z);
+	transformation = transformation * Matrix44::yRotation(rotationDeg);
+	// Compute transformed vertices
 	Vector3List vertices = getVertices();
 	for (int i = 0; (i < vertices.size()); i++)
-		vertices[i] = rotationMat * vertices[i];
-	
-	glScalef(SCALING_FACTOR, SCALING_FACTOR, SCALING_FACTOR);
+		vertices[i] = transformation * vertices[i];
 
 	switch (method)
 	{
