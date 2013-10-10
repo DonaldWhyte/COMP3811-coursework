@@ -1,4 +1,6 @@
+#include <math.h>
 #include "Matrix44.h"
+#include "Geometry.h"
 
 Matrix44::Matrix44()
 {
@@ -19,7 +21,7 @@ Matrix44::Matrix44(float elements[4][4])
 	for (int i = 0; (i < ROWS); i++)
 		for (int j = 0; (j < COLUMNS); j++)
 			this->elements[i][j] = elements[i][j];
-}
+	}
 
 const float* Matrix44::operator[](int row) const
 {
@@ -64,4 +66,41 @@ Matrix44 Matrix44::identity()
 {
 	float elements[4][4] = { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
 	return Matrix44(&elements[0]);
+}
+
+Matrix44 Matrix44::xRotation(float degrees)
+{
+	// Convert degrees to radians for computatioms
+	float radians = degreesToRadians(degrees);
+	float elements[4][4] = {
+		{ 1.0f, 0.0f, 0.0f, 0.0f },
+		{ 0.0f, cos(radians), sin(radians), 0.0f },
+		{ 0.0f, -sin(radians), cos(radians), 0.0f },
+		{ 0.0f, 0.0f, 0.0f, 1.0f }
+	};
+	return Matrix44(elements);
+}
+
+Matrix44 Matrix44::yRotation(float degrees)
+{
+	float radians = degreesToRadians(degrees);
+	float elements[4][4] = {
+		{ cos(radians), 0.0f, -sin(radians), 0.0f },
+		{ 0.0f, 1.0f, 0.0f, 0.0f },
+		{ sin(radians), 0.0f, cos(radians), 0.0f },
+		{ 0.0f, 0.0f, 0.0f, 1.0f }
+	};
+	return Matrix44(elements);
+}
+
+Matrix44 Matrix44::zRotation(float degrees)
+{
+	float radians = degreesToRadians(degrees);
+	float elements[4][4] = {
+		{ cos(radians), sin(radians), 0.0f, 0.0f },
+		{ -sin(radians), cos(radians), 0.0f, 0.0f },
+		{ 0.0f, 0.0f, 1.0f, 0.0f },
+		{ 0.0f, 0.0f, 0.0f, 1.0f }
+	};
+	return Matrix44(elements);
 }

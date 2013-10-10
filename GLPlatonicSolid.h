@@ -23,9 +23,9 @@ public:
 	virtual const TriangleList& getTriangles() const = 0;
 
 private:
-	void renderAsPoints();
-	void renderAsLines();
-	void renderAsTriangles();
+	void renderAsPoints(const Vector3List& vertices);
+	void renderAsLines(const Vector3List& vertices, const LineList& lines);
+	void renderAsTriangles(const Vector3List& vertices, const TriangleList& triangles);
 
 	static const float SCALING_FACTOR = 0.5f;
 

@@ -1,5 +1,6 @@
 #include <QGLWidget>
 #include "GLPlatonicSolid.h"
+#include "Matrix44.h"
 
 static const float TRIANGLE_COLORS[2][3] = {
 	{ 1.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f}
@@ -26,29 +27,33 @@ void GLPlatonicSolid::render()
 	glPushMatrix();
 
 	glTranslatef(pos.x, pos.y, pos.z);
-	glRotatef(rotationDeg, 0.0f, 1.0f, 0.0f);
+	// Construct rotation matrix manually
+	Matrix44 rotationMat = Matrix44::yRotation(rotationDeg) * Matrix44::zRotation(rotationDeg) * Matrix44::xRotation(rotationDeg);
+	// Compute rotated vertices
+	Vector3List vertices = getVertices();
+	for (int i = 0; (i < vertices.size()); i++)
+		vertices[i] = rotationMat * vertices[i];
+	
 	glScalef(SCALING_FACTOR, SCALING_FACTOR, SCALING_FACTOR);
 
 	switch (method)
 	{
 	case RENDER_METHOD_POINTS:
-		renderAsPoints();
+		renderAsPoints(vertices);
 		break;
 	case RENDER_METHOD_LINES:
-		renderAsLines();
+		renderAsLines(vertices, getLines());
 		break;
 	case RENDER_METHOD_TRIANGLES:
-		renderAsTriangles();
+		renderAsTriangles(vertices, getTriangles());
 		break;
 	}
 
 	glPopMatrix();
 }
 
-void GLPlatonicSolid::renderAsPoints()
+void GLPlatonicSolid::renderAsPoints(const Vector3List& vertices)
 {
-	const Vector3List& vertices = getVertices();
-
 	glBegin(GL_POINTS);
 	glColor3f(1.0f, 1.0f, 1.0f);
 	for (Vector3List::const_iterator it = vertices.begin(); (it != vertices.end()); it++)
@@ -58,11 +63,8 @@ void GLPlatonicSolid::renderAsPoints()
 	glEnd();
 }
 
-void GLPlatonicSolid::renderAsLines()
+void GLPlatonicSolid::renderAsLines(const Vector3List& vertices, const LineList& lines)
 {
-	const Vector3List& vertices = getVertices();
-	const LineList& lines = getLines();
-
 	glBegin(GL_LINES);
 	glColor3f(1.0f, 1.0f, 1.0f);
 	for (LineList::const_iterator it = lines.begin(); (it != lines.end()); it++)
@@ -75,11 +77,8 @@ void GLPlatonicSolid::renderAsLines()
 	glEnd();
 }
 
-void GLPlatonicSolid::renderAsTriangles()
+void GLPlatonicSolid::renderAsTriangles(const Vector3List& vertices, const TriangleList& triangles)
 {
-	const Vector3List& vertices = getVertices();
-	const TriangleList& triangles = getTriangles();
-
 	// Set solid colour if triangles are NOT being individually coloured
 	if (!colourTriangles)
 	{

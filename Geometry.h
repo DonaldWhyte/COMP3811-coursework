@@ -28,4 +28,6 @@ typedef std::vector<Triangle> TriangleList;
 
 extern const double PI;
 
+float degreesToRadians(float degrees);
+
 #endif
