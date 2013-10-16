@@ -122,3 +122,10 @@ Matrix44 Matrix44::zRotation(float degrees)
 	};
 	return Matrix44(elements);
 }
+
+Matrix44 Matrix44::xyzRotation(const Vector3& rotationVec)
+{
+	return xRotation(rotationVec.x)
+	    * yRotation(rotationVec.y)
+	    * zRotation(rotationVec.z);
+}

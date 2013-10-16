@@ -67,7 +67,9 @@ void GLPolygon::render()
 	glPushMatrix();
 	glLoadIdentity();
 	glTranslatef(pos.x,  pos.y, pos.z);
-	glRotatef(rotationDeg, 0.0f, 0.0f, 1.0f);
+	glRotatef(rot.x, 1.0f, 0.0f, 0.0f);
+	glRotatef(rot.y, 0.0f, 1.0f, 0.0f);
+	glRotatef(rot.z, 0.0f, 0.0f, 1.0f);
 	// Draw centre point then remaining vertices
 	glBegin(GL_TRIANGLE_FAN);
 		const float* centralColour = VERTEX_COLOURS[2];

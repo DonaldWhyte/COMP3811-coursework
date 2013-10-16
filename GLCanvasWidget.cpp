@@ -81,8 +81,8 @@ bool GLCanvasWidget::processMouseEvent(QMouseEvent* event)
 	if (event->buttons() & Qt::RightButton) // if right button pressed
 	{
 		float difference = oldMouseY - event->y();
-		float newDegrees = drawable->rotationDegrees() + difference;
-		drawable->setRotationDegrees(newDegrees);
+		float newDegrees = drawable->zRotation() + difference;
+		drawable->setZRotation(newDegrees);
 		changeMade = true;
 	}
 
@@ -94,8 +94,9 @@ bool GLCanvasWidget::processMouseEvent(QMouseEvent* event)
 	else if (drawable->x() > 1.0f) drawable->setX(1.0f);
 	if (drawable->y() < -1.0f) drawable->setY(-1.0f);
 	else if (drawable->y() > 1.0f) drawable->setY(1.0f);
-	if (drawable->rotationDegrees() < 0.0f || drawable->rotationDegrees() > 360.0f)
-		drawable->setRotationDegrees(0.0f);
+	float zRotation = drawable->zRotation();
+	if (zRotation < 0.0f || zRotation > 360.0f)
+		drawable->setZRotation(0.0f);
 	
 	// Accept event so it's not processed further and redraw widget to reflect changes
 	event->accept();

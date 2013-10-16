@@ -42,7 +42,7 @@ void GLApplicationController::canvasWidgetChanged()
 
 void GLApplicationController::zRotSliderChanged(int newValue)
 {
-	drawable->setRotationDegrees( static_cast<float>(newValue) );
+	drawable->setZRotation( static_cast<float>(newValue) );
 	window->resetInterface();
 }
 
@@ -129,10 +129,14 @@ void GLApplicationController::nextAnimationFrame()
 {
 	if (!animating) return;
 
-	float degrees = drawable->rotationDegrees();
-	if (degrees < 0.0f || degrees > 360.0f)
-		degrees = 0.0f;
-	drawable->setRotationDegrees( degrees + 1.0f );
+	Vector3 rotation = drawable->rotation();
+	if (rotation.x < 0.0f || rotation.x > 360.0f) rotation.x = 0.0f;
+	else rotation.x += 1.0f;
+	if (rotation.y < 0.0f || rotation.y > 360.0f) rotation.y = 0.0f;
+	else rotation.y += 1.0f;
+	if (rotation.z < 0.0f || rotation.z > 360.0f) rotation.z = 0.0f;
+	else rotation.z += 1.0f;
+	drawable->setRotation(rotation);
 
 	window->resetInterface();
 }

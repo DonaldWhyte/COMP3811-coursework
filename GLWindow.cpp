@@ -99,7 +99,7 @@ void GLWindow::resetInterface()
 {
 	zRotSlider->setMinimum(0);
 	zRotSlider->setMaximum(360);
-	zRotSlider->setValue(drawable->rotationDegrees());
+	zRotSlider->setValue(drawable->zRotation());
 
 	RenderMethod renderMethod = drawable->renderMethod();
 	switch (renderMethod)

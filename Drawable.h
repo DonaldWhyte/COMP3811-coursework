@@ -32,18 +32,24 @@ public:
 	float y() const;
 	float z() const;
         const Vector3& position() const;
-        float rotationDegrees() const;
+        float xRotation() const;
+	float yRotation() const;
+	float zRotation() const;
+	const Vector3& rotation() const;
         /* Used to specify the position and orientation of object. */
 	void setX(float newX);
 	void setY(float newY);
 	void setZ(float newZ);
         void setPosition(const Vector3& newPosition);
-        void setRotationDegrees(float newDegrees);
+	void setXRotation(float newXRot);
+	void setYRotation(float newYRot);
+	void setZRotation(float newZRot);
+        void setRotation(const Vector3& newRotation);
 
 protected:
 	RenderMethod method;
         Vector3 pos;
-        float rotationDeg;
+	Vector3 rot; // rotation about 3 primary axes in degrees
 
 };
 

@@ -29,6 +29,7 @@ public:
 	static Matrix44 xRotation(float degrees);
 	static Matrix44 yRotation(float degrees);
 	static Matrix44 zRotation(float degrees);
+	static Matrix44 xyzRotation(const Vector3& rotationVec);
 
 private:
 	static const int ROWS = 4;

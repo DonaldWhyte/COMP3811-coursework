@@ -29,7 +29,7 @@ void GLPlatonicSolid::render()
 	// Construct transformation matrix manually
 	Matrix44 transformation = Matrix44::scale(SCALING_FACTOR, SCALING_FACTOR, SCALING_FACTOR);
 	transformation = transformation * Matrix44::translation(pos.x, pos.y, pos.z);
-	transformation = transformation * Matrix44::zRotation(rotationDeg) * Matrix44::yRotation(rotationDeg);
+	transformation = transformation * Matrix44::xyzRotation(rot);
 	// Compute transformed vertices
 	Vector3List vertices = getVertices();
 	for (int i = 0; (i < vertices.size()); i++)
