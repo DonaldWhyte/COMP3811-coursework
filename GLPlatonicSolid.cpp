@@ -6,6 +6,7 @@ static const Vector3 DEFAULT_TRI_COLOUR = Vector3(1.0f, 0.0f, 0.0f);
 
 GLPlatonicSolid::GLPlatonicSolid() : colourTriangles(false)
 {
+	srand(time(NULL));
 }
 
 const bool GLPlatonicSolid::trianglesColoured() const
@@ -75,6 +76,8 @@ void GLPlatonicSolid::renderAsLines(const Vector3List& vertices, const LineList&
 	glEnd();
 }
 
+#include <ctime>
+
 void GLPlatonicSolid::renderAsTriangles(const Vector3List& vertices, const TriangleList& triangles)
 {
 	// Compute one colour for each triangle
@@ -86,8 +89,9 @@ void GLPlatonicSolid::renderAsTriangles(const Vector3List& vertices, const Trian
 		for (int i = 0; (i < triangles.size()); i++)
 		{
 			float r = (gap * i) + 0.2f;
+			float g = 0.0f;
 			float b = ((gap * i) + 0.2f) * 0.5f;
-			triangleColours.push_back( Vector3(r, 0.0f, b) );
+			triangleColours.push_back( Vector3(r, g, b) );
 		}
 	}
 	// Set solid colour if triangles are NOT being individually coloured
