@@ -25,29 +25,18 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 	canvasWidget = new GLCanvasWidget(this, drawableObject);
 	rowOneLayout->addWidget(canvasWidget);
 
-	ySliderLayout = new QBoxLayout(QBoxLayout::TopToBottom);
-	rowOneLayout->addLayout(ySliderLayout);
-		yLabel = new QLabel("Y");
-		ySliderLayout->addWidget(yLabel);
-		ySlider = new QSlider(Qt::Vertical);
-		ySliderLayout->addWidget(ySlider);
-
 	// Row two, which contains horizontal slider and rotation dial
 	rowTwoLayout = new QBoxLayout(QBoxLayout::LeftToRight);
 	windowLayout->addLayout(rowTwoLayout);
 
-	xLabel = new QLabel("X");
-	rowTwoLayout->addWidget(xLabel);
+	zRotLabel = new QLabel("Z Rotation");
+	rowTwoLayout->addWidget(zRotLabel);
 
-	xSlider = new QSlider(Qt::Horizontal);
-	rowTwoLayout->addWidget(xSlider);
+	zRotSlider = new QSlider(Qt::Horizontal);
+	rowTwoLayout->addWidget(zRotSlider);
 
-	rotationLayout = new QBoxLayout(QBoxLayout::TopToBottom);
-	rowTwoLayout->addLayout(rotationLayout);
-		rotationDial = new QDial();
-		rotationLayout->addWidget(rotationDial);
-		animationCheckBox = new QCheckBox("Animate Polygon");
-		rotationLayout->addWidget(animationCheckBox);
+	animationCheckBox = new QCheckBox("Animation Enabled");
+	rowTwoLayout->addWidget(animationCheckBox);
 
 	rowThreeLayout = new QBoxLayout(QBoxLayout::LeftToRight);
 	windowLayout->addLayout(rowThreeLayout);
@@ -80,14 +69,9 @@ GLWindow::~GLWindow()
 	delete colourTrianglesCheckBox;
 	delete objectChooserLabel;
 	delete objectChooser;
-	delete yLabel;
-	delete ySlider;
-	delete rotationDial;
 	delete animationCheckBox;
-	delete xLabel;
-	delete rotationLayout;
-	delete xSlider;
-	delete ySliderLayout;
+	delete zRotLabel;
+	delete zRotSlider;
 	delete canvasWidget;
 	delete renderModeLabel;
 	delete pointRadio;
@@ -110,18 +94,9 @@ void GLWindow::setDrawable(Drawable* newDrawable)
 
 void GLWindow::resetInterface()
 {
-	// TODO: fix bug when going from Triangle rendering mode to lines/points"
-	//       you have to click twice on a different mode for the redraw to happen
-	xSlider->setMinimum(-100);
-	xSlider->setMaximum(100);
-	xSlider->setValue( static_cast<int>(drawable->x() * 100.0f) );
-	ySlider->setMinimum(-100);
-	ySlider->setMaximum(100);
-	ySlider->setValue( static_cast<int>(drawable->y() * 100.0f) );
-
-	rotationDial->setMinimum(0);
-	rotationDial->setMaximum(360);
-	rotationDial->setValue(drawable->rotationDegrees());
+	zRotSlider->setMinimum(0);
+	zRotSlider->setMaximum(360);
+	zRotSlider->setValue(drawable->rotationDegrees());
 
 	RenderMethod renderMethod = drawable->renderMethod();
 	switch (renderMethod)

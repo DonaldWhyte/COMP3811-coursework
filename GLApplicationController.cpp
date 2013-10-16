@@ -11,12 +11,8 @@ GLApplicationController::GLApplicationController(GLWindow* window, Drawable* dra
 		this, SLOT(canvasWidgetChanged()));
 	connect(window->actionQuit, SIGNAL(triggered()),
 		QCoreApplication::instance(), SLOT(quit()));
-	connect(window->xSlider, SIGNAL(valueChanged(int)),
-		this, SLOT(xSliderChanged(int)));
-	connect(window->ySlider, SIGNAL(valueChanged(int)),
-		this, SLOT(ySliderChanged(int)));
-	connect(window->rotationDial, SIGNAL(valueChanged(int)),
-		this, SLOT(rotationDialChanged(int)));
+	connect(window->zRotSlider, SIGNAL(valueChanged(int)),
+		this, SLOT(zRotSliderChanged(int)));
 	connect(window->animationCheckBox, SIGNAL(stateChanged(int)),
 		this, SLOT(animationCheckBoxChanged(int)));
 
@@ -41,21 +37,7 @@ void GLApplicationController::canvasWidgetChanged()
 	window->resetInterface();
 }
 
-void GLApplicationController::xSliderChanged(int newValue)
-{
-	float newX = static_cast<float>(newValue) / 100.0f;
-	drawable->setX(newX);
-	window->resetInterface();
-}
-
-void GLApplicationController::ySliderChanged(int newValue)
-{
-	float newY = static_cast<float>(newValue) / 100.0f;
-	drawable->setY(newY);
-	window->resetInterface();
-}
-
-void GLApplicationController::rotationDialChanged(int newValue)
+void GLApplicationController::zRotSliderChanged(int newValue)
 {
 	drawable->setRotationDegrees( static_cast<float>(newValue) );
 	window->resetInterface();

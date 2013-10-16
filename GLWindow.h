@@ -33,9 +33,7 @@ public:
          * them can be handled by the controller. */
 	GLCanvasWidget* canvasWidget;
 
-	QSlider* xSlider;
-	QSlider* ySlider;
-	QDial* rotationDial;
+	QSlider* zRotSlider;
 	QCheckBox* animationCheckBox;
 
 	QRadioButton* pointRadio;
@@ -55,11 +53,8 @@ private:
 		QMenu* fileMenu;
 	QBoxLayout* windowLayout;
 		QBoxLayout* rowOneLayout;
-			QBoxLayout* ySliderLayout;
-				QLabel* yLabel;
 		QBoxLayout* rowTwoLayout;
-			QLabel* xLabel;
-			QBoxLayout* rotationLayout;
+			QLabel* zRotLabel;
 		QBoxLayout* rowThreeLayout;
 			QLabel* renderModeLabel;
 		QBoxLayout* rowFourLayout;
