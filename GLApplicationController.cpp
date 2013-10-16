@@ -3,6 +3,8 @@
 
 #include <typeinfo>
 #include "GLPlatonicSolid.h"
+#include "Tetrahedron.h"
+#include "Cube.h"
 
 GLApplicationController::GLApplicationController(GLWindow* window, Drawable* drawableObject)
 	: window(window), drawable(drawableObject), animating(false)
@@ -77,7 +79,23 @@ void GLApplicationController::triangleRadioChanged(bool clicked)
 
 void GLApplicationController::objectChooserIndexChanged(int newIndex)
 {
-	// TODO
+	switch (newIndex)
+	{
+	case 0: // Tetrahedron
+		drawable = new Tetrahedron();
+		window->setDrawable(drawable);
+		break;
+	case 1: // Cube
+		drawable = new Cube();
+	case 2: // Octahedron
+		break;
+	case 3: // Dodecahedron
+		break;
+	case 4: // Icosahedron
+		break;
+	default: // if default case, just do nothing and leave current object
+		break;
+	}
 	
 	window->resetInterface();
 }

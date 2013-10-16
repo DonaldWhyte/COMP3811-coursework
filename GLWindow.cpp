@@ -90,6 +90,9 @@ GLWindow::~GLWindow()
 void GLWindow::setDrawable(Drawable* newDrawable)
 {
 	drawable = newDrawable;
+	// Also make sure the canvas widget knows about
+	// the new drawable so it can be rendered
+	canvasWidget->setDrawable(newDrawable);
 }
 
 void GLWindow::resetInterface()
