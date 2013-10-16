@@ -83,7 +83,6 @@ void GLApplicationController::objectChooserIndexChanged(int newIndex)
 	{
 	case 0: // Tetrahedron
 		drawable = new Tetrahedron();
-		window->setDrawable(drawable);
 		break;
 	case 1: // Cube
 		drawable = new Cube();
@@ -94,9 +93,18 @@ void GLApplicationController::objectChooserIndexChanged(int newIndex)
 	case 4: // Icosahedron
 		break;
 	default: // if default case, just do nothing and leave current object
-		break;
+		return;
 	}
-	
+
+	// If colouring triangles is checked, make sure the drawable knows that!
+	try
+	{
+		GLPlatonicSolid* platonicSolid = dynamic_cast<GLPlatonicSolid*>(drawable);
+		platonicSolid->setColourTriangles( window->colourTrianglesCheckBox->isChecked() );
+	}
+	catch (const std::bad_cast& ex) { } // ignore casting error!
+
+	window->setDrawable(drawable);
 	window->resetInterface();
 }
 

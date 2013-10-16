@@ -2,9 +2,7 @@
 #include "GLPlatonicSolid.h"
 #include "Matrix44.h"
 
-static const float TRIANGLE_COLORS[2][3] = {
-	{ 1.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f}
-};
+static const Vector3 DEFAULT_TRI_COLOUR = Vector3(1.0f, 0.0f, 0.0f);
 
 GLPlatonicSolid::GLPlatonicSolid() : colourTriangles(false)
 {
@@ -79,11 +77,23 @@ void GLPlatonicSolid::renderAsLines(const Vector3List& vertices, const LineList&
 
 void GLPlatonicSolid::renderAsTriangles(const Vector3List& vertices, const TriangleList& triangles)
 {
-	// Set solid colour if triangles are NOT being individually coloured
-	if (!colourTriangles)
+	// Compute one colour for each triangle
+	std::vector<Vector3> triangleColours;
+	triangleColours.reserve(triangles.size());
+	if (colourTriangles)
 	{
-		const float* solidCol = TRIANGLE_COLORS[0];
-		glColor3f(solidCol[0], solidCol[1], solidCol[2]);
+		float gap = 0.8f / triangles.size();
+		for (int i = 0; (i < triangles.size()); i++)
+		{
+			float r = (gap * i) + 0.2f;
+			float b = ((gap * i) + 0.2f) * 0.5f;
+			triangleColours.push_back( Vector3(r, 0.0f, b) );
+		}
+	}
+	// Set solid colour if triangles are NOT being individually coloured
+	else
+	{
+		glColor3f(DEFAULT_TRI_COLOUR.x, DEFAULT_TRI_COLOUR.y, DEFAULT_TRI_COLOUR.z);
 	}
 
 	glBegin(GL_TRIANGLES);
@@ -92,8 +102,8 @@ void GLPlatonicSolid::renderAsTriangles(const Vector3List& vertices, const Trian
 		// Assign colour to the triangle if appropriate flag has been set
 		if (colourTriangles)
 		{
-			const float* triCol = TRIANGLE_COLORS[i % 2];
-			glColor3f(triCol[0], triCol[1], triCol[2]);
+			const Vector3& triCol = triangleColours[i];
+			glColor3f(triCol.x, triCol.y, triCol.z);
 		}
 		// Specify the triangle itself
 		const Triangle& tri = triangles[i];
