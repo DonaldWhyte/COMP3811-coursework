@@ -5,6 +5,7 @@
 #include "GLPlatonicSolid.h"
 #include "Tetrahedron.h"
 #include "Cube.h"
+#include "Octahedron.h"
 
 GLApplicationController::GLApplicationController(GLWindow* window, Drawable* drawableObject)
 	: window(window), drawable(drawableObject), animating(false)
@@ -86,7 +87,9 @@ void GLApplicationController::objectChooserIndexChanged(int newIndex)
 		break;
 	case 1: // Cube
 		drawable = new Cube();
+		break;
 	case 2: // Octahedron
+		drawable = new Octahedron();
 		break;
 	case 3: // Dodecahedron
 		break;
