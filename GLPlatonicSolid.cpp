@@ -76,8 +76,6 @@ void GLPlatonicSolid::renderAsLines(const Vector3List& vertices, const LineList&
 	glEnd();
 }
 
-#include <ctime>
-
 void GLPlatonicSolid::renderAsTriangles(const Vector3List& vertices, const TriangleList& triangles)
 {
 	// Compute one colour for each triangle
