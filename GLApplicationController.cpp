@@ -6,6 +6,8 @@
 #include "Tetrahedron.h"
 #include "Cube.h"
 #include "Octahedron.h"
+#include "Dodecahedron.h"
+#include "Isocahedron.h"
 
 GLApplicationController::GLApplicationController(GLWindow* window, Drawable* drawableObject)
 	: window(window), drawable(drawableObject), animating(false)
@@ -108,8 +110,10 @@ void GLApplicationController::objectChooserIndexChanged(int newIndex)
 		drawable = new Octahedron();
 		break;
 	case 3: // Dodecahedron
+		drawable = new Dodecahedron();
 		break;
-	case 4: // Icosahedron
+	case 4: // Isocahedron
+		drawable = new Isocahedron();
 		break;
 	default: // if default case, just do nothing and leave current object
 		return;
