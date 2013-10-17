@@ -14,6 +14,10 @@ GLApplicationController::GLApplicationController(GLWindow* window, Drawable* dra
 		this, SLOT(canvasWidgetChanged()));
 	connect(window->actionQuit, SIGNAL(triggered()),
 		QCoreApplication::instance(), SLOT(quit()));
+	connect(window->xRotSlider, SIGNAL(valueChanged(int)),
+		this, SLOT(xRotSliderChanged(int)));
+	connect(window->yRotSlider, SIGNAL(valueChanged(int)),
+		this, SLOT(yRotSliderChanged(int)));
 	connect(window->zRotSlider, SIGNAL(valueChanged(int)),
 		this, SLOT(zRotSliderChanged(int)));
 	connect(window->animationCheckBox, SIGNAL(stateChanged(int)),
@@ -37,6 +41,18 @@ GLApplicationController::GLApplicationController(GLWindow* window, Drawable* dra
 
 void GLApplicationController::canvasWidgetChanged()
 {
+	window->resetInterface();
+}
+
+void GLApplicationController::xRotSliderChanged(int newValue)
+{
+	drawable->setXRotation( static_cast<float>(newValue) );
+	window->resetInterface();
+}
+
+void GLApplicationController::yRotSliderChanged(int newValue)
+{
+	drawable->setYRotation( static_cast<float>(newValue) );
 	window->resetInterface();
 }
 

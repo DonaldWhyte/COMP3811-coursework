@@ -25,40 +25,51 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 	canvasWidget = new GLCanvasWidget(this, drawableObject);
 	rowOneLayout->addWidget(canvasWidget);
 
-	// Row two, which contains horizontal slider and rotation dial
 	rowTwoLayout = new QBoxLayout(QBoxLayout::LeftToRight);
 	windowLayout->addLayout(rowTwoLayout);
-
-	zRotLabel = new QLabel("Z Rotation");
-	rowTwoLayout->addWidget(zRotLabel);
-
-	zRotSlider = new QSlider(Qt::Horizontal);
-	rowTwoLayout->addWidget(zRotSlider);
-
-	animationCheckBox = new QCheckBox("Animation Enabled");
-	rowTwoLayout->addWidget(animationCheckBox);
+		xRotLabel = new QLabel("X Rotation");
+		rowTwoLayout->addWidget(xRotLabel);
+		xRotSlider = new QSlider(Qt::Horizontal);
+		rowTwoLayout->addWidget(xRotSlider);
 
 	rowThreeLayout = new QBoxLayout(QBoxLayout::LeftToRight);
 	windowLayout->addLayout(rowThreeLayout);
+		yRotLabel = new QLabel("Y Rotation");
+		rowThreeLayout->addWidget(yRotLabel);
+		yRotSlider = new QSlider(Qt::Horizontal);
+		rowThreeLayout->addWidget(yRotSlider);
+
+	rowFourLayout = new QBoxLayout(QBoxLayout::LeftToRight);
+	windowLayout->addLayout(rowFourLayout);
+		zRotLabel = new QLabel("Z Rotation");
+		rowFourLayout->addWidget(zRotLabel);
+		zRotSlider = new QSlider(Qt::Horizontal);
+		rowFourLayout->addWidget(zRotSlider);
+
+	rowFiveLayout = new QBoxLayout(QBoxLayout::LeftToRight);
+	windowLayout->addLayout(rowFiveLayout);
+		animationCheckBox = new QCheckBox("Animation Enabled");
+		rowFiveLayout->addWidget(animationCheckBox);
+
 		renderModeLabel = new QLabel("Render Mode");
 		pointRadio = new QRadioButton("Points");
 		lineRadio = new QRadioButton("Lines");
 		triangleRadio = new QRadioButton("Triangles");
-		rowThreeLayout->addWidget(renderModeLabel);
-		rowThreeLayout->addWidget(pointRadio);
-		rowThreeLayout->addWidget(lineRadio);
-		rowThreeLayout->addWidget(triangleRadio);
+		rowFiveLayout->addWidget(renderModeLabel);
+		rowFiveLayout->addWidget(pointRadio);
+		rowFiveLayout->addWidget(lineRadio);
+		rowFiveLayout->addWidget(triangleRadio);
 
-	rowFourLayout = new QBoxLayout(QBoxLayout::LeftToRight);
-	windowLayout->addLayout(rowFourLayout);
+	rowSixLayout = new QBoxLayout(QBoxLayout::LeftToRight);
+	windowLayout->addLayout(rowSixLayout);
 		objectChooserLabel = new QLabel("Platonic Solid");
-		rowFourLayout->addWidget(objectChooserLabel);
+		rowSixLayout->addWidget(objectChooserLabel);
 		objectChooser = new QComboBox();
 		objectChooser->addItems(objectNameList);
 		objectChooser->setCurrentIndex(INITIAL_OBJECT_INDEX);
-		rowFourLayout->addWidget(objectChooser);
+		rowSixLayout->addWidget(objectChooser);
 		colourTrianglesCheckBox = new QCheckBox("Colour Triangles");
-		rowFourLayout->addWidget(colourTrianglesCheckBox);
+		rowSixLayout->addWidget(colourTrianglesCheckBox);
 
 	resetInterface();
 }
@@ -70,7 +81,11 @@ GLWindow::~GLWindow()
 	delete objectChooserLabel;
 	delete objectChooser;
 	delete animationCheckBox;
+	delete xRotLabel;
+	delete yRotLabel;
 	delete zRotLabel;
+	delete xRotSlider;
+	delete yRotSlider;
 	delete zRotSlider;
 	delete canvasWidget;
 	delete renderModeLabel;
@@ -81,6 +96,8 @@ GLWindow::~GLWindow()
 	delete rowTwoLayout;
 	delete rowThreeLayout;
 	delete rowFourLayout;
+	delete rowFiveLayout;
+	delete rowSixLayout;
 	delete windowLayout;
 	delete actionQuit;
 	delete fileMenu;
@@ -97,6 +114,12 @@ void GLWindow::setDrawable(Drawable* newDrawable)
 
 void GLWindow::resetInterface()
 {
+	xRotSlider->setMinimum(0);
+	xRotSlider->setMaximum(360);
+	xRotSlider->setValue(drawable->xRotation());
+	yRotSlider->setMinimum(0);
+	yRotSlider->setMaximum(360);
+	yRotSlider->setValue(drawable->yRotation());
 	zRotSlider->setMinimum(0);
 	zRotSlider->setMaximum(360);
 	zRotSlider->setValue(drawable->zRotation());

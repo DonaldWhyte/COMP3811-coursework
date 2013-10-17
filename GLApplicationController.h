@@ -16,6 +16,8 @@ public:
 
 public slots:
 	void canvasWidgetChanged();
+	void xRotSliderChanged(int newValue);
+	void yRotSliderChanged(int newValue);
 	void zRotSliderChanged(int newValue);
 	void animationCheckBoxChanged(int state);
 	void pointRadioChanged(bool checked);

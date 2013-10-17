@@ -33,6 +33,8 @@ public:
          * them can be handled by the controller. */
 	GLCanvasWidget* canvasWidget;
 
+	QSlider* xRotSlider;
+	QSlider* yRotSlider;
 	QSlider* zRotSlider;
 	QCheckBox* animationCheckBox;
 
@@ -54,10 +56,14 @@ private:
 	QBoxLayout* windowLayout;
 		QBoxLayout* rowOneLayout;
 		QBoxLayout* rowTwoLayout;
-			QLabel* zRotLabel;
+			QLabel* xRotLabel;
 		QBoxLayout* rowThreeLayout;
-			QLabel* renderModeLabel;
+			QLabel* yRotLabel;
 		QBoxLayout* rowFourLayout;
+			QLabel* zRotLabel;
+		QBoxLayout* rowFiveLayout;
+			QLabel* renderModeLabel;
+		QBoxLayout* rowSixLayout;
 			QLabel* objectChooserLabel;
 
 };
