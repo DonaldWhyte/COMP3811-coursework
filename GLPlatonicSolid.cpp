@@ -3,20 +3,29 @@
 #include "Matrix44.h"
 
 static const Vector3 DEFAULT_TRI_COLOUR = Vector3(1.0f, 0.0f, 0.0f);
+static const Vector3 ALTERNATING_TRIANGLE_COLOURS[] = {
+	Vector3(1.0f, 0.0f, 0.0f),
+	Vector3(0.0f, 1.0f, 0.0f),
+	Vector3(0.0f, 0.0f, 1.0f),
+	Vector3(1.0f, 1.0f, 0.0f),
+	Vector3(1.0f, 0.0f, 1.0f),
+	Vector3(0.0f, 1.0f, 1.0f),
+	Vector3(1.0f, 1.0f, 1.0f),
+	Vector3(0.0f, 0.0f, 0.0f)
+};
 
-GLPlatonicSolid::GLPlatonicSolid() : colourTriangles(false)
+GLPlatonicSolid::GLPlatonicSolid() : colMode(TRIANGLE_COL_SAME)
 {
-	srand(time(NULL));
 }
 
-const bool GLPlatonicSolid::trianglesColoured() const
+TriangleColourMode GLPlatonicSolid::colourMode() const
 {
-	return colourTriangles;
+	return colMode;
 }
 
-void GLPlatonicSolid::setColourTriangles(bool willColourTriangles)
+void GLPlatonicSolid::setColourMode(TriangleColourMode newMode)
 {
-	colourTriangles = willColourTriangles;
+	colMode = newMode;
 }
 
 void GLPlatonicSolid::render()
@@ -81,7 +90,8 @@ void GLPlatonicSolid::renderAsTriangles(const Vector3List& vertices, const Trian
 	// Compute one colour for each triangle
 	std::vector<Vector3> triangleColours;
 	triangleColours.reserve(triangles.size());
-	if (colourTriangles)
+
+	if (colMode == TRIANGLE_COL_INTERPOLATE)
 	{
 		float gap = 0.8f / triangles.size();
 		for (int i = 0; (i < triangles.size()); i++)
@@ -90,6 +100,14 @@ void GLPlatonicSolid::renderAsTriangles(const Vector3List& vertices, const Trian
 			float g = 0.0f;
 			float b = ((gap * i) + 0.2f) * 0.5f;
 			triangleColours.push_back( Vector3(r, g, b) );
+		}
+	}
+	else if (colMode == TRIANGLE_COL_ALTERNATE)
+	{
+		for (int i = 0; (i < triangles.size()); i++)
+		{
+			int colIndex = i % 8;
+			triangleColours.push_back( ALTERNATING_TRIANGLE_COLOURS[colIndex] );
 		}
 	}
 	// Set solid colour if triangles are NOT being individually coloured
@@ -102,7 +120,7 @@ void GLPlatonicSolid::renderAsTriangles(const Vector3List& vertices, const Trian
 	for (int i = 0; (i < triangles.size()); i++)
 	{
 		// Assign colour to the triangle if appropriate flag has been set
-		if (colourTriangles)
+		if (colMode == TRIANGLE_COL_ALTERNATE || colMode == TRIANGLE_COL_INTERPOLATE)
 		{
 			const Vector3& triCol = triangleColours[i];
 			glColor3f(triCol.x, triCol.y, triCol.z);

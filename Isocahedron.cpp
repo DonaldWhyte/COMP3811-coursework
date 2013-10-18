@@ -6,19 +6,19 @@ static const float PHI = 1.25663706144;
 
 Isocahedron::Isocahedron()
 {
-    vertices.push_back( Vector3(-1.000000f, 0.0f, 0.0f) );
-    vertices.push_back( Vector3(-0.707106f, -0.707106f, 0.0f) );
-    vertices.push_back( Vector3(-0.707106f, 0.0f, -0.707106f) );
+	vertices.push_back( Vector3(-1.0f, 0.0f, 0.0f) );
+	vertices.push_back( Vector3(-0.707106f, -0.707106f, 0.0f) );
+	vertices.push_back( Vector3(-0.707106f, 0.0f, -0.707106f) );
 	vertices.push_back( Vector3(-0.707106f, 0.0f, 0.707106f) );
 	vertices.push_back( Vector3(-0.707106f, 0.707106f, 0.0f) );
-	vertices.push_back( Vector3(0.0f, -1.000000f, 0.0f) );
+	vertices.push_back( Vector3(0.0f, -1.0f, 0.0f) );
 	vertices.push_back( Vector3(0.0f, -0.707106f, -0.707106f) );
 	vertices.push_back( Vector3(0.0f, -0.707106f, 0.707106f) );
-	vertices.push_back( Vector3(0.0f, 0.0f, -1.000000f) );
-	vertices.push_back( Vector3(0.0f, 0.0f, 1.000000f) );
+	vertices.push_back( Vector3(0.0f, 0.0f, -1.0f) );
+	vertices.push_back( Vector3(0.0f, 0.0f, 1.0f) );
 	vertices.push_back( Vector3(0.0f, 0.707106f, -0.707106f) );
 	vertices.push_back( Vector3(0.0f, 0.707106f, 0.707106f) );
-	vertices.push_back( Vector3(0.0f, 1.000000f, 0.0f) );
+	vertices.push_back( Vector3(0.0f, 1.0f, 0.0f) );
 	vertices.push_back( Vector3(0.707106f, -0.707106f, 0.0f) );
 	vertices.push_back( Vector3(0.707106f, 0.0f, -0.707106f) );
 	vertices.push_back( Vector3(0.707106f, 0.0f, 0.707106f) );

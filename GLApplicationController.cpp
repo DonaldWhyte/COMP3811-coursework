@@ -33,6 +33,8 @@ GLApplicationController::GLApplicationController(GLWindow* window, Drawable* dra
 		this, SLOT(triangleRadioChanged(bool)));
 	connect(window->objectChooser, SIGNAL(currentIndexChanged(int)),
 		this, SLOT(objectChooserIndexChanged(int)));
+	connect(window->colourChooser, SIGNAL(currentIndexChanged(int)),
+		this, SLOT(colourChooserIndexChanged(int)));
 
 	animationTimer = new QTimer(this);
 	connect(animationTimer, SIGNAL(timeout()), this, SLOT(nextAnimationFrame()));
@@ -121,8 +123,7 @@ void GLApplicationController::objectChooserIndexChanged(int newIndex)
 	try
 	{
 		GLPlatonicSolid* platonicSolid = dynamic_cast<GLPlatonicSolid*>(drawable);
-		// TODO: generalise to three types
-		//platonicSolid->setColourTriangles( window->colourTrianglesCheckBox->isChecked() );
+		platonicSolid->setColourMode( (TriangleColourMode)window->colourChooser->currentIndex() );
 	}
 	catch (const std::bad_cast& ex) { } // ignore casting error!
 
@@ -130,14 +131,13 @@ void GLApplicationController::objectChooserIndexChanged(int newIndex)
 	window->resetInterface();
 }
 
-void GLApplicationController::colourTrianglesChanged(int newState)
+void GLApplicationController::colourChooserIndexChanged(int newIndex)
 {
-	colourTriangles = (newState == Qt::Checked);
 	// Check type of drawable -- if it's a platonic solid, update its state
 	try
 	{
 		GLPlatonicSolid* platonicSolid = dynamic_cast<GLPlatonicSolid*>(drawable);
-		platonicSolid->setColourTriangles(colourTriangles);
+		platonicSolid->setColourMode( (TriangleColourMode)newIndex );
 	}
 	catch (const std::bad_cast& ex) { } // ignore casting error!
 

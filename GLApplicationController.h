@@ -24,7 +24,7 @@ public slots:
 	void lineRadioChanged(bool checked);
 	void triangleRadioChanged(bool checked);
 	void objectChooserIndexChanged(int newIndex);
-	void colourTrianglesChanged(int newState);
+	void colourChooserIndexChanged(int newIndex);
 	void nextAnimationFrame(); // used to provide animation to objects 
 
 private:

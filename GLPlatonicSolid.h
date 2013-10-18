@@ -4,15 +4,21 @@
 #include "Drawable.h"
 #include "Geometry.h"
 
+enum TriangleColourMode
+{
+	TRIANGLE_COL_SAME = 0,
+	TRIANGLE_COL_ALTERNATE,
+	TRIANGLE_COL_INTERPOLATE
+};
+
 class GLPlatonicSolid : public Drawable
 {
 
 public:
 	GLPlatonicSolid();
 
-	/* Get/set individually coloured triangles. */
-	const bool trianglesColoured() const;
-	void setColourTriangles(bool willColourTriangles);
+	TriangleColourMode colourMode() const;
+	void setColourMode(TriangleColourMode newMode);
 
 	/* Draw platonic solid on screen. */
 	void render();
@@ -29,7 +35,7 @@ private:
 
 	static const float SCALING_FACTOR = 0.5f;
 
-	bool colourTriangles;
+	TriangleColourMode colMode;
 
 };
 

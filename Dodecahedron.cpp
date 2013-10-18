@@ -1,29 +1,96 @@
 #include"Dodecahedron.h"
 #include <math.h>
 #include <iostream>
+#include <fstream>
+#include <string>
     
 Dodecahedron::Dodecahedron()
 {
-    vertices.push_back( Vector3(0.607, 0.000, 0.795) );
-    vertices.push_back( Vector3(0.188, 0.577, 0.795) );
-    vertices.push_back( Vector3(-0.491, 0.357, 0.795) );
-    vertices.push_back( Vector3(-0.491, -0.357, 0.795) );
-    vertices.push_back( Vector3(0.188, -0.577, 0.795) );
-    vertices.push_back( Vector3(0.982, 0.000, 0.188) );
-    vertices.push_back( Vector3(0.304, 0.934, 0.188) );
-    vertices.push_back( Vector3(-0.795, 0.577, 0.188) );
-    vertices.push_back( Vector3(-0.795, -0.577, 0.188) );
-    vertices.push_back( Vector3(0.304, -0.934, 0.188) );
-    vertices.push_back( Vector3(0.795, 0.577, -0.188) );
-    vertices.push_back( Vector3(-0.304, 0.934, -0.188) );
-    vertices.push_back( Vector3(-0.982, 0.000, -0.188) );
-    vertices.push_back( Vector3(-0.304, -0.934, -0.188) );
-    vertices.push_back( Vector3(0.795, -0.577, -0.188) );
-    vertices.push_back( Vector3(0.491, 0.357, -0.795) );
-    vertices.push_back( Vector3(-0.188, 0.577, -0.795) );
-    vertices.push_back( Vector3(-0.607, 0.000, -0.795) );
-    vertices.push_back( Vector3(-0.188, -0.577, -0.795) );
-    vertices.push_back( Vector3(0.491, -0.357, -0.795) );
+    vertices.push_back( Vector3(0.607f, 0.0f, 0.795f) );
+    vertices.push_back( Vector3(0.188f, 0.566f, 0.795f) );
+    vertices.push_back( Vector3(-0.491f, 0.357f, 0.795f) );
+    vertices.push_back( Vector3(-0.491f, -0.357f, 0.795f) );
+    vertices.push_back( Vector3(0.188f, -0.566f, 0.795f) );
+    vertices.push_back( Vector3(0.982f, 0.0f, 0.188f) );
+    vertices.push_back( Vector3(0.304f, 0.934f, 0.188f) );
+    vertices.push_back( Vector3(-0.795f, 0.566f, 0.188f) );
+    vertices.push_back( Vector3(-0.795f, -0.566f, 0.188f) );
+    vertices.push_back( Vector3(0.304f, -0.934f, 0.188f) );
+    vertices.push_back( Vector3(0.795f, 0.566f, -0.188f) );
+    vertices.push_back( Vector3(-0.304f, 0.934f, -0.188f) );
+    vertices.push_back( Vector3(-0.982f, 0.0f, -0.188f) );
+    vertices.push_back( Vector3(-0.304f, -0.934f, -0.188f) );
+    vertices.push_back( Vector3(0.795f, -0.566f, -0.188f) );
+    vertices.push_back( Vector3(0.491f, 0.357f, -0.795f) );
+    vertices.push_back( Vector3(-0.188f, 0.566f, -0.795f) );
+    vertices.push_back( Vector3(-0.607f, 0.0f, -0.795f) );
+    vertices.push_back( Vector3(-0.188f, -0.566f, -0.795f) );
+    vertices.push_back( Vector3(0.491f, -0.357f, -0.795f) );
+
+	std::ifstream file("lines.txt");
+	while (!file.eof())
+	{
+		int v1, v2;
+		file >> v1; file >> v2;
+		lines.push_back( Line(v1, v2) );	 
+	}
+	file.close();
+
+/*
+		lines.push_back( Line(0, 1) );
+	lines.push_back( Line(1, 2) );
+	lines.push_back( Line(2, 0) );
+	lines.push_back( Line(3, 4) );
+	lines.push_back( Line(4, 0) );
+	lines.push_back( Line(5, 10) );
+	lines.push_back( Line(10, 6) );
+	lines.push_back( Line(6, 5) );
+	lines.push_back( Line(6, 1) );
+	lines.push_back( Line(1, 5) );
+	lines.push_back( Line(0, 5) );
+	lines.push_back( Line(6, 11) );
+	lines.push_back( Line(11, 7) );
+	lines.push_back( Line(7, 6) );
+	lines.push_back( Line(7, 2) );
+	lines.push_back( Line(2, 6) );
+	lines.push_back( Line(7, 12) );
+	lines.push_back( Line(12, 8) );
+	lines.push_back( Line(8, 7) );
+	lines.push_back( Line(8, 3) );
+	lines.push_back( Line(3, 7) );
+	lines.push_back( Line(8, 13) );
+	lines.push_back( Line(13, 9) );
+	lines.push_back( Line(9, 8) );
+	lines.push_back( Line(9, 4) );
+	lines.push_back( Line(4, 8) );
+	lines.push_back( Line(9, 14) );
+	lines.push_back( Line(14, 5) );
+	lines.push_back( Line(5, 9) );
+	lines.push_back( Line(0, 9) );
+	lines.push_back( Line(15, 16) );
+	lines.push_back( Line(16, 11) );
+	lines.push_back( Line(11, 15) );
+	lines.push_back( Line(6, 15) );
+	lines.push_back( Line(10, 15) );
+	lines.push_back( Line(16, 17) );
+	lines.push_back( Line(17, 12) );
+	lines.push_back( Line(12, 16) );
+	lines.push_back( Line(7, 16) );
+	lines.push_back( Line(17, 18) );
+	lines.push_back( Line(18, 13) );
+	lines.push_back( Line(13, 17) );
+	lines.push_back( Line(8, 17) );
+	lines.push_back( Line(18, 19) );
+	lines.push_back( Line(19, 14) );
+	lines.push_back( Line(14, 18) );
+	lines.push_back( Line(9, 18) );
+	lines.push_back( Line(19, 15) );
+	lines.push_back( Line(10, 19) );
+	lines.push_back( Line(5, 19) );
+	lines.push_back( Line(17, 19) );
+	lines.push_back( Line(16, 19) );
+*/
+
     triangles.push_back( Triangle(0, 1, 2) );
     triangles.push_back( Triangle(0, 2, 3) );
     triangles.push_back( Triangle(0, 3, 4) );
