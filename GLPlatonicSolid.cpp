@@ -24,9 +24,9 @@ void GLPlatonicSolid::render()
 	// Clear existing transformations
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
-	glLoadIdentity();
+	glLoadIdentity(); // just here to make sure no other transformations are applied
 
-	// Construct transformation matrix manually
+	// Construct transformation matrix MANUALLY WITHOUT OPENGL
 	Matrix44 transformation = Matrix44::scale(SCALING_FACTOR, SCALING_FACTOR, SCALING_FACTOR);
 	transformation = transformation * Matrix44::translation(pos.x, pos.y, pos.z);
 	transformation = transformation * Matrix44::xyzRotation(rot);

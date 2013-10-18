@@ -1,6 +1,7 @@
 #include "GLWindow.h"
 
 static const int INITIAL_OBJECT_INDEX = 1;
+static const int INITIAL_COLOUR_INDEX = 0;
 
 GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 	: QWidget(parent), drawable(drawableObject)
@@ -8,6 +9,8 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 	// Define list of drawable objects
 	QStringList objectNameList;
 	objectNameList << "Tetrahedron" << "Cube" << "Octahedron" << "Dodecahedron" << "Icosahedron";
+	QStringList colourNameList;
+	colourNameList << "Same" << "Alternate" << "Interpolate";
 
 	setWindowTitle("COMP3811 Computer Graphics - Coursework One - Donald Whyte");
 	windowLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
@@ -68,8 +71,15 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 		objectChooser->addItems(objectNameList);
 		objectChooser->setCurrentIndex(INITIAL_OBJECT_INDEX);
 		rowSixLayout->addWidget(objectChooser);
-		colourTrianglesCheckBox = new QCheckBox("Colour Triangles");
-		rowSixLayout->addWidget(colourTrianglesCheckBox);
+
+	rowSevenLayout = new QBoxLayout(QBoxLayout::LeftToRight);
+	windowLayout->addLayout(rowSevenLayout);
+		colourLabel = new QLabel("Triangle Colours");
+		rowSevenLayout->addWidget(colourLabel);
+		colourChooser = new QComboBox();
+		colourChooser->addItems(colourNameList);
+		colourChooser->setCurrentIndex(INITIAL_COLOUR_INDEX);
+		rowSevenLayout->addWidget(colourChooser);
 
 	resetInterface();
 }
@@ -77,7 +87,8 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 GLWindow::~GLWindow()
 {
 	// Done in reverse-order, bottom of visual hierarchy to the top
-	delete colourTrianglesCheckBox;
+	delete colourLabel;
+	delete colourChooser;
 	delete objectChooserLabel;
 	delete objectChooser;
 	delete animationCheckBox;
@@ -98,6 +109,7 @@ GLWindow::~GLWindow()
 	delete rowFourLayout;
 	delete rowFiveLayout;
 	delete rowSixLayout;
+	delete rowSevenLayout;
 	delete windowLayout;
 	delete actionQuit;
 	delete fileMenu;

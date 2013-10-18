@@ -43,7 +43,8 @@ public:
 	QRadioButton* triangleRadio;
 
 	QComboBox* objectChooser;
-	QCheckBox* colourTrianglesCheckBox;
+
+	QComboBox* colourChooser;
 
 	QAction* actionQuit;
 
@@ -65,6 +66,8 @@ private:
 			QLabel* renderModeLabel;
 		QBoxLayout* rowSixLayout;
 			QLabel* objectChooserLabel;
+		QBoxLayout* rowSevenLayout;
+			QLabel* colourLabel;
 
 };
 
