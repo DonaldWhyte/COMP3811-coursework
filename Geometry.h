@@ -2,6 +2,7 @@
 #define GEOMETRY_H
 
 #include <vector>
+#include "Vector3.h"
 
 /* Basic geoemtrical structures are all contained iwithin this
  * file for convenience. */
@@ -23,8 +24,16 @@ struct Triangle
 	Triangle(int v1, int v2, int v3) : v1(v1), v2(v2), v3(v3) { }
 };
 
+/* Generic structure for storing all of a vertices properties. */
+struct Vertex
+{
+	Vector3 position;
+	Vector3 normal;
+};
+
 typedef std::vector<Line> LineList;
 typedef std::vector<Triangle> TriangleList;
+typedef std::vector<Vertex> VertexList;
 
 extern const double PI;
 
