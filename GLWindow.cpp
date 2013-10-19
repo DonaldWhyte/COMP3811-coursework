@@ -10,7 +10,7 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 	QStringList objectNameList;
 	objectNameList << "Sphere" << "Cylinder" << "Cone" << "Torus";
 	QStringList colourNameList;
-	colourNameList << "Same" << "Alternate" << "Interpolate";
+	colourNameList << "Same" << "Alternate Colours" << "Flat Shading" << "Smooth Shading" << "Texture";
 
 	setWindowTitle("COMP3811 Computer Graphics - Coursework One - Donald Whyte");
 	windowLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);

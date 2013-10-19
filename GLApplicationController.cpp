@@ -94,7 +94,7 @@ void GLApplicationController::objectChooserIndexChanged(int newIndex)
 
 void GLApplicationController::colourChooserIndexChanged(int newIndex)
 {
-	// TODO??
+	// TODO
 
 	window->resetInterface();
 }

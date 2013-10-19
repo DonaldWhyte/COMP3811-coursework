@@ -26,6 +26,16 @@ void Mesh::setTriangles(const TriangleList& newTris)
 	tris = newTris;
 }
 
+Mesh::Colouring Mesh::colouring() const
+{
+	return triangleColouring;
+}
+
+void Mesh::setColouring(Mesh::Colouring newColouring)
+{
+	triangleColouring = newColouring;
+}
+
 void Mesh::renderVertex(const Vertex& v)
 {
 	glNormal3f(v.normal.x, v.normal.y, v.normal.z);

@@ -8,12 +8,23 @@ class Mesh : public Drawable
 {
 
 public:
+	enum Colouring
+	{
+		MESH_COLOUR_SAME = 0,
+		MESH_ALTERNATING_TRIANGLES,
+		MESH_FLAT_SHADING,
+		MESH_SMOOTH_SHADING,
+		MESH_TEXTURE
+	};
+
 	virtual ~Mesh();
 
 	const VertexList& vertices() const;
 	void setVertices(const VertexList& newVerts);
 	const TriangleList& triangles() const;
 	void setTriangles(const TriangleList& triangles); 
+	Colouring colouring() const;
+	void setColouring(Colouring newColouring);
 
 	void renderVertex(const Vertex& v);
 	void render();
@@ -21,6 +32,7 @@ public:
 private:
 	VertexList verts;
 	TriangleList tris;
+	Colouring triangleColouring;
 
 };
 
