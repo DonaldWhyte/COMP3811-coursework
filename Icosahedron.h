@@ -3,11 +3,11 @@
 
 #include "GLPlatonicSolid.h"
 
-class Isocahedron : public GLPlatonicSolid
+class Icosahedron : public GLPlatonicSolid
 {
 
 public:
-	Isocahedron();
+	Icosahedron();
 
 	const Vector3List& getVertices() const;
 	const LineList& getLines() const;

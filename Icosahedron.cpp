@@ -1,12 +1,12 @@
 #include <math.h>
-#include "Isocahedron.h"
+#include "Icosahedron.h"
 
 #include <fstream>
 
 // Pre-computed for performance
 static const float PHI = 1.25663706144; 
 
-Isocahedron::Isocahedron()
+Icosahedron::Icosahedron()
 {
 	vertices.push_back( Vector3(-1.0f, 0.0f, 0.0f) );
 	vertices.push_back( Vector3(-0.707106f, -0.707106f, 0.0f) );
@@ -110,17 +110,17 @@ Isocahedron::Isocahedron()
 	triangles.push_back( Triangle(15, 17, 16) );    
 }
 
-const Vector3List& Isocahedron::getVertices() const
+const Vector3List& Icosahedron::getVertices() const
 {
 	return vertices;
 }
 
-const LineList& Isocahedron::getLines() const
+const LineList& Icosahedron::getLines() const
 {
 	return lines;
 }
 
-const  TriangleList& Isocahedron::getTriangles() const
+const  TriangleList& Icosahedron::getTriangles() const
 {
 	return triangles;
 }
