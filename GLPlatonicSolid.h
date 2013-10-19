@@ -4,11 +4,12 @@
 #include "Drawable.h"
 #include "Geometry.h"
 
+/* Determines the solid's triangles are coloured. */
 enum TriangleColourMode
 {
-	TRIANGLE_COL_SAME = 0,
-	TRIANGLE_COL_ALTERNATE,
-	TRIANGLE_COL_INTERPOLATE
+	TRIANGLE_COL_SAME = 0, // all same colour
+	TRIANGLE_COL_ALTERNATE, // alternating block colours
+	TRIANGLE_COL_INTERPOLATE // interpolate from one colour to another over all triangles
 };
 
 class GLPlatonicSolid : public Drawable

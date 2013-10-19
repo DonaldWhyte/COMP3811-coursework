@@ -98,6 +98,10 @@ void GLApplicationController::triangleRadioChanged(bool clicked)
 
 void GLApplicationController::objectChooserIndexChanged(int newIndex)
 {
+	// We keep the drawable's current rendering method so
+	// we can restore if it a new drawable is created
+	RenderMethod oldRenderMethod = drawable->renderMethod();
+
 	switch (newIndex)
 	{
 	case 0: // Tetrahedron
@@ -126,6 +130,8 @@ void GLApplicationController::objectChooserIndexChanged(int newIndex)
 		platonicSolid->setColourMode( (TriangleColourMode)window->colourChooser->currentIndex() );
 	}
 	catch (const std::bad_cast& ex) { } // ignore casting error!
+
+	drawable->setRenderMethod(oldRenderMethod);
 
 	window->setDrawable(drawable);
 	window->resetInterface();
