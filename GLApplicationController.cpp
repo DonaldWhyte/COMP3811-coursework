@@ -85,8 +85,11 @@ void GLApplicationController::objectChooserIndexChanged(int newIndex)
 	default: // if default case, just do nothing and leave current object
 		return;
 	}
-	// Restore old render method and colouring
+	// Restore old render method and colouring (if instance is a mesh)
 	drawable->setRenderMethod(oldRenderMethod);
+	Mesh* meshObject = dynamic_cast<Mesh*>(drawable);
+	if (meshObject)
+		meshObject->setColouring( static_cast<Mesh::Colouring>(newIndex) );
 
 	window->setDrawable(drawable);
 	window->resetInterface();
@@ -94,7 +97,10 @@ void GLApplicationController::objectChooserIndexChanged(int newIndex)
 
 void GLApplicationController::colourChooserIndexChanged(int newIndex)
 {
-	// TODO
+	// If object is an instance of mesh, assign new colouring
+	Mesh* meshObject = dynamic_cast<Mesh*>(drawable);
+	if (meshObject)
+		meshObject->setColouring( static_cast<Mesh::Colouring>(newIndex) );
 
 	window->resetInterface();
 }
