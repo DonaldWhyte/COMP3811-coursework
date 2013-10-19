@@ -2,6 +2,7 @@
 #define MATH_VECTOR_H
 
 #include <vector>
+#include <iostream>
 
 class Vector3
 {
@@ -13,8 +14,10 @@ public:
 	float x;
 	float y;
 	float z;
-
 };
+
+// For pretty printing
+std::ostream& operator<<(std::ostream& os, const Vector3& vec);
 
 typedef std::vector<Vector3> Vector3List;
 

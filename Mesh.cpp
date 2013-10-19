@@ -1,5 +1,5 @@
-#include "Mesh.h"
 #include <QGLWidget>
+#include "Mesh.h"
 #include "Matrix44.h"
 
 Mesh::~Mesh()
@@ -46,7 +46,7 @@ void Mesh::render()
 	transformedVerts.reserve( verts.size() );
 	for (VertexList::const_iterator it = verts.begin(); (it != verts.end()); it++)
 	{
-		Vertex newVert = { transformation * it->position, transformation * it->normal };
+		Vertex newVert = (*it);//{ transformation * it->position, transformation * it->normal };
 		transformedVerts.push_back(newVert);
 	}
 	
@@ -58,7 +58,7 @@ void Mesh::render()
 		renderVertex( transformedVerts[it->v2] );
 		renderVertex( transformedVerts[it->v3] );
 	}
-	glEnd();	
+	glEnd();
 
 	glPopMatrix();
 }
