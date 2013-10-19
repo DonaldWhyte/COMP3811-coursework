@@ -1,6 +1,6 @@
 #include "GLWindow.h"
 
-static const int INITIAL_OBJECT_INDEX = 1;
+static const int INITIAL_OBJECT_INDEX = 0;
 static const int INITIAL_COLOUR_INDEX = 0;
 
 GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
@@ -8,7 +8,7 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 {
 	// Define list of drawable objects
 	QStringList objectNameList;
-	objectNameList << "Tetrahedron" << "Cube" << "Octahedron" << "Dodecahedron" << "Icosahedron";
+	objectNameList << "Sphere" << "Cylinder" << "Cone" << "Torus";
 	QStringList colourNameList;
 	colourNameList << "Same" << "Alternate" << "Interpolate";
 
@@ -54,18 +54,9 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 		animationCheckBox = new QCheckBox("Animation Enabled");
 		rowFiveLayout->addWidget(animationCheckBox);
 
-		renderModeLabel = new QLabel("Render Mode");
-		pointRadio = new QRadioButton("Points");
-		lineRadio = new QRadioButton("Lines");
-		triangleRadio = new QRadioButton("Triangles");
-		rowFiveLayout->addWidget(renderModeLabel);
-		rowFiveLayout->addWidget(pointRadio);
-		rowFiveLayout->addWidget(lineRadio);
-		rowFiveLayout->addWidget(triangleRadio);
-
 	rowSixLayout = new QBoxLayout(QBoxLayout::LeftToRight);
 	windowLayout->addLayout(rowSixLayout);
-		objectChooserLabel = new QLabel("Platonic Solid");
+		objectChooserLabel = new QLabel("Object");
 		rowSixLayout->addWidget(objectChooserLabel);
 		objectChooser = new QComboBox();
 		objectChooser->addItems(objectNameList);
@@ -74,7 +65,7 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 
 	rowSevenLayout = new QBoxLayout(QBoxLayout::LeftToRight);
 	windowLayout->addLayout(rowSevenLayout);
-		colourLabel = new QLabel("Triangle Colours");
+		colourLabel = new QLabel("Triangle Colouring");
 		rowSevenLayout->addWidget(colourLabel);
 		colourChooser = new QComboBox();
 		colourChooser->addItems(colourNameList);
@@ -99,10 +90,6 @@ GLWindow::~GLWindow()
 	delete yRotSlider;
 	delete zRotSlider;
 	delete canvasWidget;
-	delete renderModeLabel;
-	delete pointRadio;
-	delete lineRadio;
-	delete triangleRadio;
 	delete rowOneLayout;
 	delete rowTwoLayout;
 	delete rowThreeLayout;
@@ -135,20 +122,6 @@ void GLWindow::resetInterface()
 	zRotSlider->setMinimum(0);
 	zRotSlider->setMaximum(360);
 	zRotSlider->setValue(drawable->zRotation());
-
-	RenderMethod renderMethod = drawable->renderMethod();
-	switch (renderMethod)
-	{
-	case RENDER_METHOD_POINTS:
-		pointRadio->setChecked(true);
-		break;
-	case RENDER_METHOD_LINES:
-		lineRadio->setChecked(true);
-		break;
-	case RENDER_METHOD_TRIANGLES:
-		triangleRadio->setChecked(true);
-		break;
-	}
 
 	update(); // force refresh
 	canvasWidget->update(); // wasn't repainting with update()...

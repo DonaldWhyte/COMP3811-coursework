@@ -2,13 +2,13 @@
 #include "GLWindow.h"
 #include "GLApplicationController.h"
 
-#include "Cube.h"
+#include "Sphere.h"
 
 int main(int argc, char* argv[])
 {
 	QApplication app(argc, argv);
 
-	GLPlatonicSolid* drawable = new Cube();
+	Drawable* drawable = new Sphere(0.25f, 10, 10);
 	GLWindow* window = new GLWindow(NULL, drawable);
 	GLApplicationController* controller = new GLApplicationController(window, drawable);
 

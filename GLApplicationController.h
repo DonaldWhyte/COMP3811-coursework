@@ -20,9 +20,6 @@ public slots:
 	void yRotSliderChanged(int newValue);
 	void zRotSliderChanged(int newValue);
 	void animationCheckBoxChanged(int state);
-	void pointRadioChanged(bool checked);
-	void lineRadioChanged(bool checked);
-	void triangleRadioChanged(bool checked);
 	void objectChooserIndexChanged(int newIndex);
 	void colourChooserIndexChanged(int newIndex);
 	void nextAnimationFrame(); // used to provide animation to objects 

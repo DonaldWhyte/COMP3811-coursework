@@ -38,10 +38,6 @@ public:
 	QSlider* zRotSlider;
 	QCheckBox* animationCheckBox;
 
-	QRadioButton* pointRadio;
-	QRadioButton* lineRadio;
-	QRadioButton* triangleRadio;
-
 	QComboBox* objectChooser;
 
 	QComboBox* colourChooser;
@@ -63,7 +59,6 @@ private:
 		QBoxLayout* rowFourLayout;
 			QLabel* zRotLabel;
 		QBoxLayout* rowFiveLayout;
-			QLabel* renderModeLabel;
 		QBoxLayout* rowSixLayout;
 			QLabel* objectChooserLabel;
 		QBoxLayout* rowSevenLayout;
