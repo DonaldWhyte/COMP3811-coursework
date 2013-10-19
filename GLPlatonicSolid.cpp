@@ -11,8 +11,13 @@ static const Vector3 ALTERNATING_TRIANGLE_COLOURS[] = {
 	Vector3(1.0f, 0.0f, 1.0f),
 	Vector3(0.0f, 1.0f, 1.0f),
 	Vector3(1.0f, 1.0f, 1.0f),
-	Vector3(0.0f, 0.0f, 0.0f)
+	Vector3(0.0f, 0.0f, 0.0f),
+	Vector3(0.5f, 0.5f, 0.5f),
+	Vector3(0.9f, 0.1f, 0.6f),
+	Vector3(0.4f, 0.3f, 0.9f),
+	Vector3(0.2f, 0.8f, 0.2f),
 };
+static const unsigned int NUM_ALTERNATING_COLOURS = 12;
 
 GLPlatonicSolid::GLPlatonicSolid() : colMode(TRIANGLE_COL_SAME)
 {
@@ -75,10 +80,21 @@ void GLPlatonicSolid::renderAsLines(const Vector3List& vertices, const LineList&
 {
 	glBegin(GL_LINES);
 	glColor3f(1.0f, 1.0f, 1.0f);
-	for (LineList::const_iterator it = lines.begin(); (it != lines.end()); it++)
+
+	for (int i = 0; (i < lines.size()); i++)
 	{
-		const Vector3& v1 = vertices[it->v1];
-		const Vector3& v2 = vertices[it->v2];
+		const Line& line = lines[i];
+
+		// There is also suppoer for alternating colours on lines
+		if (colMode == TRIANGLE_COL_ALTERNATE)
+		{
+			int colIndex = i % NUM_ALTERNATING_COLOURS;
+			const Vector3& lineCol = ALTERNATING_TRIANGLE_COLOURS[colIndex];
+			glColor3f(lineCol.x, lineCol.y, lineCol.z);
+		}
+
+		const Vector3& v1 = vertices[line.v1];
+		const Vector3& v2 = vertices[line.v2];
 		glVertex3f(v1.x, v1.y, v1.z);
 		glVertex3f(v2.x, v2.y, v2.z);
 	}
@@ -106,7 +122,7 @@ void GLPlatonicSolid::renderAsTriangles(const Vector3List& vertices, const Trian
 	{
 		for (int i = 0; (i < triangles.size()); i++)
 		{
-			int colIndex = i % 8;
+			int colIndex = i % NUM_ALTERNATING_COLOURS;
 			triangleColours.push_back( ALTERNATING_TRIANGLE_COLOURS[colIndex] );
 		}
 	}
