@@ -1,6 +1,7 @@
 #include <QGLWidget>
 #include "Mesh.h"
 #include "Matrix44.h"
+#include "Common.h"
 
 Mesh::~Mesh()
 {
@@ -42,6 +43,13 @@ void Mesh::renderVertex(const Vertex& v)
 	glVertex3f(v.position.x, v.position.y, v.position.y);
 }
 
+void Mesh::renderTriangle(const VertexList& verticesToUse, const Triangle& tri)
+{
+	renderVertex( verticesToUse[tri.v1] );
+	renderVertex( verticesToUse[tri.v2] );
+	renderVertex( verticesToUse[tri.v3] );
+}
+
 void Mesh::render()
 {
 	glMatrixMode(GL_MODELVIEW);
@@ -49,24 +57,35 @@ void Mesh::render()
 	glLoadIdentity();
 
 	// Perform local model transformations on mesh
-	Matrix44 transformation = transformation * Matrix44::translation(pos.x, pos.y, pos.z);
+	Matrix44 transformation =  Matrix44::translation(pos.x, pos.y, pos.z);
 	transformation = transformation * Matrix44::xyzRotation(rot);
 	// Compute transformed vertices
 	VertexList transformedVerts;
 	transformedVerts.reserve( verts.size() );
 	for (VertexList::const_iterator it = verts.begin(); (it != verts.end()); it++)
 	{
-		Vertex newVert = (*it);//{ transformation * it->position, transformation * it->normal };
+		Vertex newVert;
+		newVert.position = transformation * it->position;
+		newVert.normal = transformation * it->normal;
 		transformedVerts.push_back(newVert);
 	}
 	
 	// Draw the vertex on the screen
 	glBegin(GL_TRIANGLES);
-	for (TriangleList::const_iterator it = tris.begin(); (it != tris.end()); it++)
+	if (triangleColouring == MESH_ALTERNATING_TRIANGLES)
 	{
-		renderVertex( transformedVerts[it->v1] );
-		renderVertex( transformedVerts[it->v2] );
-		renderVertex( transformedVerts[it->v3] );
+		// Whole for-loop put it if-statement so there isn't a branch every iteration (costly operation)
+		for (unsigned int i = 0; (i < tris.size()); i++)
+		{
+			const Vector3& col = ALTERNATING_TRIANGLE_COLOURS[i % NUM_ALTERNATING_COLOURS];
+			glColor3f(col.x, col.y, col.y);
+			renderTriangle(transformedVerts, tris[i]);
+		}
+	}
+	else
+	{
+		for (TriangleList::const_iterator it = tris.begin(); (it != tris.end()); it++)	
+			renderTriangle(transformedVerts, *it);
 	}
 	glEnd();
 

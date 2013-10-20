@@ -27,6 +27,7 @@ public:
 	void setColouring(Colouring newColouring);
 
 	void renderVertex(const Vertex& v);
+	void renderTriangle(const VertexList& verticesToUse, const Triangle& tri);
 	void render();
 
 private:
