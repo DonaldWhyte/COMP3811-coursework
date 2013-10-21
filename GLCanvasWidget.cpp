@@ -38,18 +38,10 @@ void GLCanvasWidget::resizeGL(int width, int height)
 
 void GLCanvasWidget::setupProjection(int width, int height)
 {
-	// Compute frustrum parameters for a perspective projection
-	float zNear = -100.0f;
-	float zFar = 100.0f;
-	float fovyInDegrees = 60.0f;
-	float aspectRatio = static_cast<float>(width) / height;
-	float yMax = zNear * tanf(fovyInDegrees * PI / 360.0f);
-	float xMax = yMax * aspectRatio;
-
-	// Setup projection and viewport
+	// Setup orthographic projection
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glFrustum(-xMax, xMax, -yMax, yMax, zNear, zFar); // TODO: fix
+	glOrtho(-1.0f, 1.0f, -1.0f, 1.0f, -10, 10);
 	glMatrixMode(GL_MODELVIEW);
 }
 

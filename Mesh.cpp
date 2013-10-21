@@ -89,7 +89,7 @@ void Mesh::render()
 		// Whole for-loop put it if-statement so there isn't a branch every iteration (costly operation)
 		for (unsigned int i = 0; (i < tris.size()); i++)
 		{
-			const Vector3& col = ALTERNATING_TRIANGLE_COLOURS[static_cast<int>(0.5f * i) % NUM_ALTERNATING_COLOURS];
+			const Vector3& col = ALTERNATING_TRIANGLE_COLOURS[i % NUM_ALTERNATING_COLOURS];
 			glColor3f(col.x, col.y, col.y);
 			renderTriangle(transformedVerts, tris[i]);
 		}
