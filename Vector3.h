@@ -11,6 +11,11 @@ public:
 	Vector3();
 	Vector3(float x, float y, float z);
 
+	Vector3 negate() const;
+	float length() const;
+	float sqrLength() const;
+	Vector3 normalise() const;
+
 	float x;
 	float y;
 	float z;

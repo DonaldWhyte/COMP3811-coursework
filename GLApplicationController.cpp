@@ -101,6 +101,17 @@ void GLApplicationController::colourChooserIndexChanged(int newIndex)
 	Mesh* meshObject = dynamic_cast<Mesh*>(drawable);
 	if (meshObject)
 		meshObject->setColouring( static_cast<Mesh::Colouring>(newIndex) );
+	// Depending on colourig, change lighting parameers
+	LightingModel lightingModel = LIGHTING_MODEL_NONE;
+	switch (newIndex)
+	{
+	case 2: // flat shading
+		lightingModel = LIGHTING_MODEL_FLAT;
+	case 3: // smooth shading
+	case 4:
+		lightingModel = LIGHTING_MODEL_SMOOTH;
+	}
+	lightingManager.setLightingModel(lightingModel);
 
 	window->resetInterface();
 }

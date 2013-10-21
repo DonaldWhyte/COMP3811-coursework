@@ -4,6 +4,7 @@
 #include <QTimer>
 #include "GLWindow.h"
 #include "Drawable.h"
+#include "LightingManager.h"
 
 /* Controller for main program. */
 class GLApplicationController : public QObject
@@ -31,6 +32,8 @@ private:
 	GLWindow* window;
 	Drawable* drawable;
 	QTimer* animationTimer;
+
+	LightingManager lightingManager; // manages lights and lighting model
 
 	// If set to true, then the polygon drawn will be animated
 	bool animating;

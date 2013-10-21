@@ -11,8 +11,8 @@ Sphere::Sphere(float radius, int numRings, int numQuadsPerRing) : Mesh()
 	for (unsigned int ring = 0; (ring < numRings); ring++)
 	{
 		// Per-ring parameters
-		float phi = -(PI / 2.0f) + (ring * (PI/ numRings));
-		float nextPhi = -(PI / 2.0f) + ((ring + 1.0f) * (PI / numRings));
+		float phi = -(PI / 2.0f) + (static_cast<float>(ring) * (PI / numRings));
+		float nextPhi = -(PI / 2.0f) + (static_cast<float>(ring + 1) * (PI / numRings));
 		float cosPhi = cos(phi);
 		float sinPhi = sin(phi);
 		float cosNextPhi = cos(nextPhi);
@@ -20,8 +20,8 @@ Sphere::Sphere(float radius, int numRings, int numQuadsPerRing) : Mesh()
 		for (unsigned int quad = 0; (quad < numQuadsPerRing); quad++)
 		{
 			// Compute parameters for computing vertices
-			float theta = quad * ((2.0f * PI) / numQuadsPerRing);
-			float nextTheta = (quad + 1.0f) * ((2.0f * PI) / numQuadsPerRing);
+			float theta = static_cast<float>(quad) * ((2.0f * PI) / numQuadsPerRing);
+			float nextTheta = static_cast<float>(quad + 1) * ((2.0f * PI) / numQuadsPerRing);
 			float cosTheta = cos(theta);
 			float sinTheta = sin(theta);
 			float cosNextTheta = cos(nextTheta);
@@ -30,22 +30,22 @@ Sphere::Sphere(float radius, int numRings, int numQuadsPerRing) : Mesh()
 			Vertex v1, v2, v3, v4;
 			// phi_i, theta_j
 			v1.position = Vector3(radius * cosPhi * cosTheta, radius * cosPhi * sinTheta, radius * sinPhi);
-			v1.normal = v1.position;
+			v1.normal = v1.position.normalise();
 			// phi_i, theta_j+1
 			v2.position = Vector3(radius * cosPhi * cosNextTheta, radius * cosPhi * sinNextTheta, radius * sinPhi);
-			v2.normal = v2.position;
+			v2.normal = v2.position.normalise();
 			// phi_i+1, theta_j+1
 			v3.position = Vector3(radius * cosNextPhi * cosNextTheta, radius * cosNextPhi * sinNextTheta, radius * sinNextPhi);
-			v3.normal = v3.position;
+			v3.normal = v3.position.normalise();
 			// phi_i+1, theta_j
 			v4.position = Vector3(radius * cosNextPhi * cosTheta, radius * cosNextPhi * sinTheta, radius * sinNextPhi);
-			v4.normal = v4.position;
+			v4.normal = v4.position.normalise();
 			generatedVertices.push_back(v1); generatedVertices.push_back(v2);
 			generatedVertices.push_back(v3); generatedVertices.push_back(v4);
 
 			// Create two triangles to render the quad
 			generatedTriangles.push_back( Triangle(vertexCounter, vertexCounter+1, vertexCounter+2) );
-			generatedTriangles.push_back( Triangle(vertexCounter+2, vertexCounter, vertexCounter+3) );
+			generatedTriangles.push_back( Triangle(vertexCounter+3, vertexCounter, vertexCounter+2) );
 			vertexCounter += 4;
 		}
 	}

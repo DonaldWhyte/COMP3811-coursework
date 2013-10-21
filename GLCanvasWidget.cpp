@@ -19,6 +19,9 @@ void GLCanvasWidget::initializeGL()
 	glClearColor(0.3, 0.3, 0.3, 0.0);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
+	// Enable back-face culling for efficiency
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 
 	glPointSize(5.0f);
 	glLineWidth(3.0f);
