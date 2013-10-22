@@ -110,7 +110,6 @@ void GLApplicationController::colourChooserIndexChanged(int newIndex)
 		lightingModel = LIGHTING_MODEL_FLAT;
 		break;
 	case 3: // smooth shading
-	case 4:
 		lightingModel = LIGHTING_MODEL_SMOOTH;
 		break;
 	}

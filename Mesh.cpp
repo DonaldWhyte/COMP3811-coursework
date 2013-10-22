@@ -53,6 +53,7 @@ void Mesh::setTexture(Texture* newTexture)
 
 void Mesh::renderVertex(const Vertex& v)
 {
+	glTexCoord2f(0.0f, 0.0f);
 	glNormal3f(v.normal.x, v.normal.y, v.normal.z);
 	glVertex3f(v.position.x, v.position.y, v.position.y);
 }
@@ -88,6 +89,17 @@ void Mesh::renderNormals(const VertexList& vertices)
 
 void Mesh::render()
 {
+	// If texturing has been enabled, ensure we set the correct OpenGL state
+	if (triangleColouring == MESH_TEXTURE)
+	{
+		// If texture hasn't been loaded yet - load it now!
+		// This is lazy initialisation
+		if (!surfaceTexture)
+			surfaceTexture = new Texture("resources/world_texture.jpg");
+		glEnable(GL_TEXTURE_2D);
+		surfaceTexture->bind();
+	}
+
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
@@ -125,6 +137,13 @@ void Mesh::render()
 	}
 	glEnd();
 
-
 	glPopMatrix();
+
+	// Make sure the mesh's texture is unbinded after rendering
+	if (triangleColouring == MESH_TEXTURE)
+	{
+		if (surfaceTexture)
+			surfaceTexture->unbind();
+		glDisable(GL_TEXTURE_2D);
+	}
 }
