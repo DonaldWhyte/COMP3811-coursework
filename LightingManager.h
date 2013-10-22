@@ -13,6 +13,7 @@ class LightingManager
 
 public:
 	LightingManager();
+	void initialise();
 
 	LightingModel lightingModel() const;
 	void setLightingModel(LightingModel newModel);

@@ -28,9 +28,13 @@ public:
 
 	void renderVertex(const Vertex& v);
 	void renderTriangle(const VertexList& verticesToUse, const Triangle& tri);
+	void renderPoints(const VertexList& vertices);
+	void renderNormals(const VertexList& vertices);
 	void render();
 
 private:
+	static const float NORMAL_SCALING_FACTOR = 0.05f;
+
 	VertexList verts;
 	TriangleList tris;
 	Colouring triangleColouring;

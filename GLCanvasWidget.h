@@ -4,6 +4,7 @@
 #include <QGLWidget>
 #include <QMouseEvent>
 #include "Drawable.h"
+#include "LightingManager.h"
 
 /* Widget that uses OpenGL to render a single object. */
 class GLCanvasWidget : public QGLWidget
@@ -14,6 +15,8 @@ class GLCanvasWidget : public QGLWidget
 public:
 	GLCanvasWidget(QWidget* parent, Drawable* drawableObject);
 	void setDrawable(Drawable* newDrawable);
+
+	void setLightingModel(LightingModel lModel);
 
 protected:
 	void initializeGL();
@@ -34,6 +37,7 @@ private:
 	bool processMouseEvent(QMouseEvent* event);
 
 	Drawable* drawable;
+	LightingManager lightingManager; // manages lighting in scene and lighting model used
 	float oldMouseY;
 
 signals:

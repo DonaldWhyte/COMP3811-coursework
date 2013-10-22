@@ -1,20 +1,24 @@
 #include "LightingManager.h"
 #include <QGLWidget> // for OpenGL functions
 
-const float LightingManager::LIGHT_POSITION[4] = { 0.5f, 0.0f, 0.0f, 1.0f };
-const float LightingManager::AMBIENT_COLOUR[4] = { 0.3f, 0.3f, 0.3f, 1.0f };
+const float LightingManager::LIGHT_POSITION[4] = { -100, 100, 0, 1 };
+const float LightingManager::AMBIENT_COLOUR[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
 const float LightingManager::DIFFUSE_COLOUR[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 const float LightingManager::SPECULAR_COLOUR[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 
-LightingManager::LightingManager()
+LightingManager::LightingManager() : lModel(LIGHTING_MODEL_NONE)
 {
-	setLightingModel(LIGHTING_MODEL_NONE);
-	setupLights();
 }
 
 LightingModel LightingManager::lightingModel() const
 {
 	return lModel;
+}
+
+void LightingManager::initialise()
+{
+	setLightingModel(LIGHTING_MODEL_NONE);
+	setupLights();
 }
 
 void LightingManager::setLightingModel(LightingModel newModel) 
@@ -47,18 +51,17 @@ void LightingManager::enableLighting(bool enabled)
 	if (enabled)
 	{
 		glEnable(GL_LIGHTING);
-		glEnable(GL_COLOR_MATERIAL);
+		glEnable(GL_LIGHT0);
 	}
 	else
 	{
 		glDisable(GL_LIGHTING);
-		glDisable(GL_COLOR_MATERIAL);
-	}	
+		glDisable(GL_LIGHT0);
+	}
 }
 
 void LightingManager::setupLights()
 {
-	glEnable(GL_LIGHT0);
 	glLightfv(GL_LIGHT0, GL_POSITION, LIGHT_POSITION);
 	glLightfv(GL_LIGHT0, GL_AMBIENT, AMBIENT_COLOUR);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, DIFFUSE_COLOUR);

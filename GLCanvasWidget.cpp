@@ -14,6 +14,11 @@ void GLCanvasWidget::setDrawable(Drawable* newDrawable)
 	drawable = newDrawable;
 }
 
+void GLCanvasWidget::setLightingModel(LightingModel lModel)
+{
+	lightingManager.setLightingModel(lModel);
+}
+
 void GLCanvasWidget::initializeGL()
 {
 	glClearColor(0.3, 0.3, 0.3, 0.0);
@@ -22,12 +27,29 @@ void GLCanvasWidget::initializeGL()
 	// Enable back-face culling for efficiency
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
+	// Will make OpenGL automatically normalise vertex normals
+	glEnable(GL_NORMALIZE);
 
 	glPointSize(5.0f);
 	glLineWidth(3.0f);
 
-	//setupProjection(this->width(), this->height());
+	setupProjection(this->width(), this->height());
 	setupViewport(this->width(), this->height());
+
+	lightingManager.initialise();
+
+/*	
+     glEnable(GL_LIGHTING);
+     glShadeModel(GL_SMOOTH);
+     glEnable(GL_LIGHT0);
+     static const GLfloat black[4] = {0.0, 0.0, 0.0, 1.0};
+     static const GLfloat white[4] = {1.0, 1.0, 1.0, 1.0};
+     static const GLfloat red[4] = {1.0, 0.0, 0.5, 0.0};
+     static const float lightPosition[] = { -100, 100, 0, 1 };
+     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+     glLightfv(GL_LIGHT0, GL_AMBIENT, red); glLightfv(GL_LIGHT0, GL_DIFFUSE, white);
+     glLightfv(GL_LIGHT0, GL_SPECULAR, black);	
+*/	
 }
 
 void GLCanvasWidget::resizeGL(int width, int height)

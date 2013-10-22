@@ -15,11 +15,25 @@ public:
 	float length() const;
 	float sqrLength() const;
 	Vector3 normalise() const;
+	 
+	float dot(const Vector3& vec) const;
+	Vector3 cross(const Vector3& vec) const;
 
-	float x;
-	float y;
-	float z;
+	union 
+	{
+		struct
+		{
+			float x;
+			float y;
+			float z;
+		};
+		float elems[3];
+	};
 };
+
+Vector3 operator +(const Vector3& a, const Vector3& b);
+Vector3 operator -(const Vector3& a, const Vector3& b);
+Vector3 operator *(const Vector3& vec, float scalar);
 
 // For pretty printing
 std::ostream& operator<<(std::ostream& os, const Vector3& vec);

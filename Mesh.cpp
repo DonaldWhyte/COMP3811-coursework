@@ -50,6 +50,28 @@ void Mesh::renderTriangle(const VertexList& verticesToUse, const Triangle& tri)
 	renderVertex( verticesToUse[tri.v3] );
 }
 
+void Mesh::renderPoints(const VertexList& vertices)
+{
+	glBegin(GL_POINTS);
+		for (VertexList::const_iterator it = vertices.begin(); (it != vertices.end()); it++)
+			glVertex3f(it->position.x, it->position.y, it->position.x);
+	glEnd();
+}
+
+void Mesh::renderNormals(const VertexList& vertices)
+{
+	glBegin(GL_LINES);
+		for (VertexList::const_iterator it = vertices.begin(); (it != vertices.end()); it++)
+		{
+			const Vector3& position = it->position;
+			const Vector3& normal = it->normal;
+			Vector3 end = position + (normal * NORMAL_SCALING_FACTOR);
+			glVertex3f(it->position.x, it->position.y, it->position.z);
+			glVertex3f(end.x, end.y, end.y);	
+		}
+	glEnd();
+}
+
 void Mesh::render()
 {
 	glMatrixMode(GL_MODELVIEW);
@@ -66,22 +88,10 @@ void Mesh::render()
 	{
 		Vertex newVert;
 		newVert.position = transformation * it->position;
-		newVert.normal = transformation * it->normal;
+		newVert.normal = (transformation * it->normal).normalise();
 		transformedVerts.push_back(newVert);
 	}
 	
-	/*glBegin(GL_POINTS);
-		for (VertexList::const_iterator it = transformedVerts.begin(); (it != transformedVerts.end()); it++)
-			glVertex3f(it->position.x, it->position.y, it->position.x);
-	glEnd();
-	return;*/
-
-	// Specify mesh's surface material
-	// TODO: put these colours somewhere else
-	float greyColour[4] = { 0.4f, 0.8f, 0.4f, 1.0f };
-	float whiteColour[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, greyColour);
-	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, whiteColour);
 	// Draw the vertex on the screen
 	glBegin(GL_TRIANGLES);
 	if (triangleColouring == MESH_ALTERNATING_TRIANGLES)
@@ -100,6 +110,7 @@ void Mesh::render()
 			renderTriangle(transformedVerts, *it);
 	}
 	glEnd();
+
 
 	glPopMatrix();
 }

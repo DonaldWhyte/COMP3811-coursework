@@ -71,7 +71,7 @@ void GLApplicationController::objectChooserIndexChanged(int newIndex)
 	switch (newIndex)
 	{
 	case 0: // Sphere
-		drawable = new Sphere(0.25, 10, 10);
+		drawable = new Sphere(0.5, 10, 10);
 		break;
 	case 1: // Cylinder
 		//drawable = new Cylinder();
@@ -95,6 +95,7 @@ void GLApplicationController::objectChooserIndexChanged(int newIndex)
 	window->resetInterface();
 }
 
+#include <iostream>
 void GLApplicationController::colourChooserIndexChanged(int newIndex)
 {
 	// If object is an instance of mesh, assign new colouring
@@ -107,11 +108,13 @@ void GLApplicationController::colourChooserIndexChanged(int newIndex)
 	{
 	case 2: // flat shading
 		lightingModel = LIGHTING_MODEL_FLAT;
+		break;
 	case 3: // smooth shading
 	case 4:
 		lightingModel = LIGHTING_MODEL_SMOOTH;
+		break;
 	}
-	lightingManager.setLightingModel(lightingModel);
+	window->canvasWidget->setLightingModel(lightingModel);
 
 	window->resetInterface();
 }
