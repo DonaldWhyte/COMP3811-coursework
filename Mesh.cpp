@@ -147,3 +147,25 @@ void Mesh::render()
 		glDisable(GL_TEXTURE_2D);
 	}
 }
+
+Vector3List Mesh::computeSurfaceNormals(const VertexList& vertices, const TriangleList& triangles)
+{
+	Vector3List normals;
+	normals.resize(vertices.size());
+
+	for (TriangleList::const_iterator it = triangles.begin();
+		(it != triangles.end()); it++)
+	{
+		// Get two points of the triangle and create two vectors from them (sides of triangle)
+		Vector3 s1 = vertices[it->v2].position - vertices[it->v1].position;
+		Vector3 s2 = vertices[it->v3].position - vertices[it->v1].position;
+		// Compute cross product of sides to get surface normal
+		Vector3 surfaceNormal = s1.cross(s2);
+		// Assign this surface normal to all v
+		normals[it->v1] = surfaceNormal;
+		normals[it->v2] = surfaceNormal;
+		normals[it->v3] = surfaceNormal;
+	}
+
+	return normals;
+}

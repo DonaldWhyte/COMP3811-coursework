@@ -39,6 +39,13 @@ public:
 	void render();
 
 private:
+	/* Return list of normals for given vertices (returned list
+ 	 * has same size as vertex list given) which are the normals
+ 	 * of the CORRESPONDING SURFACE THE VERTEX IS PART OF.
+ 	 * NOTE: This assumes that NO vertices are shared between triangles.
+ 	 */
+	Vector3List computeSurfaceNormals(const VertexList& vertices, const TriangleList& triangles);
+
 	static const float NORMAL_SCALING_FACTOR = 0.05f;
 
 	VertexList verts;
