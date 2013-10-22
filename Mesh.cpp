@@ -3,6 +3,10 @@
 #include "Matrix44.h"
 #include "Common.h"
 
+Mesh::Mesh() : triangleColouring(MESH_COLOUR_SAME), surfaceTexture(NULL)
+{
+}
+
 Mesh::~Mesh()
 {
 }
@@ -35,6 +39,16 @@ Mesh::Colouring Mesh::colouring() const
 void Mesh::setColouring(Mesh::Colouring newColouring)
 {
 	triangleColouring = newColouring;
+}
+
+Texture* Mesh::texture() const
+{
+	return surfaceTexture;
+}
+
+void Mesh::setTexture(Texture* newTexture)
+{
+	surfaceTexture = newTexture;
 }
 
 void Mesh::renderVertex(const Vertex& v)

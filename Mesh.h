@@ -3,6 +3,7 @@
 
 #include "Drawable.h"
 #include "Geometry.h"
+#include "Texture.h"
 
 class Mesh : public Drawable
 {
@@ -17,14 +18,19 @@ public:
 		MESH_TEXTURE
 	};
 
+	Mesh();
 	virtual ~Mesh();
 
+	/* Getters and setters for geometry. */
 	const VertexList& vertices() const;
 	void setVertices(const VertexList& newVerts);
 	const TriangleList& triangles() const;
 	void setTriangles(const TriangleList& triangles); 
+	/* Getters and setters for surface colouring. */
 	Colouring colouring() const;
 	void setColouring(Colouring newColouring);
+	Texture* texture() const;
+	void setTexture(Texture* texture);
 
 	void renderVertex(const Vertex& v);
 	void renderTriangle(const VertexList& verticesToUse, const Triangle& tri);
@@ -38,6 +44,7 @@ private:
 	VertexList verts;
 	TriangleList tris;
 	Colouring triangleColouring;
+	Texture* surfaceTexture;
 
 };
 
