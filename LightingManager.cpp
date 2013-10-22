@@ -3,7 +3,7 @@
 
 const float LightingManager::LIGHT_POSITION[4] = { -100, 100, 0, 1 };
 const float LightingManager::AMBIENT_COLOUR[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
-const float LightingManager::DIFFUSE_COLOUR[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+const float LightingManager::DIFFUSE_COLOUR[4] = { 2.0f, 2.0f, 2.0f, 1.0f };
 const float LightingManager::SPECULAR_COLOUR[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 
 LightingManager::LightingManager() : lModel(LIGHTING_MODEL_NONE)

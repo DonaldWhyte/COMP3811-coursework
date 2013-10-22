@@ -8,7 +8,7 @@ int main(int argc, char* argv[])
 {
 	QApplication app(argc, argv);
 
-	Drawable* drawable = new Sphere(0.5f, 32, 32);
+	Drawable* drawable = new Sphere(0.5f, 64, 64);
 	GLWindow* window = new GLWindow(NULL, drawable);
 	GLApplicationController* controller = new GLApplicationController(window, drawable);
 
