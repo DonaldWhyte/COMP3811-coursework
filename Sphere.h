@@ -11,6 +11,8 @@ class Sphere : public Mesh
 public:
 	Sphere(float radius, int numRings, int numQuadsPerRing);
 	virtual ~Sphere();
+	
+	TexCoord computeTexCoord(const Vector3& positionOnSphere);
 
 };
 

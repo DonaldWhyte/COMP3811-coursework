@@ -17,7 +17,7 @@ public:
 	int height() const;
 
 private:
-	QImage* texImage;
+	QImage texImage;
 	unsigned int texID; // ID of texture in OpenGL
 
 };

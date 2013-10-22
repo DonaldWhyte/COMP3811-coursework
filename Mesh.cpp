@@ -53,7 +53,7 @@ void Mesh::setTexture(Texture* newTexture)
 
 void Mesh::renderVertex(const Vertex& v)
 {
-	glTexCoord2f(0.0f, 0.0f);
+	glTexCoord2f(v.texCoord.s, v.texCoord.t);
 	glNormal3f(v.normal.x, v.normal.y, v.normal.z);
 	glVertex3f(v.position.x, v.position.y, v.position.y);
 }
@@ -112,9 +112,9 @@ void Mesh::render()
 	transformedVerts.reserve( verts.size() );
 	for (VertexList::const_iterator it = verts.begin(); (it != verts.end()); it++)
 	{
-		Vertex newVert;
-		newVert.position = transformation * it->position;
-		newVert.normal = (transformation * it->normal).normalise();
+		Vertex newVert = (*it);
+		newVert.position = transformation * newVert.position;
+		newVert.normal = (transformation * newVert.normal).normalise();
 		transformedVerts.push_back(newVert);
 	}
 	

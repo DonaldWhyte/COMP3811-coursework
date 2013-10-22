@@ -31,15 +31,19 @@ Sphere::Sphere(float radius, int numRings, int numQuadsPerRing) : Mesh()
 			// phi_i, theta_j
 			v1.position = Vector3(radius * cosPhi * cosTheta, radius * cosPhi * sinTheta, radius * sinPhi);
 			v1.normal = v1.position.normalise();
+			v1.texCoord = computeTexCoord(v1.normal);
 			// phi_i, theta_j+1
 			v2.position = Vector3(radius * cosPhi * cosNextTheta, radius * cosPhi * sinNextTheta, radius * sinPhi);
 			v2.normal = v2.position.normalise();
+			v2.texCoord = computeTexCoord(v2.normal);
 			// phi_i+1, theta_j+1
 			v3.position = Vector3(radius * cosNextPhi * cosNextTheta, radius * cosNextPhi * sinNextTheta, radius * sinNextPhi);
 			v3.normal = v3.position.normalise();
+			v3.texCoord = computeTexCoord(v3.normal);
 			// phi_i+1, theta_j
 			v4.position = Vector3(radius * cosNextPhi * cosTheta, radius * cosNextPhi * sinTheta, radius * sinNextPhi);
 			v4.normal = v4.position.normalise();
+			v4.texCoord = computeTexCoord(v4.normal);
 			generatedVertices.push_back(v1); generatedVertices.push_back(v2);
 			generatedVertices.push_back(v3); generatedVertices.push_back(v4);
 
@@ -56,4 +60,11 @@ Sphere::Sphere(float radius, int numRings, int numQuadsPerRing) : Mesh()
 
 Sphere::~Sphere()
 {
+}
+
+TexCoord Sphere::computeTexCoord(const Vector3& posOnSphere)
+{
+	float s = 0.5f + (atan2(posOnSphere.z, posOnSphere.x) / (2.0f * PI));
+	float t = 0.5f - (asin(posOnSphere.y) / PI);
+	return TexCoord(s, t); 
 }

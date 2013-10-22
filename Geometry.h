@@ -24,11 +24,20 @@ struct Triangle
 	Triangle(int v1, int v2, int v3) : v1(v1), v2(v2), v3(v3) { }
 };
 
+/* Simple structure used for texture coordinates. */
+struct TexCoord
+{
+	float s, t;
+	TexCoord() : s(0.0f), t(0.0f) { }
+	TexCoord(float s, float t) : s(s), t(t) { }
+};
+
 /* Generic structure for storing all of a vertices properties. */
 struct Vertex
 {
 	Vector3 position;
 	Vector3 normal;
+	TexCoord texCoord;
 };
 
 typedef std::vector<Line> LineList;
