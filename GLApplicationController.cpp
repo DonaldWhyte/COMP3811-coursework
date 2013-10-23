@@ -4,7 +4,7 @@
 #include <typeinfo>
 #include "GLPlatonicSolid.h"
 #include "Sphere.h"
-//#include "Cylinder.h"
+#include "Cylinder.h"
 //#include "Cone.h"
 //#include "Torus.h"
 
@@ -71,10 +71,10 @@ void GLApplicationController::objectChooserIndexChanged(int newIndex)
 	switch (newIndex)
 	{
 	case 0: // Sphere
-		drawable = new Sphere(0.5, 10, 10);
+		drawable = new Sphere(0.5, 64, 64);
 		break;
 	case 1: // Cylinder
-		//drawable = new Cylinder();
+		drawable = new Cylinder(0.5, 0.5f, 64);
 		break;
 	case 2: // Cone
 		//drawable = new Cone();
@@ -95,7 +95,6 @@ void GLApplicationController::objectChooserIndexChanged(int newIndex)
 	window->resetInterface();
 }
 
-#include <iostream>
 void GLApplicationController::colourChooserIndexChanged(int newIndex)
 {
 	// If object is an instance of mesh, assign new colouring

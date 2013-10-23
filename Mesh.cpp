@@ -3,7 +3,7 @@
 #include "Matrix44.h"
 #include "Common.h"
 
-Mesh::Mesh() : triangleColouring(MESH_COLOUR_SAME), surfaceTexture(NULL)
+Mesh::Mesh() : triangleColouring(MESH_COLOUR_SAME), surfaceTexture(NULL), useSurfaceNormals(false)
 {
 }
 
@@ -98,6 +98,7 @@ void Mesh::renderNormals(const VertexList& vertices)
 	glEnd();
 }
 
+#include <iostream>
 void Mesh::render()
 {
 	// If texturing has been enabled, ensure we set the correct OpenGL state
@@ -134,12 +135,15 @@ void Mesh::render()
 		it->position = transformation * it->position;
 		it->normal = (transformation * it->normal).normalise();
 	}
+
+	//renderPoints(transformedVerts);
+	//return;
 	
 	// Draw the vertex on the screen
 	glBegin(GL_TRIANGLES);
 	if (triangleColouring == MESH_ALTERNATING_TRIANGLES)
 	{
-		// Whole for-loop put it if-statement so there isn't a branch every iteration (costly operation)
+		// Whole for-loop put it if-statement so there isn't a branch every iteration (costly operation
 		for (unsigned int i = 0; (i < tris.size()); i++)
 		{
 			const Vector3& col = ALTERNATING_TRIANGLE_COLOURS[i % NUM_ALTERNATING_COLOURS];
