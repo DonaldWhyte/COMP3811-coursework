@@ -101,7 +101,14 @@ void GLApplicationController::colourChooserIndexChanged(int newIndex)
 	// If object is an instance of mesh, assign new colouring
 	Mesh* meshObject = dynamic_cast<Mesh*>(drawable);
 	if (meshObject)
-		meshObject->setColouring( static_cast<Mesh::Colouring>(newIndex) );
+	{
+		Mesh::Colouring newColouring = static_cast<Mesh::Colouring>(newIndex);
+		meshObject->setColouring(newColouring);
+		if (newColouring == Mesh::MESH_FLAT_SHADING)
+			meshObject->setPerFaceNormals(true);
+		else
+			meshObject->setPerFaceNormals(false);
+	}
 	// Depending on colourig, change lighting parameers
 	LightingModel lightingModel = LIGHTING_MODEL_NONE;
 	switch (newIndex)

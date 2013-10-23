@@ -32,6 +32,9 @@ public:
 	Texture* texture() const;
 	void setTexture(Texture* texture);
 
+	bool usingPerFaceNormals() const;
+	void setPerFaceNormals(bool usePerFace);
+
 	void renderVertex(const Vertex& v);
 	void renderTriangle(const VertexList& verticesToUse, const Triangle& tri);
 	void renderPoints(const VertexList& vertices);
@@ -52,6 +55,8 @@ private:
 	TriangleList tris;
 	Colouring triangleColouring;
 	Texture* surfaceTexture;
+
+	bool useSurfaceNormals;
 
 };
 

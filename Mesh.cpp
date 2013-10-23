@@ -51,6 +51,17 @@ void Mesh::setTexture(Texture* newTexture)
 	surfaceTexture = newTexture;
 }
 
+
+bool Mesh::usingPerFaceNormals() const
+{
+	return useSurfaceNormals;
+}
+
+void Mesh::setPerFaceNormals(bool usePerFace)
+{
+	useSurfaceNormals = usePerFace;
+}
+
 void Mesh::renderVertex(const Vertex& v)
 {
 	glTexCoord2f(v.texCoord.s, v.texCoord.t);
@@ -107,15 +118,21 @@ void Mesh::render()
 	// Perform local model transformations on mesh
 	Matrix44 transformation =  Matrix44::translation(pos.x, pos.y, pos.z);
 	transformation = transformation * Matrix44::xyzRotation(rot);
-	// Compute transformed vertices
-	VertexList transformedVerts;
-	transformedVerts.reserve( verts.size() );
-	for (VertexList::const_iterator it = verts.begin(); (it != verts.end()); it++)
+	// Transform vertices using position and orientation of drawable
+	VertexList transformedVerts = verts;
+	// If using per-face normals and not per-vertex normals, compute surface normals now
+	if (useSurfaceNormals)
 	{
-		Vertex newVert = (*it);
-		newVert.position = transformation * newVert.position;
-		newVert.normal = (transformation * newVert.normal).normalise();
-		transformedVerts.push_back(newVert);
+		Vector3List surfaceNormals = computeSurfaceNormals(transformedVerts, tris);
+		for (int i = 0; (i < surfaceNormals.size()); i++)
+		{
+			transformedVerts[i].normal = surfaceNormals[i];
+		}
+	}
+	for (VertexList::iterator it = transformedVerts.begin(); (it != transformedVerts.end()); it++)
+	{
+		it->position = transformation * it->position;
+		it->normal = (transformation * it->normal).normalise();
 	}
 	
 	// Draw the vertex on the screen
