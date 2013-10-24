@@ -6,7 +6,7 @@
 #include "Sphere.h"
 #include "Cylinder.h"
 #include "Cone.h"
-//#include "Torus.h"
+#include "Torus.h"
 
 GLApplicationController::GLApplicationController(GLWindow* window, Drawable* drawableObject)
 	: window(window), drawable(drawableObject), animating(false)
@@ -71,7 +71,7 @@ void GLApplicationController::objectChooserIndexChanged(int newIndex)
 	switch (newIndex)
 	{
 	case 0: // Sphere
-		drawable = new Sphere(0.5, 64, 64);
+		drawable = new Sphere(0.5f, 64, 64);
 		break;
 	case 1: // Cylinder
 		drawable = new Cylinder(0.75f, 0.5f, 64);
@@ -80,7 +80,7 @@ void GLApplicationController::objectChooserIndexChanged(int newIndex)
 		drawable = new Cone(0.75f, 0.5f, 64);
 		break;
 	case 3: // Torus
-		//drawable = new Torus();
+		drawable = new Torus(0.5f, 16, 16);
 		break;
 	default: // if default case, just do nothing and leave current object
 		return;
