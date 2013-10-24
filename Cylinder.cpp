@@ -16,14 +16,18 @@ Cylinder::Cylinder(float height, float radius, int numSegments) : Mesh()
 		float x2 = radius * sin(nextAngle), y2 = radius * cos(nextAngle);
 		
 		Vertex v1, v2, v3, v4;
-		v1.position = Vector3(x1, y1, 0.0f);
+		v1.position = Vector3(x1, y1, -(height / 2.0f));
 		v1.normal = Vector3(x1, y1, 0.0f).normalise();
-		v2.position = Vector3(x2, y2, height);
+		v1.texCoord = computeTexCoord(angle, v1.position.z, height);
+		v2.position = Vector3(x2, y2, height / 2.0f);
 		v2.normal = Vector3(x2, y2, 0.0f).normalise();
-		v3.position = Vector3(x1, y1, height);
+		v2.texCoord = computeTexCoord(nextAngle, v2.position.z, height);
+		v3.position = Vector3(x1, y1, height / 2.0f);
 		v3.normal = Vector3(x1, y1, 0.0f).normalise();
-		v4.position = Vector3(x2, y2, 0.0f);
+		v3.texCoord = computeTexCoord(angle, v3.position.z, height);
+		v4.position = Vector3(x2, y2, -(height / 2.0f));
 		v4.normal = Vector3(x2, y2, 0.0f).normalise();
+		v4.texCoord = computeTexCoord(nextAngle, v4.position.z, height);
 		generatedVertices.push_back(v1); generatedVertices.push_back(v2);
 		generatedVertices.push_back(v3); generatedVertices.push_back(v4);
 	
@@ -33,10 +37,12 @@ Cylinder::Cylinder(float height, float radius, int numSegments) : Mesh()
 	}
 	// Generate top and bottom sections
 	Vertex topCentre, bottomCentre;
-	topCentre.position = Vector3(0.0f, 0.0f, height);
+	topCentre.position = Vector3(0.0f, 0.0f, height / 2.0f);
 	topCentre.normal = topCentre.position.normalise();
-	bottomCentre.position = Vector3(0.0f, 0.0f, 0.0f);
+	topCentre.texCoord = TexCoord(0.5f, 0.5f);
+	bottomCentre.position = Vector3(0.0f, 0.0f, -(height / 2.0f));
 	bottomCentre.normal = bottomCentre.position.normalise();
+	bottomCentre.texCoord = TexCoord(0.5f, 0.5f);
 	generatedVertices.push_back(topCentre); generatedVertices.push_back(bottomCentre);
 	// each PAIR of vertices and the central vertex is used for triangle
 	for (unsigned int i = 0; (i < numSegments - 1); i++)
@@ -60,9 +66,9 @@ Cylinder::~Cylinder()
 {
 }
 
-TexCoord Cylinder::computeTexCoord(const Vector3& posOnCylinder)
+TexCoord Cylinder::computeTexCoord(float angle, float currentHeight, float totalHeight)
 {
-	//float theta = (atan(1.0f * posOnCylinder.y, 1.5f * posOnCylinder.x) + (PI * 0.5f)) / PI;
-	//return TexCoord(theta, -(posOnCylinder.z + 0.5f)); 
-	return TexCoord(0.0f, 0.0f);
+	return TexCoord((angle / (2.0f * PI)), // s
+		(currentHeight + (totalHeight / 2.0f)) / totalHeight // t
+	);
 }

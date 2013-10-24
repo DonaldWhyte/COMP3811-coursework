@@ -12,7 +12,7 @@ public:
 	Cylinder(float height, float radius, int numSegments);
 	virtual ~Cylinder();
 	
-	TexCoord computeTexCoord(const Vector3& positionOnCylinder);
+	TexCoord computeTexCoord(float angle, float currentHeight, float totalHeight);
 
 };
 
