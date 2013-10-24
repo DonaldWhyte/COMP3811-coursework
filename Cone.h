@@ -12,7 +12,7 @@ public:
 	Cone(float height, float radius, int numSegments);
 	virtual ~Cone();
 	
-	TexCoord computeTexCoord(const Vector3& positionOnCone);
+	TexCoord computeTexCoord(float angle, float currentHeight, float totalHeight);
 
 };
 

@@ -8,9 +8,11 @@ Cone::Cone(float height, float radius, int numSegments) : Mesh()
 	TriangleList generatedTriangles;
 	int vertexCounter = 0;
 	// Generate top vertex
+	float halfHeight  (height / 2.0f);
 	Vertex topCentre;
-	topCentre.position = Vector3(0.0f, 0.0f, height);
+	topCentre.position = Vector3(0.0f, 0.0f, halfHeight);
 	topCentre.normal = topCentre.position.normalise();
+	topCentre.texCoord = TexCoord(1.0f, 0.5f);
 	generatedVertices.push_back(topCentre);
 	vertexCounter += 1;	
 
@@ -23,10 +25,12 @@ Cone::Cone(float height, float radius, int numSegments) : Mesh()
 		float x2 = radius * sin(nextAngle), y2 = radius * cos(nextAngle);
 		
 		Vertex v1, v2;
-		v1.position = Vector3(x1, y1, 0.0f);
-		v1.normal = Vector3(x1, y1, 0.0f).normalise();
-		v2.position = Vector3(x2, y2, 0.0f);
-		v2.normal = Vector3(x2, y2, 0.0f).normalise();
+		v1.position = Vector3(x1, y1, -halfHeight);
+		v1.normal = v1.position.normalise();
+		v1.texCoord = computeTexCoord(angle, v1.position.z, height);
+		v2.position = Vector3(x2, y2, -halfHeight);
+		v2.normal = v2.position.normalise();
+		v2.texCoord = computeTexCoord(nextAngle, v2.position.z, height);
 		generatedVertices.push_back(v1);
 		generatedVertices.push_back(v2);
 	
@@ -35,8 +39,9 @@ Cone::Cone(float height, float radius, int numSegments) : Mesh()
 	}
 	// Generate top and bottom sections
 	Vertex bottomCentre;
-	bottomCentre.position = Vector3(0.0f, 0.0f, 0.0f);
+	bottomCentre.position = Vector3(0.0f, 0.0f, -halfHeight);
 	bottomCentre.normal = bottomCentre.position.normalise();
+	bottomCentre.texCoord = TexCoord(0.5, 0.5f);
 	generatedVertices.push_back(bottomCentre);
 	vertexCounter += 1;
 	// each PAIR of vertices and the central vertex is used for triangle
@@ -61,9 +66,9 @@ Cone::~Cone()
 {
 }
 
-TexCoord Cone::computeTexCoord(const Vector3& posOnCone)
+TexCoord Cone::computeTexCoord(float angle, float currentHeight, float totalHeight)
 {
-	//float theta = (atan(1.0f * posOnCone.y, 1.5f * posOnCone.x) + (PI * 0.5f)) / PI;
-	//return TexCoord(theta, -(posOnCone.z + 0.5f)); 
-	return TexCoord(0.0f, 0.0f);
+	return TexCoord((angle / (2.0f * PI)), // s
+		(currentHeight + (totalHeight / 2.0f)) / totalHeight // t
+	);
 }
