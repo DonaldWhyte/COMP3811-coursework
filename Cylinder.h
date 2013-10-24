@@ -3,7 +3,7 @@
 
 #include "Mesh.h"
 
-/* A mesh that represents a sphere. The level of detail/smoothness
+/* A mesh that represents a cylinder. The level of detail/smoothness
  * can be specified in the constructor. */
 class Cylinder : public Mesh
 {

@@ -62,7 +62,7 @@ Cylinder::~Cylinder()
 
 TexCoord Cylinder::computeTexCoord(const Vector3& posOnCylinder)
 {
-	float s = 0.5f + (atan2(posOnCylinder.z, posOnCylinder.x) / (2.0f * PI));
-	float t = 0.5f - (asin(posOnCylinder.y) / PI);
-	return TexCoord(s, t); 
+	//float theta = (atan(1.0f * posOnCylinder.y, 1.5f * posOnCylinder.x) + (PI * 0.5f)) / PI;
+	//return TexCoord(theta, -(posOnCylinder.z + 0.5f)); 
+	return TexCoord(0.0f, 0.0f);
 }

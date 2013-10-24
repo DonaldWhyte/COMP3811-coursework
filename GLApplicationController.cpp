@@ -5,7 +5,7 @@
 #include "GLPlatonicSolid.h"
 #include "Sphere.h"
 #include "Cylinder.h"
-//#include "Cone.h"
+#include "Cone.h"
 //#include "Torus.h"
 
 GLApplicationController::GLApplicationController(GLWindow* window, Drawable* drawableObject)
@@ -74,10 +74,10 @@ void GLApplicationController::objectChooserIndexChanged(int newIndex)
 		drawable = new Sphere(0.5, 64, 64);
 		break;
 	case 1: // Cylinder
-		drawable = new Cylinder(0.5, 0.5f, 64);
+		drawable = new Cylinder(0.75f, 0.5f, 64);
 		break;
 	case 2: // Cone
-		//drawable = new Cone();
+		drawable = new Cone(0.75f, 0.5f, 64);
 		break;
 	case 3: // Torus
 		//drawable = new Torus();

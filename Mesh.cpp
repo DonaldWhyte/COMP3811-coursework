@@ -136,9 +136,6 @@ void Mesh::render()
 		it->normal = (transformation * it->normal).normalise();
 	}
 
-	//renderPoints(transformedVerts);
-	//return;
-	
 	// Draw the vertex on the screen
 	glBegin(GL_TRIANGLES);
 	if (triangleColouring == MESH_ALTERNATING_TRIANGLES)
