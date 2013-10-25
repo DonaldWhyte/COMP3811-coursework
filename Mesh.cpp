@@ -99,6 +99,7 @@ void Mesh::renderTriangle(const VertexList& verticesToUse, const Triangle& tri)
 
 void Mesh::renderPoints(const VertexList& vertices)
 {
+	glColor3f(1.0f, 1.0f, 1.0f);
 	glBegin(GL_POINTS);
 		for (VertexList::const_iterator it = vertices.begin(); (it != vertices.end()); it++)
 			glVertex3f(it->position.x, it->position.y, it->position.x);
@@ -107,6 +108,7 @@ void Mesh::renderPoints(const VertexList& vertices)
 
 void Mesh::renderLines(const VertexList& vertices, const TriangleList& triangles)
 {
+	glColor3f(1.0f, 1.0f, 1.0f);
 	glBegin(GL_LINES);
 		for (TriangleList::const_iterator it = triangles.begin(); (it != triangles.end()); it++)
 		{
@@ -146,6 +148,7 @@ void Mesh::renderTriangles(const VertexList& vertices, const TriangleList& trian
 
 void Mesh::renderNormals(const VertexList& vertices)
 {
+	glColor3f(1.0f, 1.0f, 1.0f);
 	glBegin(GL_LINES);
 		for (VertexList::const_iterator it = vertices.begin(); (it != vertices.end()); it++)
 		{
