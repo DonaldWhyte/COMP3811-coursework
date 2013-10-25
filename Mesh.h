@@ -18,6 +18,13 @@ public:
 		MESH_TEXTURE
 	};
 
+	enum GeometryType
+	{
+		MESH_GEOM_POINTS = 0,
+		MESH_GEOM_LINES,
+		MESH_GEOM_TRIANGLES
+	};
+
 	Mesh();
 	virtual ~Mesh();
 
@@ -31,9 +38,15 @@ public:
 	void setColouring(Colouring newColouring);
 	Texture* texture() const;
 	void setTexture(Texture* texture);
-
+	// Controls if per-face surface normals are being used
 	bool usingPerFaceNormals() const;
 	void setPerFaceNormals(bool usePerFace);
+	// Controls if normals are rendered on mesh
+	bool showingNormals() const;
+	void showNormals(bool willShow);
+	// Controls what type of geometry is rendered
+	GeometryType geometryType() const;
+	void setGeometryType(GeometryType newGeomType);
 
 	void renderVertex(const Vertex& v);
 	void renderTriangle(const VertexList& verticesToUse, const Triangle& tri);
@@ -54,8 +67,10 @@ private:
 	VertexList verts;
 	TriangleList tris;
 	Colouring triangleColouring;
+	GeometryType geomType;
 	Texture* surfaceTexture;
 
+	bool drawNormals;
 	bool useSurfaceNormals;
 
 };

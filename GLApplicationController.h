@@ -22,6 +22,8 @@ public slots:
 	void animationCheckBoxChanged(int state);
 	void objectChooserIndexChanged(int newIndex);
 	void colourChooserIndexChanged(int newIndex);
+	void geometryTypeChooserIndexChanged(int newIndex);
+	void showNormalsCheckBoxChanged(int state);
 	void nextAnimationFrame(); // used to provide animation to objects 
 
 private:

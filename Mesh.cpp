@@ -41,6 +41,26 @@ void Mesh::setColouring(Mesh::Colouring newColouring)
 	triangleColouring = newColouring;
 }
 
+Mesh::GeometryType Mesh::geometryType() const
+{
+	return geomType;
+}
+
+void Mesh::setGeometryType(Mesh::GeometryType newGeomType)
+{
+	geomType = newGeomType;
+}
+
+bool Mesh::showingNormals() const
+{
+	return drawNormals;
+}
+
+void Mesh::showNormals(bool willShow)
+{
+	drawNormals = willShow;
+}
+
 Texture* Mesh::texture() const
 {
 	return surfaceTexture;

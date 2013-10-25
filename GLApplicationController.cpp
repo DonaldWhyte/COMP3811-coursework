@@ -28,6 +28,10 @@ GLApplicationController::GLApplicationController(GLWindow* window, Drawable* dra
 		this, SLOT(objectChooserIndexChanged(int)));
 	connect(window->colourChooser, SIGNAL(currentIndexChanged(int)),
 		this, SLOT(colourChooserIndexChanged(int)));
+	connect(window->geometryTypeChooser, SIGNAL(currentIndexChanged(int)),
+		this, SLOT(geometryTypeChooserIndexChanged(int)));
+	connect(window->showNormalsCheckBox, SIGNAL(stateChanged(int)),
+		this, SLOT(showNormalsCheckBoxChanged(int)));
 
 	animationTimer = new QTimer(this);
 	connect(animationTimer, SIGNAL(timeout()), this, SLOT(nextAnimationFrame()));
@@ -139,4 +143,22 @@ void GLApplicationController::nextAnimationFrame()
 	drawable->setRotation(rotation);
 
 	window->resetInterface();
+}
+
+void GLApplicationController::geometryTypeChooserIndexChanged(int newIndex)
+{
+	Mesh* meshObject = dynamic_cast<Mesh*>(drawable);
+	if (meshObject)
+	{
+		meshObject->setGeometryType( static_cast<Mesh::GeometryType>(newIndex) );
+	}
+}
+
+void GLApplicationController::showNormalsCheckBoxChanged(int state)
+{
+	Mesh* meshObject = dynamic_cast<Mesh*>(drawable);
+	if (meshObject)
+	{
+		meshObject->showNormals( (state == Qt::Checked) );
+	}
 }
