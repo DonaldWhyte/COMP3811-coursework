@@ -2,6 +2,7 @@
 
 static const int INITIAL_OBJECT_INDEX = 0;
 static const int INITIAL_COLOUR_INDEX = 0;
+static const int INITIAL_GEOMTYPE_INDEX = 2;
 
 GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 	: QWidget(parent), drawable(drawableObject)
@@ -11,6 +12,8 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 	objectNameList << "Sphere" << "Cylinder" << "Cone" << "Torus";
 	QStringList colourNameList;
 	colourNameList << "Same" << "Alternate Colours" << "Flat Shading" << "Smooth Shading" << "Texture";
+	QStringList geometryTypeList;
+	geometryTypeList << "Points" << "Lines" << "Triangles";
 
 	setWindowTitle("COMP3811 Computer Graphics - Coursework One - Donald Whyte");
 	windowLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
@@ -72,12 +75,27 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 		colourChooser->setCurrentIndex(INITIAL_COLOUR_INDEX);
 		rowSevenLayout->addWidget(colourChooser);
 
+	rowEightLayout = new QBoxLayout(QBoxLayout::LeftToRight);
+	windowLayout->addLayout(rowEightLayout);
+		geometryLabel = new QLabel("Geometry Type");
+		rowEightLayout->addWidget(geometryLabel);
+		geometryTypeChooser = new QComboBox();
+		geometryTypeChooser->addItems(geometryTypeList);
+		geometryTypeChooser->setCurrentIndex(INITIAL_GEOMTYPE_INDEX);
+		rowEightLayout->addWidget(geometryTypeChooser);
+		showNormalsCheckBox = new QCheckBox("Show Normals");
+		rowEightLayout->addWidget(showNormalsCheckBox);
+		
+
 	resetInterface();
 }
 
 GLWindow::~GLWindow()
 {
 	// Done in reverse-order, bottom of visual hierarchy to the top
+	delete geometryLabel;
+	delete geometryTypeChooser;
+	delete showNormalsCheckBox;
 	delete colourLabel;
 	delete colourChooser;
 	delete objectChooserLabel;
@@ -97,6 +115,7 @@ GLWindow::~GLWindow()
 	delete rowFiveLayout;
 	delete rowSixLayout;
 	delete rowSevenLayout;
+	delete rowEightLayout;
 	delete windowLayout;
 	delete actionQuit;
 	delete fileMenu;

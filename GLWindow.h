@@ -36,11 +36,12 @@ public:
 	QSlider* xRotSlider;
 	QSlider* yRotSlider;
 	QSlider* zRotSlider;
+
 	QCheckBox* animationCheckBox;
-
 	QComboBox* objectChooser;
-
 	QComboBox* colourChooser;
+	QComboBox* geometryTypeChooser;
+	QCheckBox* showNormalsCheckBox;
 
 	QAction* actionQuit;
 
@@ -63,6 +64,8 @@ private:
 			QLabel* objectChooserLabel;
 		QBoxLayout* rowSevenLayout;
 			QLabel* colourLabel;
+		QBoxLayout* rowEightLayout;
+			QLabel* geometryLabel;
 
 };
 
