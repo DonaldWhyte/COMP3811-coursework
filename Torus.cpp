@@ -10,8 +10,8 @@ Torus::Torus(float innerRadius, float outerRadius, unsigned int numSides, unsign
 	// Generate vertices, creating enough vertices for the torus at the start
 	unsigned int vertexCount = 3 * numSides * numRings;
 	VertexList generatedVertices(vertexCount);
-	float deltaPsi = 2.0f * PI / static_cast<float>(numRings);
-	float deltaPhi = -2.0f * PI / static_cast<float>(numSides);
+	float deltaPsi = 2.0f * PI / static_cast<float>(numRings - 1);
+	float deltaPhi = -2.0f * PI / static_cast<float>(numSides - 1);
 	for (unsigned ring = 0; (ring < numRings); ring++)
 	{
 		float psi = deltaPsi * ring;
@@ -41,9 +41,9 @@ Torus::Torus(float innerRadius, float outerRadius, unsigned int numSides, unsign
 
 	// Construct triangles to use generated vertices
 	TriangleList generatedTriangles;
-	for (unsigned ring = 0; (ring < numRings + 1); ring++)
+	for (unsigned side = 0; (side < numSides - 1); side++)
 	{
-		for (unsigned int side = 0; (side < numSides); side++)
+		for (unsigned int ring = 0; (ring < numRings - 1); ring++)
 		{
 			int offset = 3 * (ring * numSides + side);
 			int v1 = offset;
@@ -51,7 +51,7 @@ Torus::Torus(float innerRadius, float outerRadius, unsigned int numSides, unsign
 			int v3 = (offset + 3 * numSides + 3);
 			int v4 = (offset + 3 * numSides);
 			generatedTriangles.push_back( Triangle(v1, v2, v3) );
-			generatedTriangles.push_back( Triangle(v4, v1, v3) );
+			generatedTriangles.push_back( Triangle(v1, v3, v4) );
 		}
 	}
 	
