@@ -51,6 +51,8 @@ public:
 	void renderVertex(const Vertex& v);
 	void renderTriangle(const VertexList& verticesToUse, const Triangle& tri);
 	void renderPoints(const VertexList& vertices);
+	void renderLines(const VertexList& vertices, const TriangleList& triangles);
+	void renderTriangles(const VertexList& vertices, const TriangleList& triangles);
 	void renderNormals(const VertexList& vertices);
 	void render();
 

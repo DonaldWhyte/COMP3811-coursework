@@ -68,9 +68,8 @@ void GLApplicationController::animationCheckBoxChanged(int newState)
 
 void GLApplicationController::objectChooserIndexChanged(int newIndex)
 {
-	// We keep the drawable's current rendering method so
-	// we can restore if it a new drawable is created
-	RenderMethod oldRenderMethod = drawable->renderMethod();
+	// We keep the old drawable around so we pass some of its state to the new drawable
+	Drawable* oldDrawable = drawable;
 
 	switch (newIndex)
 	{
@@ -86,17 +85,24 @@ void GLApplicationController::objectChooserIndexChanged(int newIndex)
 	case 3: // Torus
 		drawable = new Torus(0.5f, 16, 16);
 		break;
-	default: // if default case, just do nothing and leave current object
+	default: // if default case, just do nothing and leave current object - RETURN AND STOP FUNCTION!
 		return;
 	}
 	// Restore old render method and colouring (if instance is a mesh)
-	drawable->setRenderMethod(oldRenderMethod);
+	drawable->setRenderMethod(oldDrawable->renderMethod());
+	Mesh* oldMesh = dynamic_cast<Mesh*>(oldDrawable);
 	Mesh* meshObject = dynamic_cast<Mesh*>(drawable);
-	if (meshObject)
-		meshObject->setColouring( static_cast<Mesh::Colouring>(newIndex) );
+	if (oldMesh && meshObject)
+	{
+		meshObject->setColouring(oldMesh->colouring());
+		meshObject->setGeometryType(oldMesh->geometryType());
+		meshObject->showNormals(oldMesh->showingNormals());
+	}
 
 	window->setDrawable(drawable);
 	window->resetInterface();
+
+	delete oldDrawable;
 }
 
 void GLApplicationController::colourChooserIndexChanged(int newIndex)
@@ -145,6 +151,7 @@ void GLApplicationController::nextAnimationFrame()
 	window->resetInterface();
 }
 
+#include <iostream>
 void GLApplicationController::geometryTypeChooserIndexChanged(int newIndex)
 {
 	Mesh* meshObject = dynamic_cast<Mesh*>(drawable);
@@ -152,6 +159,8 @@ void GLApplicationController::geometryTypeChooserIndexChanged(int newIndex)
 	{
 		meshObject->setGeometryType( static_cast<Mesh::GeometryType>(newIndex) );
 	}
+
+	window->resetInterface();
 }
 
 void GLApplicationController::showNormalsCheckBoxChanged(int state)
@@ -161,4 +170,6 @@ void GLApplicationController::showNormalsCheckBoxChanged(int state)
 	{
 		meshObject->showNormals( (state == Qt::Checked) );
 	}
+
+	window->resetInterface();
 }

@@ -3,7 +3,8 @@
 #include "Matrix44.h"
 #include "Common.h"
 
-Mesh::Mesh() : triangleColouring(MESH_COLOUR_SAME), surfaceTexture(NULL), useSurfaceNormals(false)
+Mesh::Mesh() : triangleColouring(MESH_COLOUR_SAME), geomType(MESH_GEOM_TRIANGLES),
+	surfaceTexture(NULL), useSurfaceNormals(false)
 {
 }
 
@@ -104,6 +105,45 @@ void Mesh::renderPoints(const VertexList& vertices)
 	glEnd();
 }
 
+void Mesh::renderLines(const VertexList& vertices, const TriangleList& triangles)
+{
+	glBegin(GL_LINES);
+		for (TriangleList::const_iterator it = triangles.begin(); (it != triangles.end()); it++)
+		{
+			const Vertex& v1 = vertices[it->v1];
+			const Vertex& v2 = vertices[it->v2];
+			const Vertex& v3 = vertices[it->v3];
+			glVertex3f(v1.position.x, v1.position.y, v1.position.x);
+			glVertex3f(v2.position.x, v2.position.y, v2.position.x);
+			glVertex3f(v2.position.x, v2.position.y, v2.position.x);
+			glVertex3f(v3.position.x, v3.position.y, v3.position.x);
+			glVertex3f(v3.position.x, v3.position.y, v3.position.x);
+			glVertex3f(v1.position.x, v1.position.y, v1.position.x);
+		}
+	glEnd();
+}
+
+void Mesh::renderTriangles(const VertexList& vertices, const TriangleList& triangles)
+{
+	glBegin(GL_TRIANGLES);
+	if (triangleColouring == MESH_ALTERNATING_TRIANGLES)
+	{
+		// Whole for-loop put it if-statement so there isn't a branch every iteration (costly operation
+		for (unsigned int i = 0; (i < triangles.size()); i++)
+		{
+			const Vector3& col = ALTERNATING_TRIANGLE_COLOURS[i % NUM_ALTERNATING_COLOURS];
+			glColor3f(col.x, col.y, col.y);
+			renderTriangle(vertices, tris[i]);
+		}
+	}
+	else
+	{
+		for (TriangleList::const_iterator it = triangles.begin(); (it != triangles.end()); it++)	
+			renderTriangle(vertices, *it);
+	}
+	glEnd();
+}
+
 void Mesh::renderNormals(const VertexList& vertices)
 {
 	glBegin(GL_LINES);
@@ -118,7 +158,6 @@ void Mesh::renderNormals(const VertexList& vertices)
 	glEnd();
 }
 
-#include <iostream>
 void Mesh::render()
 {
 	// If texturing has been enabled, ensure we set the correct OpenGL state
@@ -156,24 +195,25 @@ void Mesh::render()
 		it->normal = (transformation * it->normal).normalise();
 	}
 
-	// Draw the vertex on the screen
-	glBegin(GL_TRIANGLES);
-	if (triangleColouring == MESH_ALTERNATING_TRIANGLES)
+	// How mesh is drawn depends on geometry type chosen
+	switch (geomType)
 	{
-		// Whole for-loop put it if-statement so there isn't a branch every iteration (costly operation
-		for (unsigned int i = 0; (i < tris.size()); i++)
-		{
-			const Vector3& col = ALTERNATING_TRIANGLE_COLOURS[i % NUM_ALTERNATING_COLOURS];
-			glColor3f(col.x, col.y, col.y);
-			renderTriangle(transformedVerts, tris[i]);
-		}
+	case MESH_GEOM_POINTS:
+		renderPoints(transformedVerts);
+		break;
+	case MESH_GEOM_LINES:
+		renderLines(transformedVerts, tris);
+		break;
+	case MESH_GEOM_TRIANGLES:
+		renderTriangles(transformedVerts, tris);
+		break;
 	}
-	else
+	// Also draw lines reprensenting vertex normals
+	if (drawNormals)
 	{
-		for (TriangleList::const_iterator it = tris.begin(); (it != tris.end()); it++)	
-			renderTriangle(transformedVerts, *it);
+		renderNormals(transformedVerts);
 	}
-	glEnd();
+
 
 	glPopMatrix();
 
