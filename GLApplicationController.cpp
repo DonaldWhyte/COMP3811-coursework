@@ -2,7 +2,6 @@
 #include "GLApplicationController.h"
 
 #include <typeinfo>
-#include "GLPlatonicSolid.h"
 #include "Sphere.h"
 #include "Cylinder.h"
 #include "Cone.h"
