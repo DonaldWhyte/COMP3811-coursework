@@ -19,7 +19,6 @@ int main(int argc, char* argv[])
 
 	delete controller;
 	delete window;
-	delete drawable;
 
 	return 0;
 }

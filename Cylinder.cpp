@@ -54,7 +54,8 @@ Cylinder::Cylinder(float height, float radius, int numSegments) : Mesh()
 	}
 	// last two triangles to fill top/bottom sections
 	generatedTriangles.push_back( Triangle(vertexCounter, ((numSegments - 1) * 4) + 2, 1) );
-	generatedTriangles.push_back( Triangle(vertexCounter + 1, 3, ((numSegments - 1) * 4)) );
+	generatedTriangles.push_back( Triangle(vertexCounter + 1, 0, ((numSegments - 1) * 4)) );
+	//generatedTriangles.push_back( Triangle(3, ((numSegments - 1) * 4), vertexCounter + 1) );
 	
 	vertexCounter += 2;
 	
