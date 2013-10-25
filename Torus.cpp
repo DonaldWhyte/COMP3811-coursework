@@ -1,56 +1,57 @@
 #include "Torus.h"
 #include <math.h>
 
-Torus::Torus(float radius, int numSegments, int numQuadsPerSegment) : Mesh()
+Torus::Torus(float innerRadius, float outerRadius, unsigned int numSides, unsigned int numRings) : Mesh()
 {
-	// Construct a sphere using the given arguments
-	VertexList generatedVertices;
-	TriangleList generatedTriangles;
-	unsigned int vertexCounter = 0;
-	
-	for (unsigned int ring = 0; (ring < numSegments); ring++)
-	{
-		// Per-ring parameters
-		float phi = -(PI / 2.0f) + (static_cast<float>(ring) * (PI / numSegments));
-		float nextPhi = -(PI / 2.0f) + (static_cast<float>(ring + 1) * (PI / numSegments));
-		float cosPhi = cos(phi);
-		float sinPhi = sin(phi);
-		float cosNextPhi = cos(nextPhi);
-		float sinNextPhi = sin(nextPhi);
-		for (unsigned int quad = 0; (quad < numQuadsPerSegment); quad++)
-		{
-			// Compute parameters for computing vertices
-			float theta = static_cast<float>(quad) * ((2.0f * PI) / numQuadsPerSegment);
-			float nextTheta = static_cast<float>(quad + 1) * ((2.0f * PI) / numQuadsPerSegment);
-			float cosTheta = cos(theta);
-			float sinTheta = sin(theta);
-			float cosNextTheta = cos(nextTheta);
-			float sinNextTheta = sin(nextTheta);
-			// Compute vertex positions and normals
-			Vertex v1, v2, v3, v4;
-			// phi_i, theta_j
-			v1.position = Vector3(radius * cosPhi * cosTheta, radius * cosPhi * sinTheta, radius * sinPhi);
-			v1.normal = v1.position.normalise();
-			v1.texCoord = computeTexCoord(v1.normal);
-			// phi_i, theta_j+1
-			v2.position = Vector3(radius * cosPhi * cosNextTheta, radius * cosPhi * sinNextTheta, radius * sinPhi);
-			v2.normal = v2.position.normalise();
-			v2.texCoord = computeTexCoord(v2.normal);
-			// phi_i+1, theta_j+1
-			v3.position = Vector3(radius * cosNextPhi * cosNextTheta, radius * cosNextPhi * sinNextTheta, radius * sinNextPhi);
-			v3.normal = v3.position.normalise();
-			v3.texCoord = computeTexCoord(v3.normal);
-			// phi_i+1, theta_j
-			v4.position = Vector3(radius * cosNextPhi * cosTheta, radius * cosNextPhi * sinTheta, radius * sinNextPhi);
-			v4.normal = v4.position.normalise();
-			v4.texCoord = computeTexCoord(v4.normal);
-			generatedVertices.push_back(v1); generatedVertices.push_back(v2);
-			generatedVertices.push_back(v3); generatedVertices.push_back(v4);
+	// Increase sides and rings to generate an additional point
+	numSides += 1;
+	numRings += 1;
 
-			// Create two triangles to render the quad
-			generatedTriangles.push_back( Triangle(vertexCounter, vertexCounter+1, vertexCounter+2) );
-			generatedTriangles.push_back( Triangle(vertexCounter+3, vertexCounter, vertexCounter+2) );
-			vertexCounter += 4;
+	// Generate vertices, creating enough vertices for the torus at the start
+	unsigned int vertexCount = 3 * numSides * numRings;
+	VertexList generatedVertices(vertexCount);
+	float deltaPsi = 2.0f * PI / static_cast<float>(numRings);
+	float deltaPhi = -2.0f * PI / static_cast<float>(numSides);
+	for (unsigned ring = 0; (ring < numRings); ring++)
+	{
+		float psi = deltaPsi * ring;
+		float cosPsi = cos(psi);
+		float sinPsi = sin(psi);
+		for (unsigned side = 0; (side < numSides); side++)
+		{
+			float phi = deltaPhi * side;
+			float cosPhi = cos(phi);
+			float sinPhi = sin(phi);
+
+			// Compute vertex position
+			Vertex vert;
+			vert.position = Vector3(cosPsi * (outerRadius + cosPhi * innerRadius), // X
+				sinPsi * (outerRadius + cosPhi * innerRadius), // Y
+				sinPhi * innerRadius // Z
+			);
+			vert.normal = Vector3(cosPsi * cosPhi, // X
+				sinPsi * cosPhi, // Y
+				sinPhi // Z
+			);
+			// Add computed vertex
+			int offset = 3 * (ring * numSides + side);
+			generatedVertices[offset] = vert;
+		}
+	}
+
+	// Construct triangles to use generated vertices
+	TriangleList generatedTriangles;
+	for (unsigned ring = 0; (ring < numRings + 1); ring++)
+	{
+		for (unsigned int side = 0; (side < numSides); side++)
+		{
+			int offset = 3 * (ring * numSides + side);
+			int v1 = offset;
+			int v2 = (offset + 3);
+			int v3 = (offset + 3 * numSides + 3);
+			int v4 = (offset + 3 * numSides);
+			generatedTriangles.push_back( Triangle(v1, v2, v3) );
+			generatedTriangles.push_back( Triangle(v4, v1, v3) );
 		}
 	}
 	

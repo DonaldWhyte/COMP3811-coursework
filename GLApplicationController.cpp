@@ -83,7 +83,7 @@ void GLApplicationController::objectChooserIndexChanged(int newIndex)
 		drawable = new Cone(0.75f, 0.5f, 64);
 		break;
 	case 3: // Torus
-		drawable = new Torus(0.5f, 16, 16);
+		drawable = new Torus(0.25f, 0.5f, 16, 16);
 		break;
 	default: // if default case, just do nothing and leave current object - RETURN AND STOP FUNCTION!
 		return;
@@ -151,7 +151,6 @@ void GLApplicationController::nextAnimationFrame()
 	window->resetInterface();
 }
 
-#include <iostream>
 void GLApplicationController::geometryTypeChooserIndexChanged(int newIndex)
 {
 	Mesh* meshObject = dynamic_cast<Mesh*>(drawable);
