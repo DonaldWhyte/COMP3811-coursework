@@ -46,12 +46,12 @@ Torus::Torus(float innerRadius, float outerRadius, unsigned int numSides, unsign
 	{
 		for (unsigned int ring = 0; (ring < numRings - 1); ring++)
 		{
-			int offset = (ring * numSides + side);
+			int indexOffset = (ring * numSides + side);
 			// Get vertex indices for a QUAD on the torus and split it into two triangles
-			int v1 = offset;
-			int v2 = (offset + 1);
-			int v3 = (offset + 1 * numSides + 1);
-			int v4 = (offset + 1 * numSides);
+			int v1 = indexOffset;
+			int v2 = (indexOffset + 1);
+			int v3 = (indexOffset + 1 * numSides + 1);
+			int v4 = (indexOffset + 1 * numSides);
 			generatedTriangles.push_back( Triangle(v1, v2, v3) );
 			generatedTriangles.push_back( Triangle(v3, v4, v1) );
 		}

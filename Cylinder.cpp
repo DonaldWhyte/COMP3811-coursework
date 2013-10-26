@@ -48,13 +48,13 @@ Cylinder::Cylinder(float height, float radius, int numSegments) : Mesh()
 	unsigned int numVertices = generatedVertices.size();
 	for (unsigned int i = 0; (i < numSegments); i++)
 	{
-		int offset = i * 4;
+		int indexOffset = i * 4;
 		int topV1 = vertexCounter;
-		int topV2 = (offset + 2) % numVertices;
-		int topV3 = (offset + 1) % numVertices;
+		int topV2 = (indexOffset + 2) % numVertices;
+		int topV3 = (indexOffset + 1) % numVertices;
 		int bottomV1 = vertexCounter + 1;
-		int bottomV2 = (offset + 3) % numVertices;
-		int bottomV3 = offset % numVertices;
+		int bottomV2 = (indexOffset + 3) % numVertices;
+		int bottomV3 = indexOffset % numVertices;
 		Triangle top(topV1, topV2, topV3);
 		Triangle bottom(bottomV1, bottomV2, bottomV3);
 		generatedTriangles.push_back(top);
