@@ -45,16 +45,21 @@ Cylinder::Cylinder(float height, float radius, int numSegments) : Mesh()
 	bottomCentre.texCoord = TexCoord(0.5f, 0.5f);
 	generatedVertices.push_back(topCentre); generatedVertices.push_back(bottomCentre);
 	// each PAIR of vertices and the central vertex is used for triangle
-	for (unsigned int i = 0; (i < numSegments - 1); i++)
+	unsigned int numVertices = generatedVertices.size();
+	for (unsigned int i = 0; (i < numSegments); i++)
 	{
-		Triangle top(vertexCounter, (i * 4) + 2, (i * 4) + 1);
-		Triangle bottom(vertexCounter + 1, (i * 4) + 3, (i * 4) + 0);
+		int offset = i * 4;
+		int topV1 = vertexCounter;
+		int topV2 = (offset + 2) % numVertices;
+		int topV3 = (offset + 1) % numVertices;
+		int bottomV1 = vertexCounter + 1;
+		int bottomV2 = (offset + 3) % numVertices;
+		int bottomV3 = offset % numVertices;
+		Triangle top(topV1, topV2, topV3);
+		Triangle bottom(bottomV1, bottomV2, bottomV3);
 		generatedTriangles.push_back(top);
 		generatedTriangles.push_back(bottom);
 	}
-	// last two triangles to fill top/bottom sections
-	generatedTriangles.push_back( Triangle(vertexCounter, ((numSegments - 1) * 4) + 2, 1) );
-	generatedTriangles.push_back( Triangle(vertexCounter + 1, 0, ((numSegments - 1) * 4)) );
 	
 	vertexCounter += 2;
 	
