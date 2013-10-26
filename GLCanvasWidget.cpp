@@ -21,7 +21,7 @@ void GLCanvasWidget::setLightingModel(LightingModel lModel)
 
 void GLCanvasWidget::initializeGL()
 {
-	glClearColor(0.3, 0.3, 0.3, 0.0);
+	glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	// Enable back-face culling for efficiency

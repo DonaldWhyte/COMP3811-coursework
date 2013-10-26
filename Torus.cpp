@@ -11,8 +11,7 @@ Torus::Torus(float innerRadius, float outerRadius, unsigned int numSides, unsign
 	generatedVertices.reserve(numSides * numRings); // pre-allocate memory for vertices we know we'll need
 	// How large the "step" between angles is when generating vertices
 	float deltaPsi = 2.0f * PI / static_cast<float>(numRings - 1);
-	float deltaPhi = -2.0f * PI / static_cast<float>(numSides - 1);
-
+	float deltaPhi = -2.0f * PI / static_cast<float>(numSides - 1); // computed here so we don't need to re-compute them every iteration
 	for (unsigned ring = 0; (ring < numRings); ring++)
 	{
 		float psi = deltaPsi * ring;

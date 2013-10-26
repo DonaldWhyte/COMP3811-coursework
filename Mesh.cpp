@@ -161,8 +161,49 @@ void Mesh::renderNormals(const VertexList& vertices)
 	glEnd();
 }
 
+/* Draw a torus */
+#include <math.h>
+static void torus(int numc, int numt)
+{
+   int i, j, k;
+   double s, t, x, y, z, twopi;
+
+   twopi = 2 * (double)M_PI;
+   for (i = 0; i < numc; i++) {
+      glBegin(GL_QUAD_STRIP);
+      for (j = 0; j <= numt; j++) {
+         for (k = 1; k >= 0; k--) {
+            s = (i + k) % numc + 0.5;
+            t = j % numt;
+
+            x = (1+.1*cos(s*twopi/numc))*cos(t*twopi/numt);
+            y = (1+.1*cos(s*twopi/numc))*sin(t*twopi/numt);
+            z = .1 * sin(s * twopi / numc);
+
+                        const Vector3& col = ALTERNATING_TRIANGLE_COLOURS[(i * j) % NUM_ALTERNATING_COLOURS];
+                       glColor3f(col.x, col.y, col.y);
+
+
+            glVertex3f(x, y, z);
+         }
+      }
+      glEnd();
+   }
+}
+
 void Mesh::render()
 {
+	/*MatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+	glRotatef(rot.x, 1.0f, 0.0f, 0.0f);
+	glRotatef(rot.y, 0.0f, 1.0f, 0.0f);
+	glRotatef(rot.z, 0.0f, 0.0f, 1.0f);
+	torus(8, 8);
+	glPopMatrix();
+	return;*/
+
+
 	// If texturing has been enabled, ensure we set the correct OpenGL state
 	if (triangleColouring == MESH_TEXTURE)
 	{
