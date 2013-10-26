@@ -54,7 +54,7 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 
 	rowFiveLayout = new QBoxLayout(QBoxLayout::LeftToRight);
 	windowLayout->addLayout(rowFiveLayout);
-		animationCheckBox = new QCheckBox("Animation Enabled");
+		animationCheckBox = new QCheckBox("Y Rotation Animation Enabled");
 		rowFiveLayout->addWidget(animationCheckBox);
 
 	rowSixLayout = new QBoxLayout(QBoxLayout::LeftToRight);

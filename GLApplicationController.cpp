@@ -82,7 +82,7 @@ void GLApplicationController::objectChooserIndexChanged(int newIndex)
 		drawable = new Cone(0.75f, 0.5f, 64);
 		break;
 	case 3: // Torus
-		drawable = new Torus(0.25f, 0.5f, 3, 5);
+		drawable = new Torus(0.25f, 0.5f, 64, 64);
 		break;
 	default: // if default case, just do nothing and leave current object - RETURN AND STOP FUNCTION!
 		return;
@@ -139,12 +139,8 @@ void GLApplicationController::nextAnimationFrame()
 	if (!animating) return;
 
 	Vector3 rotation = drawable->rotation();
-	if (rotation.x < 0.0f || rotation.x > 360.0f) rotation.x = 0.0f;
-	else rotation.x += 1.0f;
 	if (rotation.y < 0.0f || rotation.y > 360.0f) rotation.y = 0.0f;
 	else rotation.y += 1.0f;
-	if (rotation.z < 0.0f || rotation.z > 360.0f) rotation.z = 0.0f;
-	else rotation.z += 1.0f;
 	drawable->setRotation(rotation);
 
 	window->resetInterface();
