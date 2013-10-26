@@ -140,6 +140,8 @@ void Mesh::renderTriangles(const VertexList& vertices, const TriangleList& trian
 	}
 	else
 	{
+		if (triangleColouring == MESH_COLOUR_SAME)
+			glColor3f(1.0f, 1.0f, 1.0f);
 		for (TriangleList::const_iterator it = triangles.begin(); (it != triangles.end()); it++)	
 			renderTriangle(vertices, *it);
 	}
