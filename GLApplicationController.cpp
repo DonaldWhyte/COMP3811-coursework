@@ -117,10 +117,6 @@ void GLApplicationController::colourChooserIndexChanged(int newIndex)
 	{
 		Mesh::Colouring newColouring = static_cast<Mesh::Colouring>(newIndex);
 		meshObject->setColouring(newColouring);
-		if (newColouring == Mesh::MESH_FLAT_SHADING)
-			meshObject->setPerFaceNormals(true);
-		else
-			meshObject->setPerFaceNormals(false);
 	}
 	// Depending on colourig, change lighting parameers
 	LightingModel lightingModel = LIGHTING_MODEL_NONE;
