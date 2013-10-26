@@ -23,7 +23,6 @@ public slots:
 	void objectChooserIndexChanged(int newIndex);
 	void colourChooserIndexChanged(int newIndex);
 	void geometryTypeChooserIndexChanged(int newIndex);
-	void showNormalsCheckBoxChanged(int state);
 	void detailSliderChanged(int newValue);
 	void nextAnimationFrame(); // used to provide animation to objects 
 

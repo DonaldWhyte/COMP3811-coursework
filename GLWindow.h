@@ -41,7 +41,6 @@ public:
 	QComboBox* objectChooser;
 	QComboBox* colourChooser;
 	QComboBox* geometryTypeChooser;
-	QCheckBox* showNormalsCheckBox;
 	QSlider* detailSlider;
 
 	QAction* actionQuit;

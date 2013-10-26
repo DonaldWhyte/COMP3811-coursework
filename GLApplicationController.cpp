@@ -29,8 +29,6 @@ GLApplicationController::GLApplicationController(GLWindow* window, Drawable* dra
 		this, SLOT(colourChooserIndexChanged(int)));
 	connect(window->geometryTypeChooser, SIGNAL(currentIndexChanged(int)),
 		this, SLOT(geometryTypeChooserIndexChanged(int)));
-	connect(window->showNormalsCheckBox, SIGNAL(stateChanged(int)),
-		this, SLOT(showNormalsCheckBoxChanged(int)));
 	connect(window->detailSlider, SIGNAL(valueChanged(int)),
 		this, SLOT(detailSliderChanged(int)));
 
@@ -170,13 +168,3 @@ void GLApplicationController::geometryTypeChooserIndexChanged(int newIndex)
 	window->resetInterface();
 }
 
-void GLApplicationController::showNormalsCheckBoxChanged(int state)
-{
-	Mesh* meshObject = dynamic_cast<Mesh*>(drawable);
-	if (meshObject)
-	{
-		meshObject->showNormals( (state == Qt::Checked) );
-	}
-
-	window->resetInterface();
-}

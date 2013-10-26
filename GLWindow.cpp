@@ -83,8 +83,6 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 		geometryTypeChooser->addItems(geometryTypeList);
 		geometryTypeChooser->setCurrentIndex(INITIAL_GEOMTYPE_INDEX);
 		rowEightLayout->addWidget(geometryTypeChooser);
-		showNormalsCheckBox = new QCheckBox("Show Normals");
-		rowEightLayout->addWidget(showNormalsCheckBox);
 	
 	rowNineLayout = new QBoxLayout(QBoxLayout::LeftToRight);
 	windowLayout->addLayout(rowNineLayout);
@@ -103,7 +101,6 @@ GLWindow::~GLWindow()
 	delete detailSlider;
 	delete geometryLabel;
 	delete geometryTypeChooser;
-	delete showNormalsCheckBox;
 	delete colourLabel;
 	delete colourChooser;
 	delete objectChooserLabel;
