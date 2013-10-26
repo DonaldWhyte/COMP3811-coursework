@@ -7,11 +7,12 @@ Torus::Torus(float innerRadius, float outerRadius, unsigned int numSides, unsign
 	numSides += 1;
 	numRings += 1;
 
-	// Generate vertices, creating enough vertices for the torus at the start
-	unsigned int vertexCount = numSides * numRings;
-	VertexList generatedVertices(vertexCount);
+	VertexList generatedVertices;
+	generatedVertices.reserve(numSides * numRings); // pre-allocate memory for vertices we know we'll need
+	// How large the "step" between angles is when generating vertices
 	float deltaPsi = 2.0f * PI / static_cast<float>(numRings - 1);
 	float deltaPhi = -2.0f * PI / static_cast<float>(numSides - 1);
+
 	for (unsigned ring = 0; (ring < numRings); ring++)
 	{
 		float psi = deltaPsi * ring;
@@ -25,17 +26,17 @@ Torus::Torus(float innerRadius, float outerRadius, unsigned int numSides, unsign
 
 			// Compute vertex position
 			Vertex vert;
-			vert.position = Vector3(cosPsi * (outerRadius + cosPhi * innerRadius), // X
-				sinPsi * (outerRadius + cosPhi * innerRadius), // Y
-				sinPhi * innerRadius // Z
+			vert.position = Vector3(
+				cosPsi * (outerRadius + cosPhi * innerRadius),
+				sinPsi * (outerRadius + cosPhi * innerRadius),
+				sinPhi * innerRadius
 			);
-			vert.normal = Vector3(cosPsi * cosPhi, // X
-				sinPsi * cosPhi, // Y
-				sinPhi // Z
-			);
-			// Add computed vertex
-			int offset = (ring * numSides + side);
-			generatedVertices[offset] = vert;
+			vert.normal = Vector3(cosPsi * cosPhi, sinPsi * cosPhi, sinPhi);
+			// NOTE: We're not computing texture coordinates for the torus - for this
+			// particular application we don't care about texturing this object
+			
+			// Add computed vertex to list
+			generatedVertices.push_back(vert);
 		}
 	}
 
@@ -46,6 +47,7 @@ Torus::Torus(float innerRadius, float outerRadius, unsigned int numSides, unsign
 		for (unsigned int ring = 0; (ring < numRings - 1); ring++)
 		{
 			int offset = (ring * numSides + side);
+			// Get vertex indices for a QUAD on the torus and split it into two triangles
 			int v1 = offset;
 			int v2 = (offset + 1);
 			int v3 = (offset + 1 * numSides + 1);
@@ -61,11 +63,4 @@ Torus::Torus(float innerRadius, float outerRadius, unsigned int numSides, unsign
 
 Torus::~Torus()
 {
-}
-
-TexCoord Torus::computeTexCoord(const Vector3& posOnTorus)
-{
-	float s = 0.5f + (atan2(posOnTorus.z, posOnTorus.x) / (2.0f * PI));
-	float t = 0.5f - (asin(posOnTorus.y) / PI);
-	return TexCoord(s, t); 
 }

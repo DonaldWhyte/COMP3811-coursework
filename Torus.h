@@ -11,8 +11,6 @@ class Torus : public Mesh
 public:
 	Torus(float innerRadius, float outerRadius, unsigned int numSides, unsigned int numRings);
 	virtual ~Torus();
-	
-	TexCoord computeTexCoord(const Vector3& positionOnTorus);
 
 };
 

@@ -14,7 +14,7 @@ Cone::Cone(float height, float radius, int numSegments) : Mesh()
 	topCentre.normal = topCentre.position.normalise();
 	topCentre.texCoord = TexCoord(1.0f, 0.5f);
 	generatedVertices.push_back(topCentre);
-	vertexCounter += 1;	
+	vertexCounter++;
 
 	// Generate the 'tower' part of the cone
 	for (float i = 0.0f; (i < numSegments); i += 1.0f)
@@ -43,7 +43,7 @@ Cone::Cone(float height, float radius, int numSegments) : Mesh()
 	bottomCentre.normal = bottomCentre.position.normalise();
 	bottomCentre.texCoord = TexCoord(0.5, 0.5f);
 	generatedVertices.push_back(bottomCentre);
-	vertexCounter += 1;
+	vertexCounter++;
 	// each PAIR of vertices and the central vertex is used for triangle
 	for (unsigned int i = 0; (i < numSegments - 1); i++)
 	{
@@ -55,8 +55,7 @@ Cone::Cone(float height, float radius, int numSegments) : Mesh()
 	}
 	// last triangle to fill bottom section
 	generatedTriangles.push_back( Triangle(((numSegments -1) * 2) + 1, vertexCounter - 1, 1) );
-	
-	vertexCounter += 2;
+	vertexCounter++;
 
 	setVertices(generatedVertices);
 	setTriangles(generatedTriangles);
