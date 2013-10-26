@@ -282,7 +282,7 @@ Vector3List Mesh::computeSurfaceNormals(const VertexList& vertices, const Triang
 		Vector3 s1 = vertices[it->v2].position - vertices[it->v1].position;
 		Vector3 s2 = vertices[it->v3].position - vertices[it->v1].position;
 		// Compute cross product of sides to get surface normal
-		Vector3 surfaceNormal = s1.cross(s2).negate().normalise();
+		Vector3 surfaceNormal = s1.cross(s2).normalise();
 		// Assign this surface normal to all v
 		normals[it->v1] = surfaceNormal;
 		normals[it->v2] = surfaceNormal;
