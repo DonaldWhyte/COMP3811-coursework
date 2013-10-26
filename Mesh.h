@@ -39,8 +39,8 @@ public:
 	Texture* texture() const;
 	void setTexture(Texture* texture);
 	// Controls if per-face surface normals are being used
-	bool usingPerFaceNormals() const;
-	void setPerFaceNormals(bool usePerFace);
+	virtual bool usingPerFaceNormals() const;
+	virtual void setPerFaceNormals(bool usePerFace);
 	// Controls if normals are rendered on mesh
 	bool showingNormals() const;
 	void showNormals(bool willShow);

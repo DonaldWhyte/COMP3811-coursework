@@ -68,3 +68,14 @@ TexCoord Sphere::computeTexCoord(const Vector3& posOnSphere)
 	float t = 0.5f - (asin(posOnSphere.y) / PI);
 	return TexCoord(s, t); 
 }
+
+bool Sphere::usingPerFaceNormals() const
+{
+	return false;
+}
+
+void Sphere::setPerFaceNormals(bool usePerFace)
+{
+	// do nothing
+}
+

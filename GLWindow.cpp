@@ -85,7 +85,13 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 		rowEightLayout->addWidget(geometryTypeChooser);
 		showNormalsCheckBox = new QCheckBox("Show Normals");
 		rowEightLayout->addWidget(showNormalsCheckBox);
-		
+	
+	rowNineLayout = new QBoxLayout(QBoxLayout::LeftToRight);
+	windowLayout->addLayout(rowNineLayout);
+		detailLabel = new QLabel("Level of Detail");
+		rowNineLayout->addWidget(detailLabel);
+		detailSlider = new QSlider(Qt::Horizontal);
+		rowNineLayout->addWidget(detailSlider);
 
 	resetInterface();
 }
@@ -93,6 +99,8 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 GLWindow::~GLWindow()
 {
 	// Done in reverse-order, bottom of visual hierarchy to the top
+	delete detailLabel;
+	delete detailSlider;
 	delete geometryLabel;
 	delete geometryTypeChooser;
 	delete showNormalsCheckBox;
@@ -116,6 +124,7 @@ GLWindow::~GLWindow()
 	delete rowSixLayout;
 	delete rowSevenLayout;
 	delete rowEightLayout;
+	delete rowNineLayout;
 	delete windowLayout;
 	delete actionQuit;
 	delete fileMenu;
@@ -141,6 +150,8 @@ void GLWindow::resetInterface()
 	zRotSlider->setMinimum(0);
 	zRotSlider->setMaximum(360);
 	zRotSlider->setValue(drawable->zRotation());
+	detailSlider->setMinimum(8);
+	detailSlider->setMaximum(128);
 
 	update(); // force refresh
 	canvasWidget->update(); // wasn't repainting with update()...

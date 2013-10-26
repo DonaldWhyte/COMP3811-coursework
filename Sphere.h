@@ -14,6 +14,9 @@ public:
 	
 	TexCoord computeTexCoord(const Vector3& positionOnSphere);
 
+	bool usingPerFaceNormals() const;
+	void setPerFaceNormals(bool willUseNormals);
+
 };
 
 #endif

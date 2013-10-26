@@ -42,6 +42,7 @@ public:
 	QComboBox* colourChooser;
 	QComboBox* geometryTypeChooser;
 	QCheckBox* showNormalsCheckBox;
+	QSlider* detailSlider;
 
 	QAction* actionQuit;
 
@@ -66,6 +67,8 @@ private:
 			QLabel* colourLabel;
 		QBoxLayout* rowEightLayout;
 			QLabel* geometryLabel;
+		QBoxLayout* rowNineLayout;
+			QLabel* detailLabel;
 
 };
 

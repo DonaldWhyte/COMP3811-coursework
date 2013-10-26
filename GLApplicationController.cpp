@@ -31,6 +31,8 @@ GLApplicationController::GLApplicationController(GLWindow* window, Drawable* dra
 		this, SLOT(geometryTypeChooserIndexChanged(int)));
 	connect(window->showNormalsCheckBox, SIGNAL(stateChanged(int)),
 		this, SLOT(showNormalsCheckBoxChanged(int)));
+	connect(window->detailSlider, SIGNAL(valueChanged(int)),
+		this, SLOT(detailSliderChanged(int)));
 
 	animationTimer = new QTimer(this);
 	connect(animationTimer, SIGNAL(timeout()), this, SLOT(nextAnimationFrame()));
@@ -69,24 +71,29 @@ void GLApplicationController::objectChooserIndexChanged(int newIndex)
 {
 	// We keep the old drawable around so we pass some of its state to the new drawable
 	Drawable* oldDrawable = drawable;
+	// Also get the level of detail required from another widget
+	int detail = window->detailSlider->value();
 
 	switch (newIndex)
 	{
 	case 0: // Sphere
-		drawable = new Sphere(0.5f, 64, 64);
+		drawable = new Sphere(0.5f, detail, detail);
 		break;
 	case 1: // Cylinder
-		drawable = new Cylinder(0.75f, 0.5f, 64);
+		drawable = new Cylinder(0.75f, 0.5f, detail);
 		break;
 	case 2: // Cone
-		drawable = new Cone(0.75f, 0.5f, 64);
+		drawable = new Cone(0.75f, 0.5f, detail);
 		break;
 	case 3: // Torus
-		drawable = new Torus(0.25f, 0.5f, 64, 64);
+		drawable = new Torus(0.25f, 0.5f, detail, detail);
 		break;
 	default: // if default case, just do nothing and leave current object - RETURN AND STOP FUNCTION!
 		return;
 	}
+	// Restore drawable transformations
+	drawable->setPosition(oldDrawable->position());
+	drawable->setRotation(oldDrawable->rotation());
 	// Restore old render method and colouring (if instance is a mesh)
 	drawable->setRenderMethod(oldDrawable->renderMethod());
 	Mesh* oldMesh = dynamic_cast<Mesh*>(oldDrawable);
@@ -131,6 +138,12 @@ void GLApplicationController::colourChooserIndexChanged(int newIndex)
 	}
 	window->canvasWidget->setLightingModel(lightingModel);
 
+	window->resetInterface();
+}
+
+void GLApplicationController::detailSliderChanged(int newValue)
+{
+	objectChooserIndexChanged( window->objectChooser->currentIndex() );
 	window->resetInterface();
 }
 
