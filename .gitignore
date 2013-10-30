@@ -16,6 +16,8 @@
 Makefile
 moc_*
 COMP3811-coursework
+*.pro
+
 
 # Temporary files
 *~
