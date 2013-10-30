@@ -65,6 +65,7 @@ void Bone::render()
 	glPushMatrix();
 
 	// Construct transformation matrix and apply it in OpenGL
+	// TODO: order of transformations may be wrong! look into this!
 	glRotatef(boneRotation.x, 1.0f, 0.0f, 0.0f);	
 	glRotatef(boneRotation.y, 0.0f, 1.0f, 0.0f);
 	glRotatef(boneRotation.z, 0.0f, 0.0f, 1.0f);
