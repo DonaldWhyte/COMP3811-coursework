@@ -17,6 +17,9 @@ public:
 	void render();
 
 private:
+	void renderVertex(const Vertex& v);
+	void renderTriangle(const Triangle& tri);
+	
 	VertexList verts;
 	TriangleList tris;
 

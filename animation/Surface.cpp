@@ -1,4 +1,5 @@
 #include "Surface.h"
+#include <QGLWidget>
 
 Surface::Surface(const VertexList& vertices, const TriangleList& triangles) :
 	verts(vertices), tris(triangles)
@@ -27,5 +28,20 @@ void Surface::setTriangles(const TriangleList& newTriangles)
 
 void Surface::render()
 {
-	// TODO
+	for (TriangleList::const_iterator it = tris.begin(); (it != tris.end()); it++)
+		renderTriangle(*it);
+}
+
+void Surface::renderVertex(const Vertex& v)
+{
+	glTexCoord2f(v.texCoord.s, v.texCoord.t);
+	glNormal3f(v.normal.x, v.normal.y, v.normal.z);
+	glVertex3f(v.position.x, v.position.y, v.position.y);
+}
+
+void Surface::renderTriangle(const Triangle& tri)
+{
+	renderVertex( verts[tri.v1] );
+	renderVertex( verts[tri.v2] );
+	renderVertex( verts[tri.v3] );
 }
