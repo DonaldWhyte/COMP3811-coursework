@@ -20,10 +20,6 @@ public slots:
 	void yRotSliderChanged(int newValue);
 	void zRotSliderChanged(int newValue);
 	void animationCheckBoxChanged(int state);
-	void objectChooserIndexChanged(int newIndex);
-	void colourChooserIndexChanged(int newIndex);
-	void geometryTypeChooserIndexChanged(int newIndex);
-	void detailSliderChanged(int newValue);
 	void nextAnimationFrame(); // used to provide animation to objects 
 
 private:

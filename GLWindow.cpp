@@ -1,21 +1,9 @@
 #include "GLWindow.h"
 
-static const int INITIAL_OBJECT_INDEX = 0;
-static const int INITIAL_COLOUR_INDEX = 0;
-static const int INITIAL_GEOMTYPE_INDEX = 2;
-
 GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 	: QWidget(parent), drawable(drawableObject)
 {
-	// Define list of drawable objects
-	QStringList objectNameList;
-	objectNameList << "Sphere" << "Cylinder" << "Cone" << "Torus";
-	QStringList colourNameList;
-	colourNameList << "Same" << "Alternate Colours" << "Flat Shading" << "Smooth Shading" << "Texture";
-	QStringList geometryTypeList;
-	geometryTypeList << "Points" << "Lines" << "Triangles";
-
-	setWindowTitle("COMP3811 Computer Graphics - Coursework One - Donald Whyte");
+	setWindowTitle("COMP3811 Computer Graphics - Coursework Four - Donald Whyte");
 	windowLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
 
 	// Menu bar
@@ -57,54 +45,12 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 		animationCheckBox = new QCheckBox("Y Rotation Animation Enabled");
 		rowFiveLayout->addWidget(animationCheckBox);
 
-	rowSixLayout = new QBoxLayout(QBoxLayout::LeftToRight);
-	windowLayout->addLayout(rowSixLayout);
-		objectChooserLabel = new QLabel("Object");
-		rowSixLayout->addWidget(objectChooserLabel);
-		objectChooser = new QComboBox();
-		objectChooser->addItems(objectNameList);
-		objectChooser->setCurrentIndex(INITIAL_OBJECT_INDEX);
-		rowSixLayout->addWidget(objectChooser);
-
-	rowSevenLayout = new QBoxLayout(QBoxLayout::LeftToRight);
-	windowLayout->addLayout(rowSevenLayout);
-		colourLabel = new QLabel("Triangle Colouring");
-		rowSevenLayout->addWidget(colourLabel);
-		colourChooser = new QComboBox();
-		colourChooser->addItems(colourNameList);
-		colourChooser->setCurrentIndex(INITIAL_COLOUR_INDEX);
-		rowSevenLayout->addWidget(colourChooser);
-
-	rowEightLayout = new QBoxLayout(QBoxLayout::LeftToRight);
-	windowLayout->addLayout(rowEightLayout);
-		geometryLabel = new QLabel("Geometry Type");
-		rowEightLayout->addWidget(geometryLabel);
-		geometryTypeChooser = new QComboBox();
-		geometryTypeChooser->addItems(geometryTypeList);
-		geometryTypeChooser->setCurrentIndex(INITIAL_GEOMTYPE_INDEX);
-		rowEightLayout->addWidget(geometryTypeChooser);
-	
-	rowNineLayout = new QBoxLayout(QBoxLayout::LeftToRight);
-	windowLayout->addLayout(rowNineLayout);
-		detailLabel = new QLabel("Level of Detail");
-		rowNineLayout->addWidget(detailLabel);
-		detailSlider = new QSlider(Qt::Horizontal);
-		rowNineLayout->addWidget(detailSlider);
-
 	resetInterface();
 }
 
 GLWindow::~GLWindow()
 {
 	// Done in reverse-order, bottom of visual hierarchy to the top
-	delete detailLabel;
-	delete detailSlider;
-	delete geometryLabel;
-	delete geometryTypeChooser;
-	delete colourLabel;
-	delete colourChooser;
-	delete objectChooserLabel;
-	delete objectChooser;
 	delete animationCheckBox;
 	delete xRotLabel;
 	delete yRotLabel;
@@ -118,10 +64,6 @@ GLWindow::~GLWindow()
 	delete rowThreeLayout;
 	delete rowFourLayout;
 	delete rowFiveLayout;
-	delete rowSixLayout;
-	delete rowSevenLayout;
-	delete rowEightLayout;
-	delete rowNineLayout;
 	delete windowLayout;
 	delete actionQuit;
 	delete fileMenu;
@@ -147,11 +89,7 @@ void GLWindow::resetInterface()
 	zRotSlider->setMinimum(0);
 	zRotSlider->setMaximum(360);
 	zRotSlider->setValue(drawable->zRotation());
-	detailSlider->setMinimum(8);
-	detailSlider->setMaximum(128);
 
 	update(); // force refresh
 	canvasWidget->update(); // wasn't repainting with update()...
 }
-
-

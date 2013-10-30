@@ -36,19 +36,14 @@ public:
 	QSlider* xRotSlider;
 	QSlider* yRotSlider;
 	QSlider* zRotSlider;
-
 	QCheckBox* animationCheckBox;
-	QComboBox* objectChooser;
-	QComboBox* colourChooser;
-	QComboBox* geometryTypeChooser;
-	QSlider* detailSlider;
 
 	QAction* actionQuit;
 
 private:
 	Drawable* drawable;
 
-	// Visua hierarchy
+	// Visual hierarchy
 	QMenuBar* menuBar;
 		QMenu* fileMenu;
 	QBoxLayout* windowLayout;
@@ -60,14 +55,6 @@ private:
 		QBoxLayout* rowFourLayout;
 			QLabel* zRotLabel;
 		QBoxLayout* rowFiveLayout;
-		QBoxLayout* rowSixLayout;
-			QLabel* objectChooserLabel;
-		QBoxLayout* rowSevenLayout;
-			QLabel* colourLabel;
-		QBoxLayout* rowEightLayout;
-			QLabel* geometryLabel;
-		QBoxLayout* rowNineLayout;
-			QLabel* detailLabel;
 
 };
 
