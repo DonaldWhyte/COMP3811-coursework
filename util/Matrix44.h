@@ -11,6 +11,7 @@ public:
 	Matrix44(float** elements);
 	Matrix44(float elements[4][4]);
 
+	const float* data() const;
 	const float* operator[](int row) const;
 	float* operator[](int row);
 	float operator()(int row, int col) const; // just for getting values
@@ -25,7 +26,9 @@ public:
 	// Factory methods
 	static Matrix44 identity();
 	static Matrix44 translation(float x, float y, float z);
+	static Matrix44 translation(const Vector3& amount);
 	static Matrix44 scale(float x, float y, float z);
+	static Matrix44 scale(const Vector3& amount);
 	static Matrix44 xRotation(float degrees);
 	static Matrix44 yRotation(float degrees);
 	static Matrix44 zRotation(float degrees);

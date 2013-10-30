@@ -1,6 +1,7 @@
 #include "Bone.h"
 #include <QGLWidget> /// for OpenGL functions
 #include <algorithm>
+#include "../util/Matrix44.h"
 
 Bone::Bone(Surface* surface, const Vector3& origin, const Vector3& rotation) :
 	boneSurface(surface), boneOrigin(origin), boneRotation(rotation)
@@ -61,10 +62,11 @@ const Bone::BoneList& Bone::children() const {
 
 void Bone::render()
 {
-	// Render the bone itself
 	glPushMatrix();
-	// TODO: transformations
-	
+
+	// Construct transformation matrix and apply it in OpenGL
+	Matrix44 mat = Matrix44::xyzRotation(boneRotation) * Matrix44::translation(boneOrigin);
+	glMultMatrixf(mat.data());
 	// Render all of this bone's childBones
 	for (BoneList::iterator it = childBones.begin(); (it != childBones.end()); it++)
 		(*it)->render();

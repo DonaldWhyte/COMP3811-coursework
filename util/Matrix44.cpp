@@ -21,7 +21,12 @@ Matrix44::Matrix44(float elements[4][4])
 	for (int i = 0; (i < ROWS); i++)
 		for (int j = 0; (j < COLUMNS); j++)
 			this->elements[i][j] = elements[i][j];
-	}
+}
+
+const float* Matrix44::data() const
+{
+	return reinterpret_cast<const float*>(&elements[0]);
+}
 
 const float* Matrix44::operator[](int row) const
 {
@@ -77,6 +82,11 @@ Matrix44 Matrix44::translation(float x, float y, float z)
 	return mat;
 }
 
+Matrix44 Matrix44::translation(const Vector3& amount)
+{
+	return Matrix44::translation(amount.x, amount.y, amount.z);
+}
+
 Matrix44 Matrix44::scale(float x, float y, float z)
 {
 	Matrix44 mat = identity();
@@ -85,6 +95,12 @@ Matrix44 Matrix44::scale(float x, float y, float z)
 	mat[2][2] = z;
 	return mat;
 }
+
+Matrix44 Matrix44::scale(const Vector3& amount)
+{
+	return Matrix44::scale(amount.x, amount.y, amount.z);
+}
+
 
 Matrix44 Matrix44::xRotation(float degrees)
 {
