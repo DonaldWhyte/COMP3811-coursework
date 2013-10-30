@@ -2,7 +2,7 @@
 #define ANIMATION_BONE_H
 
 #include <vector>
-#include "Surface.h"
+#include "../surfaces/Surface.h"
 #include "../util/Vector3.h"
 
 class Bone
