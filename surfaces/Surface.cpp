@@ -28,8 +28,10 @@ void Surface::setTriangles(const TriangleList& newTriangles)
 
 void Surface::render()
 {
+	glBegin(GL_TRIANGLES);
 	for (TriangleList::const_iterator it = tris.begin(); (it != tris.end()); it++)
 		renderTriangle(*it);
+	glEnd();
 }
 
 void Surface::renderVertex(const Vertex& v)

@@ -50,7 +50,8 @@ void GLCanvasWidget::setupProjection(int width, int height)
 	// Setup orthographic projection
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(-1.0f, 1.0f, -1.0f, 1.0f, -10, 10);
+	double aspectRatio = static_cast<double>(width) / height;
+	gluPerspective(45.5, aspectRatio, 1.0, 10.0);
 	glMatrixMode(GL_MODELVIEW);
 }
 
@@ -62,6 +63,10 @@ void GLCanvasWidget::setupViewport(int width, int height)
 void GLCanvasWidget::paintGL()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// Clear modelview matrix before rendering the scene
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 
 	drawable->render();
 

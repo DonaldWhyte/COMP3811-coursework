@@ -11,9 +11,10 @@ int main(int argc, char* argv[])
 
 	// Construct skeleton to draw (model)
 	SurfaceFactory surfaceFactory;
-	Surface cylinder = surfaceFactory.createCylinder(0.5f, 0.5f, 16);
+	Surface cylinder = surfaceFactory.createCylinder(0.75f, 0.25f, 8);
 	Bone rootBone(&cylinder);
 	Drawable* drawable = new Skeleton(&rootBone);
+	drawable->setZ(-2.5f); // so drawable is visible
 
 	// Now build view and controller
 	GLWindow* window = new GLWindow(NULL, drawable);
