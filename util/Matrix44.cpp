@@ -23,9 +23,20 @@ Matrix44::Matrix44(float elements[4][4])
 			this->elements[i][j] = elements[i][j];
 }
 
-const float* Matrix44::data() const
+const float* Matrix44::rowMajorData() const
 {
 	return reinterpret_cast<const float*>(&elements[0]);
+}
+
+const float* Matrix44::columnMajorData() const
+{
+	float colData[] = {
+		elements[0][0], elements[1][0], elements[2][0], elements[3][0], // column 1
+		elements[0][1], elements[1][1], elements[2][1], elements[3][1], // column 2
+		elements[0][2], elements[1][2], elements[2][2], elements[3][2], // column 3
+		elements[0][3], elements[1][3], elements[2][3], elements[3][3], // column 4
+	};
+	return colData;
 }
 
 const float* Matrix44::operator[](int row) const

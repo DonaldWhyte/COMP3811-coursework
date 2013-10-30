@@ -3,8 +3,8 @@
 #include <algorithm>
 #include "../util/Matrix44.h"
 
-Bone::Bone(Surface* surface, const Vector3& origin, const Vector3& rotation) :
-	boneSurface(surface), boneOrigin(origin), boneRotation(rotation)
+Bone::Bone(Surface* surface, const Vector3& boneOrigin, const Vector3& boneRotation) :
+	boneSurface(surface), boneOrigin(boneOrigin), boneRotation(boneRotation)
 {
 }
 
@@ -65,8 +65,10 @@ void Bone::render()
 	glPushMatrix();
 
 	// Construct transformation matrix and apply it in OpenGL
-	Matrix44 mat = Matrix44::xyzRotation(boneRotation) * Matrix44::translation(boneOrigin);
-	glMultMatrixf(mat.data());
+	glRotatef(boneRotation.x, 1.0f, 0.0f, 0.0f);	
+	glRotatef(boneRotation.y, 0.0f, 1.0f, 0.0f);
+	glRotatef(boneRotation.z, 0.0f, 0.0f, 1.0f);
+	glTranslatef(boneOrigin.x, boneOrigin.y, boneOrigin.z);
 	// Render all of this bone's childBones
 	for (BoneList::iterator it = childBones.begin(); (it != childBones.end()); it++)
 		(*it)->render();

@@ -11,7 +11,8 @@ public:
 	Matrix44(float** elements);
 	Matrix44(float elements[4][4]);
 
-	const float* data() const;
+	const float* rowMajorData() const;
+	const float* columnMajorData() const;
 	const float* operator[](int row) const;
 	float* operator[](int row);
 	float operator()(int row, int col) const; // just for getting values
