@@ -11,7 +11,8 @@ class Bone
 public:
 	typedef std::vector<Bone*> BoneList;
 
-	Bone(Surface* surface, const Vector3& origin = Vector3(0, 0, 0),
+	Bone(Surface* surface,
+		const Vector3& origin = Vector3(0, 0, 0),
 		const Vector3& rotation = Vector3(0, 0, 0));
 	virtual ~Bone();
 

@@ -3,13 +3,16 @@
 #include "GLApplicationController.h"
 
 #include "animation/Skeleton.h"
+#include "surfaces/SurfaceFactory.h"
 
 int main(int argc, char* argv[])
 {
 	QApplication app(argc, argv);
 
 	// Construct skeleton to draw (model)
-	Bone rootBone(NULL);
+	SurfaceFactory surfaceFactory;
+	Surface cylinder = surfaceFactory.createCylinder(0.5f, 0.5f, 16);
+	Bone rootBone(&cylinder);
 	Drawable* drawable = new Skeleton(&rootBone);
 
 	// Now build view and controller
