@@ -12,6 +12,7 @@ class SurfaceFactory
 public:
 	Surface* createCylinder(float height, float radius, int numSegments);
 	Surface* createCone(float height, float radius, int numSegments);
+	Surface* createBox(float width, float height, float length);
 
 };
 

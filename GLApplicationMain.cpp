@@ -4,6 +4,7 @@
 
 #include "animation/Skeleton.h"
 #include "animation/Axes.h"
+#include "surfaces/SurfaceFactory.h"
 
 int main(int argc, char* argv[])
 {

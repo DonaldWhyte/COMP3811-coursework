@@ -1,8 +1,6 @@
 #include "SurfaceFactory.h"
 #include <math.h>
 
-#include <iostream>
-
 Surface* SurfaceFactory::createCylinder(float height, float radius, int numSegments)
 {
     // Construct a cylinder using the given arguments
@@ -75,7 +73,7 @@ Surface* SurfaceFactory::createCylinder(float height, float radius, int numSegme
 	return new Surface(generatedVertices, generatedTriangles);
 }
 
-Surface*	SurfaceFactory::createCone(float height, float radius, int numSegments)
+Surface* SurfaceFactory::createCone(float height, float radius, int numSegments)
 {
 	// Construct a cone using the given arguments
 	VertexList generatedVertices;
@@ -122,5 +120,40 @@ Surface*	SurfaceFactory::createCone(float height, float radius, int numSegments)
 	}
 
 	return new Surface(generatedVertices, generatedTriangles);
+}
+
+Surface* SurfaceFactory::createBox(float width, float height, float length)
+{
+    VertexList generatedVertices;
+    TriangleList generatedTriangles;
+    
+    // Generate the eight vertices required for the box
+    Vector3List vertexPositions;
+    vertexPositions.reserve(8);
+    vertexPositions.push_back( Vector3(0, 0, 0) );
+    vertexPositions.push_back( Vector3(0, height, 0) );
+    vertexPositions.push_back( Vector3(0, height, length) );
+    vertexPositions.push_back( Vector3(0, 0, length) );
+    vertexPositions.push_back( Vector3(width, 0, length) );
+    vertexPositions.push_back( Vector3(width, height, length) );
+    vertexPositions.push_back( Vector3(width, height, 0) );
+    vertexPositions.push_back( Vector3(width, 0, 0) );                            
+    generatedTriangles.reserve(vertexPositions.size());
+    for (Vector3List::const_iterator it = vertexPositions.begin();
+        (it != vertexPositions.end()); it++)
+    {
+        Vertex v;
+        v.position = v.normal = (*it);
+        generatedVertices.push_back(v);
+    }
+    // Generate fixed set of triangles for the surface
+    generatedTriangles.push_back( Triangle(2, 3, 0) ); generatedTriangles.push_back( Triangle(0, 1, 2) );
+    generatedTriangles.push_back( Triangle(3, 2, 5) ); generatedTriangles.push_back( Triangle(5, 4, 3) );
+    generatedTriangles.push_back( Triangle(6, 1, 0) ); generatedTriangles.push_back( Triangle(0, 7, 6) );
+    generatedTriangles.push_back( Triangle(4, 7, 0) ); generatedTriangles.push_back( Triangle(0, 3, 4) );
+    generatedTriangles.push_back( Triangle(4, 5, 6) ); generatedTriangles.push_back( Triangle(6, 7, 4) );
+    generatedTriangles.push_back( Triangle(5, 2, 1) ); generatedTriangles.push_back( Triangle(1, 6, 5) );
+
+    return new Surface(generatedVertices, generatedTriangles);
 }
 

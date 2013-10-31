@@ -57,7 +57,7 @@ void Surface::setTriangles(const TriangleList& newTriangles)
 }
 
 void Surface::render()
-{		
+{
 	glColor3f(1.0f, 0.0f, 0.0f);
 	glBegin(GL_TRIANGLES);
 	for (TriangleList::const_iterator it = tris.begin(); (it != tris.end()); it++)
