@@ -12,20 +12,40 @@ int main(int argc, char* argv[])
 	QApplication app(argc, argv);
 
     CompositeDrawable* compositeDrawable = new CompositeDrawable();
-    compositeDrawable->setZ(-10.0f); // so everything is visible
+    compositeDrawable->setZ(-20.0f); // so everything is visible
     // Create axes
     Bone* axes = Axes::createXYZAxes(7.5f, 0.5f);
     compositeDrawable->addDrawable(new Skeleton(axes));
     
     // Create a person using bone transformations
-    SurfaceFactory surfaceFactory(true);
+    SurfaceFactory surfaceFactory(false, false, true);
     // Create person's body
-    Bone* pelvisBone = new Bone(surfaceFactory.createBox(0.75f, 1.0f, 0.5f));
-    Bone* chestBone = new Bone(surfaceFactory.createBox(0.75f, 2.0f, 0.5f),
-        Vector3(0.0f, 1.0f, 0.0f));
+    /*Bone* pelvisBone = new Bone(surfaceFactory.createBox(1.5f, 1.25f, 1.2f));
+    Bone* chestBone = new Bone(surfaceFactory.createBox(1.5f, 2.0f, 1.2f),
+        Vector3(0.0f, 1.25f, 0.0f));
     pelvisBone->addChild(chestBone);
-    // Create person's head
-    // TODO
+    // Create person's head (and neck)
+    Bone* neckBone = new Bone(surfaceFactory.createCylinder(0.1f, 0.75f, 32),
+        Vector3(0.325f + 0.43f, 2.0f + 0.05f, 0.6f), Vector3(90.0f, 0.0f, 0.0f));
+    chestBone->addChild(neckBone);
+    Bone* headBone = new Bone(surfaceFactory.createSphere(1.0f, 32, 32),
+        Vector3(-0.5f, 0.1f + 2.0f, 0.0f));
+    neckBone->addChild(headBone);*/
+    
+    // Create person's body
+    Bone* pelvisBone = new Bone(surfaceFactory.createBox(2.0f, 1.8f, 1.0f));
+    Bone* chestBone = new Bone(surfaceFactory.createBox(2.0f, 2.2f, 1.0f),
+        Vector3(0.0f, 1.8f, 0.0f));
+    pelvisBone->addChild(chestBone);
+    // Create person's head (and neck)
+   Bone* neckBone = new Bone(surfaceFactory.createCylinder(0.25f, 0.7f, 32),
+        Vector3(1.0f, 2.2f, 0.35f), Vector3(90.0f, 0.0f, 0.0f));
+    chestBone->addChild(neckBone);
+//    Bone* headBone = new Bone(surfaceFactory.createSphere(1.0f, 32, 32),
+  //      Vector3(-0.5f, 0.1f + 2.0f, 0.0f));
+//    neckBone->addChild(headBone);    
+        
+ 
     // Create person's left arm
     // TODO
     // Create person's right arm

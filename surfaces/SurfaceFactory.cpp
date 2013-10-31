@@ -10,7 +10,8 @@ float randomFloat()
     return static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 }
 
-SurfaceFactory::SurfaceFactory(bool generateRandomColours) :
+SurfaceFactory::SurfaceFactory(bool showPoints, bool showLines, bool generateRandomColours) :
+    showPoints(showPoints), showLines(showLines),
     generateRandomColours(generateRandomColours)
 {
 }
@@ -228,13 +229,19 @@ Surface* SurfaceFactory::createSphere(float radius, int numRings, int numQuadsPe
 
 Surface* SurfaceFactory::generateSurface(const VertexList& verts, const TriangleList& tris)
 {
+    // Generate random colour for surface if specified.
+    // Otherwise, use a fixed default colour
     Vector3 colour;
     if (generateRandomColours)
         colour = Vector3(randomFloat(), randomFloat(), randomFloat());
     else
         colour = Vector3(1.0f, 0.0f, 0.0f);
     
-    return new Surface(verts, tris, colour);
+    Surface* surface = new Surface(verts, tris, colour);
+    // Set surface's default parameters
+    surface->setShowPoints(showPoints);    
+    surface->setShowLines(showLines);
+    return surface;
 }
     
 TexCoord SurfaceFactory::computeSphereTexCoord(const Vector3& posOnSphere)

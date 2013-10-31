@@ -10,7 +10,8 @@ class SurfaceFactory
 {
 
 public:
-    SurfaceFactory(bool generateRandomColours = false);
+    SurfaceFactory(bool showPoints = false, bool showLines = false,
+        bool generateRandomColours = false);
 	Surface* createCylinder(float height, float radius, int numSegments);
 	Surface* createCone(float height, float radius, int numSegments);
 	Surface* createBox(float width, float height, float length);
@@ -20,6 +21,9 @@ private:
     Surface* generateSurface(const VertexList& verts, const TriangleList& tris);
 
     TexCoord computeSphereTexCoord(const Vector3& posOnSphere);
+    // Default parameters to set to generated surfaces
+    bool showPoints;
+    bool showLines;    
     bool generateRandomColours;
 
 };
