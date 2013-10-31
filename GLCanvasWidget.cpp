@@ -25,7 +25,7 @@ void GLCanvasWidget::initializeGL()
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	// Enable back-face culling for efficiency
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	// Will make OpenGL automatically normalise vertex normals
 	glEnable(GL_NORMALIZE);
