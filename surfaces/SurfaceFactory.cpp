@@ -30,8 +30,8 @@ Surface SurfaceFactory::createCylinder(float height, float radius, int numSegmen
 		generatedVertices.push_back(v1); generatedVertices.push_back(v2);
 		generatedVertices.push_back(v3); generatedVertices.push_back(v4);
 	
-		generatedTriangles.push_back( Triangle(vertexCounter, vertexCounter + 1, vertexCounter + 2) );
-		generatedTriangles.push_back( Triangle(vertexCounter + 3, vertexCounter + 1, vertexCounter) );
+		generatedTriangles.push_back( Triangle(vertexCounter + 2, vertexCounter + 1, vertexCounter) );
+		generatedTriangles.push_back( Triangle(vertexCounter, vertexCounter + 1, vertexCounter + 3) );
 		vertexCounter += 4;
 	}
 	// Generate top and bottom sections
@@ -67,8 +67,8 @@ Surface SurfaceFactory::createCylinder(float height, float radius, int numSegmen
 		generatedVertices.push_back(v1); generatedVertices.push_back(v2);
 		generatedVertices.push_back(v3); generatedVertices.push_back(v4);
 
-		generatedTriangles.push_back( Triangle(topIndex, vertexCounter + 2, vertexCounter + 1) ); // top
-		generatedTriangles.push_back( Triangle(bottomIndex, vertexCounter + 3, vertexCounter) ); // bottom
+		generatedTriangles.push_back( Triangle(vertexCounter + 1, vertexCounter + 2, topIndex) ); // top
+		generatedTriangles.push_back( Triangle(vertexCounter, vertexCounter + 3, bottomIndex) ); // bottom
 		vertexCounter += 4;
 	}
 	return Surface(generatedVertices, generatedTriangles);
@@ -114,9 +114,9 @@ Surface	SurfaceFactory::createCone(float height, float radius, int numSegments)
 		generatedVertices.push_back(bv2);
 	
 		// Triangle for tower part
-		generatedTriangles.push_back( Triangle(0, vertexCounter, vertexCounter + 1) );
+		generatedTriangles.push_back( Triangle(vertexCounter, vertexCounter + 1, 1) );
 		// Triangle for bottom section
-		generatedTriangles.push_back( Triangle(1, vertexCounter + 3, vertexCounter + 2) );
+		generatedTriangles.push_back( Triangle(vertexCounter + 3, vertexCounter + 2, 0) );
 		vertexCounter += 4;
 	}
 

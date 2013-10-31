@@ -51,7 +51,7 @@ void GLCanvasWidget::setupProjection(int width, int height)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	double aspectRatio = static_cast<double>(width) / height;
-	gluPerspective(45.5, aspectRatio, 1.0, 10.0);
+	gluPerspective(45.5, aspectRatio, 1.0, 30.0);
 	glMatrixMode(GL_MODELVIEW);
 }
 
