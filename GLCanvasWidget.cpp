@@ -37,6 +37,7 @@ void GLCanvasWidget::initializeGL()
 	setupViewport(this->width(), this->height());
 
 	lightingManager.initialise();
+	lightingManager.setLightingModel(LIGHTING_MODEL_SMOOTH);	
 }
 
 void GLCanvasWidget::resizeGL(int width, int height)

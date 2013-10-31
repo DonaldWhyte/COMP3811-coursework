@@ -60,7 +60,6 @@ const Bone::BoneList& Bone::children() const {
 	return childBones;
 }
 
-#include <iostream>
 void Bone::render()
 {
 	glPushMatrix();

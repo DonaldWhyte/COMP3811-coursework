@@ -7,6 +7,22 @@
 #include "surfaces/SurfaceFactory.h"
 #include "CompositeDrawable.h"
 
+Bone* createLeg(SurfaceFactory* surfaceFactory, Vector3 rootPosition, Vector3 rootOrientation)
+{
+    Surface* joint = surfaceFactory->createSphere(0.4f, 32, 32);    
+    Surface* legComponent = surfaceFactory->createCylinder(1.6f, 0.3f, 32);
+    Surface* foot = surfaceFactory->createBox(0.7f, 1.1f, 0.5f);
+    Bone* thigh = new Bone(legComponent, rootPosition, rootOrientation);
+    Bone* knee = new Bone(joint, Vector3(0, 0, 1.0f));
+    thigh->addChild(knee);
+    Bone* shin = new Bone(legComponent, Vector3(0.0f, 0.0f, 1.0f));
+    knee->addChild(shin);    
+    Bone* leg = new Bone(foot, Vector3(-0.35f, -0.35f, 0.8f));
+    shin->addChild(leg);
+    
+    return thigh;
+}
+
 int main(int argc, char* argv[])
 {
 	QApplication app(argc, argv);
@@ -25,22 +41,21 @@ int main(int argc, char* argv[])
         Vector3(0.0f, 1.8f, 0.0f));
     pelvisBone->addChild(chestBone);
     // Create person's head (and neck)
-   Bone* neckBone = new Bone(surfaceFactory.createCylinder(0.3f, 0.5f, 32),
+    Bone* neckBone = new Bone(surfaceFactory.createCylinder(0.3f, 0.5f, 32),
         Vector3(1.0f, 2.2f, 0.5f), Vector3(90.0f, 0.0f, 0.0f));
     chestBone->addChild(neckBone);
     Bone* headBone = new Bone(surfaceFactory.createSphere(0.9f, 32, 32),
         Vector3(0.0f, 0.0f, -0.7f));
-    neckBone->addChild(headBone);    
-        
- 
-    // Create person's left arm
+    neckBone->addChild(headBone);
+    // Create person's left and right arms
     // TODO
-    // Create person's right arm
-    // TODO
-    // Create person's left leg
-    // TODO
-    // Create person's right leg
-    // TODO
+    // Create person's left and right legs
+    Bone* leftLeg = createLeg(&surfaceFactory,
+        Vector3(0.5f, -0.8f, 0.55f), Vector3(90.0f, 0.0f, 0.0f));
+    Bone* rightLeg = createLeg(&surfaceFactory,
+        Vector3(1.5f, -0.8f, 0.55f), Vector3(90.0f, 0.0f, 0.0f));        
+    pelvisBone->addChild(leftLeg);
+    pelvisBone->addChild(rightLeg);
     // Add the person to the composite to render them
     compositeDrawable->addDrawable( new Skeleton(pelvisBone) );
 
