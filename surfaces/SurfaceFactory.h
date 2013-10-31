@@ -10,8 +10,8 @@ class SurfaceFactory
 {
 
 public:
-	Surface createCylinder(float height, float radius, int numSegments);
-	Surface	createCone(float height, float radius, int numSegments);
+	Surface* createCylinder(float height, float radius, int numSegments);
+	Surface* createCone(float height, float radius, int numSegments);
 
 };
 

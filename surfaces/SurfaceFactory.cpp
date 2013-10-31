@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-Surface SurfaceFactory::createCylinder(float height, float radius, int numSegments)
+Surface* SurfaceFactory::createCylinder(float height, float radius, int numSegments)
 {
     // Construct a cylinder using the given arguments
 	VertexList generatedVertices;
@@ -71,10 +71,11 @@ Surface SurfaceFactory::createCylinder(float height, float radius, int numSegmen
 		generatedTriangles.push_back( Triangle(vertexCounter, vertexCounter + 3, bottomIndex) ); // bottom
 		vertexCounter += 4;
 	}
-	return Surface(generatedVertices, generatedTriangles);
+	
+	return new Surface(generatedVertices, generatedTriangles);
 }
 
-Surface	SurfaceFactory::createCone(float height, float radius, int numSegments)
+Surface*	SurfaceFactory::createCone(float height, float radius, int numSegments)
 {
 	// Construct a cone using the given arguments
 	VertexList generatedVertices;
@@ -120,6 +121,6 @@ Surface	SurfaceFactory::createCone(float height, float radius, int numSegments)
 		vertexCounter += 4;
 	}
 
-	return Surface(generatedVertices, generatedTriangles);
+	return new Surface(generatedVertices, generatedTriangles);
 }
 
