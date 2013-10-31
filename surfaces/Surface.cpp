@@ -31,8 +31,10 @@ void renderLines(const VertexList& vertices, const TriangleList& triangles)
 
 
 
-Surface::Surface(const VertexList& vertices, const TriangleList& triangles) :
-	verts(vertices), tris(triangles), showPoints(false), showLines(false)
+Surface::Surface(const VertexList& vertices, const TriangleList& triangles,
+    const Vector3& colour) :
+	verts(vertices), tris(triangles), surfaceColour(colour),
+	showPoints(false), showLines(false)
 {
 }
 
@@ -54,6 +56,16 @@ const TriangleList& Surface::triangles() const
 void Surface::setTriangles(const TriangleList& newTriangles)
 {
 	tris = newTriangles;
+}
+
+const Vector3& Surface::colour() const
+{
+	return surfaceColour;
+}
+
+void Surface::setColour(const Vector3& newColour)
+{
+	surfaceColour = newColour;
 }
 
 bool Surface::showingPoints() const
@@ -89,7 +101,7 @@ void Surface::render()
         renderLines(verts, tris);
     }
     
-	glColor3f(1.0f, 0.0f, 0.0f);
+	glColor3fv(surfaceColour.elems);
 	glBegin(GL_TRIANGLES);
 	for (TriangleList::const_iterator it = tris.begin(); (it != tris.end()); it++)
 		renderTriangle(*it);

@@ -7,12 +7,16 @@ class Surface
 {
 
 public:
-	Surface(const VertexList& vertices, const TriangleList& triangles);
+	Surface(const VertexList& vertices, const TriangleList& triangles,
+	    const Vector3& colour = Vector3(1.0f, 0.0f, 0.0f));
 	
 	const VertexList& vertices() const;
 	void setVertices(const VertexList& newVertices);
 	const TriangleList& triangles() const;
 	void setTriangles(const TriangleList& newTriangles);
+	const Vector3& colour() const;
+    void setColour(const Vector3& newColour);
+
 	
 	bool showingPoints() const;
 	void setShowPoints(bool showPoints);
@@ -27,6 +31,7 @@ private:
 	
 	VertexList verts;
 	TriangleList tris;
+	Vector3 surfaceColour;
 	bool showPoints;
 	bool showLines;	
 

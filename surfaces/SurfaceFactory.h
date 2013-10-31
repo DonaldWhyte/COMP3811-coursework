@@ -10,13 +10,17 @@ class SurfaceFactory
 {
 
 public:
+    SurfaceFactory(bool generateRandomColours = false);
 	Surface* createCylinder(float height, float radius, int numSegments);
 	Surface* createCone(float height, float radius, int numSegments);
 	Surface* createBox(float width, float height, float length);
 	Surface* createSphere(float radius, int numRings, int numQuadsPerRing);
 
 private:
+    Surface* generateSurface(const VertexList& verts, const TriangleList& tris);
+
     TexCoord computeSphereTexCoord(const Vector3& posOnSphere);
+    bool generateRandomColours;
 
 };
 

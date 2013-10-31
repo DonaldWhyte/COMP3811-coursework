@@ -15,13 +15,27 @@ int main(int argc, char* argv[])
     compositeDrawable->setZ(-10.0f); // so everything is visible
     // Create axes
     Bone* axes = Axes::createXYZAxes(7.5f, 0.5f);
-    compositeDrawable->addDrawable( new Skeleton(axes) );
-    // Create sphere
-	SurfaceFactory surfaceFactory;
-	Surface* sphere = surfaceFactory.createSphere(3.0f, 32, 32);
-	sphere->setShowPoints(true);		    
-	Bone* sphereBone = new Bone(sphere);    
-    compositeDrawable->addDrawable( new Skeleton(sphereBone) );
+    compositeDrawable->addDrawable(new Skeleton(axes));
+    
+    // Create a person using bone transformations
+    SurfaceFactory surfaceFactory(true);
+    // Create person's body
+    Bone* pelvisBone = new Bone(surfaceFactory.createBox(0.75f, 1.0f, 0.5f));
+    Bone* chestBone = new Bone(surfaceFactory.createBox(0.75f, 2.0f, 0.5f),
+        Vector3(0.0f, 1.0f, 0.0f));
+    pelvisBone->addChild(chestBone);
+    // Create person's head
+    // TODO
+    // Create person's left arm
+    // TODO
+    // Create person's right arm
+    // TODO
+    // Create person's left leg
+    // TODO
+    // Create person's right leg
+    // TODO
+    // Add the person to the composite to render them
+    compositeDrawable->addDrawable( new Skeleton(pelvisBone) );
 
 	// Now build view and controller
 	GLWindow* window = new GLWindow(NULL, compositeDrawable);
@@ -36,6 +50,7 @@ int main(int argc, char* argv[])
 	delete window;
 	delete compositeDrawable;
 	delete axes;
+    delete pelvisBone; // root of person
 
 	return 0;
 }

@@ -1,5 +1,19 @@
 #include "SurfaceFactory.h"
-#include <math.h>
+#include <cmath>
+#include <cstdlib>
+
+/* Generates random float between 0 and 1 inclusive.
+ * Declared in source file as it's currently not needed
+ * outside of this translation unit.*/
+float randomFloat()
+{
+    return static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+}
+
+SurfaceFactory::SurfaceFactory(bool generateRandomColours) :
+    generateRandomColours(generateRandomColours)
+{
+}
 
 Surface* SurfaceFactory::createCylinder(float height, float radius, int numSegments)
 {
@@ -70,7 +84,7 @@ Surface* SurfaceFactory::createCylinder(float height, float radius, int numSegme
 		vertexCounter += 4;
 	}
 	
-	return new Surface(generatedVertices, generatedTriangles);
+    return generateSurface(generatedVertices, generatedTriangles);
 }
 
 Surface* SurfaceFactory::createCone(float height, float radius, int numSegments)
@@ -119,7 +133,7 @@ Surface* SurfaceFactory::createCone(float height, float radius, int numSegments)
 		vertexCounter += 4;
 	}
 
-	return new Surface(generatedVertices, generatedTriangles);
+    return generateSurface(generatedVertices, generatedTriangles);
 }
 
 Surface* SurfaceFactory::createBox(float width, float height, float length)
@@ -154,7 +168,7 @@ Surface* SurfaceFactory::createBox(float width, float height, float length)
     generatedTriangles.push_back( Triangle(4, 5, 6) ); generatedTriangles.push_back( Triangle(6, 7, 4) );
     generatedTriangles.push_back( Triangle(5, 2, 1) ); generatedTriangles.push_back( Triangle(1, 6, 5) );
 
-    return new Surface(generatedVertices, generatedTriangles);
+    return generateSurface(generatedVertices, generatedTriangles);
 }
 
 Surface* SurfaceFactory::createSphere(float radius, int numRings, int numQuadsPerRing)
@@ -209,12 +223,25 @@ Surface* SurfaceFactory::createSphere(float radius, int numRings, int numQuadsPe
 		}
 	}    
     
-    return new Surface(generatedVertices, generatedTriangles);
+    return generateSurface(generatedVertices, generatedTriangles);
 }
 
+Surface* SurfaceFactory::generateSurface(const VertexList& verts, const TriangleList& tris)
+{
+    Vector3 colour;
+    if (generateRandomColours)
+        colour = Vector3(randomFloat(), randomFloat(), randomFloat());
+    else
+        colour = Vector3(1.0f, 0.0f, 0.0f);
+    
+    return new Surface(verts, tris, colour);
+}
+    
 TexCoord SurfaceFactory::computeSphereTexCoord(const Vector3& posOnSphere)
 {
 	float s = 0.5f + (atan2(posOnSphere.z, posOnSphere.x) / (2.0f * PI));
 	float t = 0.5f - (asin(posOnSphere.y) / PI);
 	return TexCoord(s, t); 
 }
+
+
