@@ -13,6 +13,15 @@ int main(int argc, char* argv[])
 	// Construct skeleton to draw bones
 	Bone* axes = Axes::createXYZAxes(7.5f, 0.5f);
 	Drawable* drawable = new Skeleton(axes);
+	
+		SurfaceFactory surfaceFactory;
+		Surface* sphere = surfaceFactory.createSphere(3.0f, 32, 32);
+		sphere->setShowLines(true);
+		sphere->setShowPoints(true);		
+	Bone* temp = new Bone( sphere );
+	delete drawable;
+	drawable = new Skeleton(temp);
+	
 	drawable->setZ(-10.0f); // so drawable is visible
 
 	// Now build view and controller

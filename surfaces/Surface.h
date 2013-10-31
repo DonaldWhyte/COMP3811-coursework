@@ -13,6 +13,11 @@ public:
 	void setVertices(const VertexList& newVertices);
 	const TriangleList& triangles() const;
 	void setTriangles(const TriangleList& newTriangles);
+	
+	bool showingPoints() const;
+	void setShowPoints(bool showPoints);
+	bool showingLines() const;
+	void setShowLines(bool showLines);
 
 	void render();
 
@@ -22,6 +27,8 @@ private:
 	
 	VertexList verts;
 	TriangleList tris;
+	bool showPoints;
+	bool showLines;	
 
 };
 
