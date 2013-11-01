@@ -5,6 +5,10 @@ Skeleton::Skeleton(Bone* rootBone) : rootBone(rootBone)
 {
 }
 
+Skeleton::~Skeleton()
+{
+}
+
 void Skeleton::render()
 {
 	// Perform root transformations for skeleton

@@ -9,10 +9,11 @@ class Skeleton : public Drawable
 
 public:
 	Skeleton(Bone* rootBone);
+	virtual ~Skeleton();
 
 	void render();
 
-private:
+protected:
 	Bone* rootBone;
 
 };
