@@ -139,11 +139,10 @@ Surface* SurfaceFactory::createCone(float height, float radius, int numSegments)
 
 Surface* SurfaceFactory::createBox(float width, float height, float length)
 {
-
     VertexList generatedVertices;
     TriangleList generatedTriangles;
     
-    // Generate vertices and use the vertexp osition as the normal for now
+    // Generate vertices and use the vertex position as the normal for now
     Vector3List vertexPositions;
     vertexPositions.reserve(8);
     vertexPositions.push_back( Vector3(0, 0, length) );
@@ -171,8 +170,9 @@ Surface* SurfaceFactory::createBox(float width, float height, float length)
     generatedTriangles.push_back( Triangle(5, 6, 2) );
     generatedTriangles.push_back( Triangle(4, 0, 7) );
     generatedTriangles.push_back( Triangle(0, 3, 7) );
-    generatedTriangles.push_back( Triangle(5, 4, 1) );
-    generatedTriangles.push_back( Triangle(4, 0, 1) );
+    
+    generatedTriangles.push_back( Triangle(1, 4, 5) );
+    generatedTriangles.push_back( Triangle(1, 0, 4) );
     generatedTriangles.push_back( Triangle(3, 2, 7) );
     generatedTriangles.push_back( Triangle(2, 6, 7) );    
 
