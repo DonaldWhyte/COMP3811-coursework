@@ -139,21 +139,21 @@ Surface* SurfaceFactory::createCone(float height, float radius, int numSegments)
 
 Surface* SurfaceFactory::createBox(float width, float height, float length)
 {
+
     VertexList generatedVertices;
     TriangleList generatedTriangles;
     
-    // Generate the eight vertices required for the box
+    // Generate vertices and use the vertexp osition as the normal for now
     Vector3List vertexPositions;
     vertexPositions.reserve(8);
-    vertexPositions.push_back( Vector3(0, 0, 0) );
-    vertexPositions.push_back( Vector3(0, height, 0) );
-    vertexPositions.push_back( Vector3(0, height, length) );
     vertexPositions.push_back( Vector3(0, 0, length) );
     vertexPositions.push_back( Vector3(width, 0, length) );
     vertexPositions.push_back( Vector3(width, height, length) );
+    vertexPositions.push_back( Vector3(0, height, length) );
+    vertexPositions.push_back( Vector3(0, 0, 0) );
+    vertexPositions.push_back( Vector3(width, 0, 0) );
     vertexPositions.push_back( Vector3(width, height, 0) );
-    vertexPositions.push_back( Vector3(width, 0, 0) );                            
-    generatedTriangles.reserve(vertexPositions.size());
+    vertexPositions.push_back( Vector3(0, height, 0) );
     for (Vector3List::const_iterator it = vertexPositions.begin();
         (it != vertexPositions.end()); it++)
     {
@@ -161,13 +161,20 @@ Surface* SurfaceFactory::createBox(float width, float height, float length)
         v.position = v.normal = (*it);
         generatedVertices.push_back(v);
     }
-    // Generate fixed set of triangles for the surface
-    generatedTriangles.push_back( Triangle(2, 3, 0) ); generatedTriangles.push_back( Triangle(0, 1, 2) );
-    generatedTriangles.push_back( Triangle(3, 2, 5) ); generatedTriangles.push_back( Triangle(5, 4, 3) );
-    generatedTriangles.push_back( Triangle(6, 1, 0) ); generatedTriangles.push_back( Triangle(0, 7, 6) );
-    generatedTriangles.push_back( Triangle(4, 7, 0) ); generatedTriangles.push_back( Triangle(0, 3, 4) );
-    generatedTriangles.push_back( Triangle(4, 5, 6) ); generatedTriangles.push_back( Triangle(6, 7, 4) );
-    generatedTriangles.push_back( Triangle(5, 2, 1) ); generatedTriangles.push_back( Triangle(1, 6, 5) );
+    // Create triangles for the box
+    generatedTriangles.reserve(12);
+    generatedTriangles.push_back( Triangle(0, 1, 3) );
+    generatedTriangles.push_back( Triangle(1, 2, 3) );
+    generatedTriangles.push_back( Triangle(5, 4, 6) );
+    generatedTriangles.push_back( Triangle(4, 7, 6) );
+    generatedTriangles.push_back( Triangle(1, 5, 2) );
+    generatedTriangles.push_back( Triangle(5, 6, 2) );
+    generatedTriangles.push_back( Triangle(4, 0, 7) );
+    generatedTriangles.push_back( Triangle(0, 3, 7) );
+    generatedTriangles.push_back( Triangle(5, 4, 1) );
+    generatedTriangles.push_back( Triangle(4, 0, 1) );
+    generatedTriangles.push_back( Triangle(3, 2, 7) );
+    generatedTriangles.push_back( Triangle(2, 6, 7) );    
 
     return generateSurface(generatedVertices, generatedTriangles);
 }
