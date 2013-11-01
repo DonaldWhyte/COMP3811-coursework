@@ -3,9 +3,21 @@
 #include <algorithm>
 #include "../util/Matrix44.h"
 
-Bone::Bone(Surface* surface, const Vector3& boneOrigin, const Vector3& boneRotation) :
-	boneSurface(surface), boneOrigin(boneOrigin), boneRotation(boneRotation)
+KeyFrame::KeyFrame(int frameNumber, const Vector3& position, const Vector3& rotation) :
+    frameNumber(frameNumber), position(position), rotation(rotation)
 {
+}
+
+Bone::Bone(Surface* surface, const KeyFrameList& keyframes) :
+	 boneSurface(surface), keyframes(keyframes), currentKeyframe(0), currentFrameProgress(0.0f)
+{
+}
+
+Bone::Bone(Surface* surface, const Vector3& boneOrigin, const Vector3& boneRotation) :
+	boneSurface(surface), currentKeyframe(0), currentFrameProgress(0.0f)
+{
+	// Construct initial keyframe to work with animation
+	keyframes.push_back( KeyFrame(0, boneOrigin, boneRotation) );
 }
 
 Bone::~Bone()
@@ -25,25 +37,6 @@ void Bone::setSurface(Surface* newSurface)
 	boneSurface = newSurface;
 }
 
-Vector3 Bone::origin() const
-{
-	return boneOrigin;
-}
-
-void Bone::setOrigin(const Vector3& newOrigin)
-{
-	boneOrigin = newOrigin;
-}
-
-Vector3 Bone::rotation() const
-{
-	return boneRotation;
-}
-
-void Bone::setRotation(const Vector3& newRotation)
-{
-	boneRotation = newRotation;
-}
 
 void Bone::addChild(Bone* bone)
 {
@@ -60,14 +53,21 @@ const Bone::BoneList& Bone::children() const {
 	return childBones;
 }
 
+void Bone::update()
+{
+    // TODO
+}
+
 void Bone::render()
 {
 	glPushMatrix();
-    // Apply bone transformations
-	glTranslatef(boneOrigin.x, boneOrigin.y, boneOrigin.z);
-	glRotatef(boneRotation.x, 1.0f, 0.0f, 0.0f);	
-	glRotatef(boneRotation.y, 0.0f, 1.0f, 0.0f);
-	glRotatef(boneRotation.z, 0.0f, 0.0f, 1.0f);	
+    // Apply bone transformations for the current ke
+    Vector3 interpolatedPosition = interpolatePositionKeyframes();
+    Vector3 interpolatedRotation = interpolateRotationKeyframes();
+	glTranslatef(interpolatedPosition.x, interpolatedPosition.y, interpolatedPosition.z);
+	glRotatef(interpolatedRotation.x, 1.0f, 0.0f, 0.0f);	
+	glRotatef(interpolatedRotation.y, 0.0f, 1.0f, 0.0f);
+	glRotatef(interpolatedRotation.z, 0.0f, 0.0f, 1.0f);	
 	// Render all of this bone's childBones
 	for (BoneList::iterator it = childBones.begin(); (it != childBones.end()); it++)
 		(*it)->render();
@@ -76,4 +76,16 @@ void Bone::render()
 		boneSurface->render();
 
 	glPopMatrix();
+}
+
+Vector3 Bone::interpolatePositionKeyframes()
+{
+    // TODO
+    return keyframes[currentKeyframe].position;
+}
+
+Vector3 Bone::interpolateRotationKeyframes()
+{
+    // TODO
+    return keyframes[currentKeyframe].rotation;
 }

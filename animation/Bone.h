@@ -5,35 +5,52 @@
 #include "../surfaces/Surface.h"
 #include "../util/Vector3.h"
 
+struct KeyFrame
+{
+    int frameNumber;
+    Vector3 position;
+    Vector3 rotation;
+    
+    KeyFrame(int frameNumber,
+        const Vector3& position = Vector3(0, 0, 0),
+		const Vector3& rotation = Vector3(0, 0, 0));
+		
+};
+
+typedef std::vector<KeyFrame> KeyFrameList;
+
 class Bone
 {
 
 public:
 	typedef std::vector<Bone*> BoneList;
 
+	Bone(Surface* surface, const KeyFrameList& keyframes);
 	Bone(Surface* surface,
-		const Vector3& origin = Vector3(0, 0, 0),
-		const Vector3& rotation = Vector3(0, 0, 0));
+	    const Vector3& origin = Vector3(0, 0, 0),
+	    const Vector3& rotation = Vector3(0, 0, 0));
 	virtual ~Bone();
 
 	Surface* surface() const;
 	void setSurface(Surface* newSurface);
-	Vector3 origin() const;
-	void setOrigin(const Vector3& newOrigin);
-	Vector3 rotation() const;
-	void setRotation(const Vector3& newRotation);
-
+	
 	void addChild(Bone* bone);
 	void removeChild(Bone* bone);
 	const BoneList& children() const;
 
+    void update(); // updates bone animation
 	void render();
 
 private:
+    Vector3 interpolatePositionKeyframes();
+    Vector3 interpolateRotationKeyframes();
+
 	BoneList childBones;
 	Surface* boneSurface;
-	Vector3 boneOrigin;
-	Vector3 boneRotation;
+	
+	KeyFrameList keyframes;	
+	int currentKeyframe;
+	float currentFrameProgress; // (0 = start of keyframe, 1 = end of keyframe)
 
 };
 
