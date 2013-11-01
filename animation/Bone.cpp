@@ -80,12 +80,27 @@ void Bone::render()
 
 Vector3 Bone::interpolatePositionKeyframes()
 {
-    // TODO
-    return keyframes[currentKeyframe].position;
+    const Vector3& current = keyframes[currentKeyframe].position;
+    if (currentKeyframe == (keyframes.size() - 1))
+        return current;
+    const Vector3& next = keyframes[currentKeyframe + 1].position;
+    // Interpolate between the two key frames
+    return interpolate(current, next, currentFrameProgress);
 }
 
 Vector3 Bone::interpolateRotationKeyframes()
 {
-    // TODO
-    return keyframes[currentKeyframe].rotation;
+    const Vector3& current = keyframes[currentKeyframe].rotation;
+    if (currentKeyframe == (keyframes.size() - 1))
+        return current;
+    const Vector3& next = keyframes[currentKeyframe + 1].rotation;
+    // Interpolate between the two key frames
+    return interpolate(current, next, currentFrameProgress);
+}
+
+Vector3 Bone::interpolate(const Vector3& a, const Vector3& b, float t)
+{
+	return Vector3(t * a.x + (1 - t) * b.x,
+		t * a.y + (1 - t) * b.y,
+		t * a.z + (1 - t) * b.z);
 }

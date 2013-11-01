@@ -42,6 +42,7 @@ public:
 	void render();
 
 private:
+    Vector3 interpolate(const Vector3& a, const Vector3& b, float t);
     Vector3 interpolatePositionKeyframes();
     Vector3 interpolateRotationKeyframes();
 
