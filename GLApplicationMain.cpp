@@ -18,11 +18,13 @@ int main(int argc, char* argv[])
 	// Built objects that will be drawn on the screen
     CompositeDrawable* compositeDrawable = new CompositeDrawable();
     compositeDrawable->setZ(-30.0f); // so everything is visible
+    compositeDrawable->setXRotation(30.0f);
+    compositeDrawable->setYRotation(30.0f);
     // Create axes
     Bone* axes = Axes::createXYZAxes(15.0f, 0.5f);
     compositeDrawable->addDrawable(new Skeleton(axes));
     // Create a person using bone transformations
-    SurfaceFactory surfaceFactory(false, false, true);
+    SurfaceFactory surfaceFactory;
     Person* person = new Person(&surfaceFactory);
     compositeDrawable->addDrawable(person);
     // Add animated objects to a special list the controller

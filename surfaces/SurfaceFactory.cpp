@@ -253,6 +253,7 @@ Surface* SurfaceFactory::generateSurface(const VertexList& verts, const Triangle
     
 TexCoord SurfaceFactory::computeSphereTexCoord(const Vector3& posOnSphere)
 {
+    return TexCoord(posOnSphere.x, posOnSphere.y);
 	float s = 0.5f + (atan2(posOnSphere.z, posOnSphere.x) / (2.0f * PI));
 	float t = 0.5f - (asin(posOnSphere.y) / PI);
 	return TexCoord(s, t); 

@@ -4,7 +4,7 @@
 GLApplicationController::GLApplicationController(GLWindow* window, Drawable* drawableObject,
     Animator* animator)
 	: window(window), drawable(drawableObject), animator(animator),
-	animating(false), skeletalAnimationPlaying(false)
+	animating(false), skeletalAnimationPlaying(true)
 {
 	connect(window->canvasWidget, SIGNAL(changed()),
 		this, SLOT(canvasWidgetChanged()));

@@ -1,5 +1,10 @@
 #include "Person.h"
 
+Vector3 JOINT_COLOUR = Vector3(0.2f, 0.2f, 0.6f);
+Vector3 ARM_LEG_CHEST_COLOUR = Vector3(0.4f, 0.4f, 0.8f);
+Vector3 FOOT_COLOUR = Vector3(0.2f, 0.1f, 0.0);
+Vector3 PELVIS_COLOUR = Vector3(0.2f, 0.2f, 0.6f);
+
 Person::Person(SurfaceFactory* surfaceFactory) : Skeleton(NULL)
 {
     rootBone = createBones(surfaceFactory);
@@ -27,6 +32,16 @@ Bone* Person::getRootBone()
 
 Bone* Person::createBones(SurfaceFactory* surfaceFactory)
 {
+    // Create required surfaces
+    Surface* headSurface = surfaceFactory->createSphere(0.9f, 32, 32);
+    headSurface->setTextureID("face"); // apply texture to head!
+    Surface* neckSurface = surfaceFactory->createCylinder(0.3f, 0.5f, 32);
+    neckSurface->setColour(JOINT_COLOUR);        
+    Surface* pelvisSurface = surfaceFactory->createBox(2.0f, 1.8f, 1.1f);
+    pelvisSurface->setColour(PELVIS_COLOUR);    
+    Surface* chestSurface = surfaceFactory->createBox(2.0f, 2.2f, 1.1f);
+    chestSurface->setColour(ARM_LEG_CHEST_COLOUR);
+
     // Define animation for root of person.
     // This will get them to run around in a circle
     KeyFrameList pelvisKeyframes;
@@ -35,22 +50,15 @@ Bone* Person::createBones(SurfaceFactory* surfaceFactory)
     pelvisKeyframes.push_back( KeyFrame(100, Vector3(0, 0, -10.0f), Vector3(0, 270.0f, 0)) );    
     pelvisKeyframes.push_back( KeyFrame(150, Vector3(-10.0f, 0, 0.0f), Vector3(0, 360.0f, 0)) );
     pelvisKeyframes.push_back( KeyFrame(200, Vector3(0, 0, 10.0f), Vector3(0, 450.0f, 0)) );    
-    
-    // Create head and apply face texture to it
-    Surface* headSurface = surfaceFactory->createSphere(0.9f, 32, 32);
-    headSurface->setTextureID("face");
 
     // Create person's body
-    Bone* pelvisBone = new Bone(surfaceFactory->createBox(2.0f, 1.8f, 1.1f), pelvisKeyframes);
-    Bone* chestBone = new Bone(surfaceFactory->createBox(2.0f, 2.2f, 1.1f),
-        Vector3(0.0f, 1.8f, 0.0f));
+    Bone* pelvisBone = new Bone(pelvisSurface, pelvisKeyframes);
+    Bone* chestBone = new Bone(chestSurface, Vector3(0.0f, 1.8f, 0.0f));
     pelvisBone->addChild(chestBone);
     // Create person's head (and neck)
-    Bone* neckBone = new Bone(surfaceFactory->createCylinder(0.3f, 0.5f, 32),
-        Vector3(1.0f, 2.2f, 0.5f), Vector3(90.0f, 0.0f, 0.0f));
+    Bone* neckBone = new Bone(neckSurface, Vector3(1.0f, 2.2f, 0.5f), Vector3(90.0f, 0.0f, 0.0f));
     chestBone->addChild(neckBone);
-    Bone* headBone = new Bone(headSurface,
-        Vector3(0.0f, 0.0f, -0.7f));
+    Bone* headBone = new Bone(headSurface, Vector3(0.0f, 0.0f, -0.7f));
     neckBone->addChild(headBone);
     // Create person's left and right arms
     Bone* leftArm = createArm(surfaceFactory,
@@ -74,8 +82,11 @@ Bone* Person::createLeg(SurfaceFactory* surfaceFactory, Vector3 rootPosition, Ve
 {
     // Create surfaces to give to bones
     Surface* joint = surfaceFactory->createSphere(0.4f, 32, 32);
+    joint->setColour(JOINT_COLOUR);
     Surface* legComponent = surfaceFactory->createCylinder(1.6f, 0.3f, 32);
+    legComponent->setColour(ARM_LEG_CHEST_COLOUR);        
     Surface* footSurface = surfaceFactory->createBox(0.7f, 1.1f, 0.5f);
+    footSurface->setColour(FOOT_COLOUR);    
     surfaces.push_back(joint);
     surfaces.push_back(legComponent);
     surfaces.push_back(footSurface);         
@@ -107,9 +118,13 @@ Bone* Person::createArm(SurfaceFactory* surfaceFactory, Vector3 rootPosition, Ve
 {
     // Create surfaces to give to bones
     Surface* shoulderJoint = surfaceFactory->createSphere(0.4f, 32, 32);
+    shoulderJoint->setColour(JOINT_COLOUR);
     Surface* upperArmComponent = surfaceFactory->createCylinder(2.0f, 0.25f, 32);
+    upperArmComponent->setColour(ARM_LEG_CHEST_COLOUR);
     Surface* elbowJoint = surfaceFactory->createSphere(0.3f, 32, 32);
+    elbowJoint->setColour(JOINT_COLOUR);    
     Surface* lowerArmComponent = surfaceFactory->createCylinder(1.4f, 0.25f, 32);    
+    lowerArmComponent->setColour(ARM_LEG_CHEST_COLOUR);
     surfaces.push_back(shoulderJoint);
     surfaces.push_back(upperArmComponent);
     surfaces.push_back(elbowJoint);
