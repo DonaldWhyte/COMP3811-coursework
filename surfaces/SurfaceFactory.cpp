@@ -244,7 +244,7 @@ Surface* SurfaceFactory::generateSurface(const VertexList& verts, const Triangle
     else
         colour = Vector3(1.0f, 0.0f, 0.0f);
     
-    Surface* surface = new Surface(verts, tris, colour);
+    Surface* surface = new Surface(verts, tris, NULL, colour);
     // Set surface's default parameters
     surface->setShowPoints(showPoints);    
     surface->setShowLines(showLines);

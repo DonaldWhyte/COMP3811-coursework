@@ -10,6 +10,7 @@ void renderPoints(const VertexList& vertices)
 	glEnd();
 
 }
+
 void renderLines(const VertexList& vertices, const TriangleList& triangles)
 {
         glColor3f(0.0f, 0.0f, 1.0f);
@@ -32,10 +33,17 @@ void renderLines(const VertexList& vertices, const TriangleList& triangles)
 
 
 Surface::Surface(const VertexList& vertices, const TriangleList& triangles,
-    const Vector3& colour) :
+    Texture* surfaceTexture, const Vector3& colour) :
 	verts(vertices), tris(triangles), surfaceColour(colour),
-	showPoints(false), showLines(false)
+	surfaceTexture(surfaceTexture), showPoints(false), showLines(false)
 {
+}
+
+Surface::~Surface()
+{
+    // Makes sure to cleanup the texture if a surface has one
+    if (surfaceTexture)
+        delete surfaceTexture;
 }
 
 const VertexList& Surface::vertices() const
@@ -68,6 +76,17 @@ void Surface::setColour(const Vector3& newColour)
 	surfaceColour = newColour;
 }
 
+Texture* Surface::texture() const
+{
+    return surfaceTexture;
+}
+
+void Surface::setTexture(Texture* newTexture)
+{
+    delete surfaceTexture;
+    surfaceTexture = newTexture;
+}
+
 bool Surface::showingPoints() const
 {
     return showPoints;
@@ -90,6 +109,7 @@ void Surface::setShowLines(bool showLines)
 
 void Surface::render()
 {
+    // Renderp points and lines if set
     if (showPoints)
     {
         glColor3f(1.0f, 1.0f, 1.0f);
@@ -100,12 +120,28 @@ void Surface::render()
         glColor3f(0.0f, 0.0f, 1.0f);
         renderLines(verts, tris);
     }
-    
-	glColor3fv(surfaceColour.elems);
+    // If surface has a texture, enable texturing and
+    // bind said texture    
+    if (surfaceTexture)
+    {
+        glEnable(GL_TEXTURE_2D);
+        surfaceTexture->bind();
+    }
+    // Otherwise, use the surface's colour instead!
+    else
+    {
+    	glColor3fv(surfaceColour.elems);
+    }
 	glBegin(GL_TRIANGLES);
 	for (TriangleList::const_iterator it = tris.begin(); (it != tris.end()); it++)
 		renderTriangle(*it);
     glEnd();
+    // Be sure to disasble texturing and unbind the texture after rendering surface
+    if (surfaceTexture)
+    {
+        surfaceTexture->unbind();
+        glDisable(GL_TEXTURE_2D);
+    }
 }
 
 void Surface::renderVertex(const Vertex& v)
