@@ -58,7 +58,7 @@ Bone* Person::createBones(SurfaceFactory* surfaceFactory)
     // Create person's head (and neck)
     Bone* neckBone = new Bone(neckSurface, Vector3(1.0f, 2.2f, 0.5f), Vector3(90.0f, 0.0f, 0.0f));
     chestBone->addChild(neckBone);
-    Bone* headBone = new Bone(headSurface, Vector3(0.0f, 0.0f, -0.7f));
+    Bone* headBone = new Bone(headSurface, Vector3(0.0f, 0.0f, -0.7f), Vector3(0, 90, 90));
     neckBone->addChild(headBone);
     // Create person's left and right arms
     Bone* leftArm = createArm(surfaceFactory,
