@@ -2,8 +2,8 @@
 #include "GLApplicationController.h"
 
 GLApplicationController::GLApplicationController(GLWindow* window, Drawable* drawableObject,
-    const std::vector<Bone*>& animatedObjects)
-	: window(window), drawable(drawableObject), animatedObjects(animatedObjects),
+    Animator* animator)
+	: window(window), drawable(drawableObject), animator(animator),
 	animating(false), skeletalAnimationPlaying(false)
 {
 	connect(window->canvasWidget, SIGNAL(changed()),
@@ -16,6 +16,8 @@ GLApplicationController::GLApplicationController(GLWindow* window, Drawable* dra
 		this, SLOT(yRotSliderChanged(int)));
 	connect(window->zRotSlider, SIGNAL(valueChanged(int)),
 		this, SLOT(zRotSliderChanged(int)));
+	connect(window->animationSlider, SIGNAL(valueChanged(int)),
+		this, SLOT(animationSliderChanged(int)));
 	connect(window->animationCheckBox, SIGNAL(stateChanged(int)),
 		this, SLOT(animationCheckBoxChanged(int)));
 	connect(window->skeletalAnimationCheckBox, SIGNAL(stateChanged(int)),
@@ -49,6 +51,12 @@ void GLApplicationController::zRotSliderChanged(int newValue)
 	window->resetInterface();
 }
 
+void GLApplicationController::animationSliderChanged(int newValue)
+{
+	animator->setCurrentFrame(newValue);
+	window->resetInterface();
+}
+
 void GLApplicationController::animationCheckBoxChanged(int newState)
 {
 	animating = (newState == Qt::Checked);
@@ -70,11 +78,7 @@ void GLApplicationController::nextAnimationFrame()
 	}
 	if (skeletalAnimationPlaying) // if skeletal animations are playing
 	{	
-	    for (std::vector<Bone*>::const_iterator it = animatedObjects.begin();
-	        (it != animatedObjects.end()); it++)
-	    {
-	        (*it)->update();
-        }
+        animator->update();
     }
 	// If ANY animation is playing, update the animation
 	if (animating || skeletalAnimationPlaying)

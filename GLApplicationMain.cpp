@@ -5,6 +5,7 @@
 #include "animation/Skeleton.h"
 #include "animation/Axes.h"
 #include "animation/Person.h"
+#include "animation/Animator.h"
 #include "surfaces/SurfaceFactory.h"
 #include "CompositeDrawable.h"
 
@@ -26,13 +27,12 @@ int main(int argc, char* argv[])
     compositeDrawable->addDrawable(person);
     // Add animated objects to a special list the controller
     // can use to keep the animations updated
-    std::vector<Bone*> animatedObjects;
-    animatedObjects.push_back(person->getRootBone());
+    Animator animator(person->getRootBone()->totalFrames(), person->getRootBone());
 
 	// Create view and controller
-	GLWindow* window = new GLWindow(NULL, compositeDrawable);
+	GLWindow* window = new GLWindow(NULL, compositeDrawable, &animator);
 	GLApplicationController* controller = new GLApplicationController(
-	    window, compositeDrawable, animatedObjects);
+	    window, compositeDrawable, &animator);
 
 	window->resize(1280, 1280);
 	window->show();

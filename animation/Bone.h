@@ -41,7 +41,10 @@ public:
 	void removeChild(Bone* bone);
 	const BoneList& children() const;
 
-    void update(); // updates bone animation
+	/* Use this to retrieve the length of this bone's animation. */
+	int totalFrames() const;
+
+    void update(int frameNumber); // updates bone animation
 	void render();
 
 private:
@@ -64,9 +67,9 @@ private:
 	BoneList childBones;
 	Surface* boneSurface;
 	
-	KeyFrameList keyframes;	
-	int currentFrame; // what frame of the animation the bone is currently in
-	int totalFrames; // total number of frames in animation described by 'keyframes'
+	KeyFrameList keyframes;
+	int currentFrame;
+	int totalFrameCount; // total number of frames in animation described by 'keyframes'
 
 };
 

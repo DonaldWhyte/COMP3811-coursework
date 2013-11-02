@@ -12,11 +12,12 @@ Bone::Bone(Surface* surface, const KeyFrameList& keyframes) :
 	 boneSurface(surface), keyframes(keyframes), currentFrame(0)
 {
     const KeyFrame& lastKeyFrame = keyframes[keyframes.size() - 1];
-    totalFrames = lastKeyFrame.frameNumber;
+    totalFrameCount = lastKeyFrame.frameNumber;
+    if (totalFrameCount == 0) totalFrameCount = 1; // to ensure no modulus-by-zero
 }
 
 Bone::Bone(Surface* surface, const Vector3& boneOrigin, const Vector3& boneRotation) :
-	boneSurface(surface), currentFrame(0), totalFrames(1)
+	boneSurface(surface), currentFrame(0), totalFrameCount(1)
 {
 	// Construct initial keyframe to work with animation
 	keyframes.push_back( KeyFrame(0, boneOrigin, boneRotation) );	
@@ -55,16 +56,19 @@ const Bone::BoneList& Bone::children() const {
 	return childBones;
 }
 
-void Bone::update()
+int Bone::totalFrames() const
+{
+    return totalFrameCount;
+}
+
+void Bone::update(int frameNumber)
 {
 	// Update all of this bone's children
 	for (BoneList::iterator it = childBones.begin(); (it != childBones.end()); it++)
-		(*it)->update();
-    // Loop back to beginning of animation if the end of it has been reached
-    if (onLastFrame())
-        currentFrame = 1;
-    else
-        currentFrame += 1;
+		(*it)->update(frameNumber);
+    // Simply set the bone's current frame to be the one given
+    // We use modulsu to WRAP/REPEAT the bone's animation
+    currentFrame = (frameNumber % totalFrameCount) + 1;
 }
 
 void Bone::render()
@@ -97,11 +101,6 @@ int Bone::currentKeyFrameIndex() const
     // If control reaches this point, the current frame
     // has exceeded all keyframes, so just return the last one
     return (keyframes.size() - 1);
-}
-
-bool Bone::onLastFrame() const
-{
-    return (currentFrame == totalFrames);
 }
 
 const KeyFrame& Bone::currentKeyFrame() const

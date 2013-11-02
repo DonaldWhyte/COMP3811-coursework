@@ -1,7 +1,7 @@
 #include "GLWindow.h"
 
-GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
-	: QWidget(parent), drawable(drawableObject)
+GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject, Animator* animator)
+	: QWidget(parent), drawable(drawableObject), animator(animator)
 {
 	setWindowTitle("COMP3811 Computer Graphics - Coursework Four - Donald Whyte");
 	windowLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
@@ -44,8 +44,15 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 	windowLayout->addLayout(rowFiveLayout);
 		animationCheckBox = new QCheckBox("Y Rotation Animation Enabled");
 		rowFiveLayout->addWidget(animationCheckBox);
+		
+	rowSixLayout = new QBoxLayout(QBoxLayout::LeftToRight);
+	windowLayout->addLayout(rowSixLayout);		
+		animationLabel = new QLabel("Animation Progress");
+		rowSixLayout->addWidget(animationLabel);		
+		animationSlider = new QSlider(Qt::Horizontal);
+		rowSixLayout->addWidget(animationSlider);
 		skeletalAnimationCheckBox = new QCheckBox("Skeletal Animation Enabled");
-		rowFiveLayout->addWidget(skeletalAnimationCheckBox);
+		rowSixLayout->addWidget(skeletalAnimationCheckBox);
 
     resetInterface();
 }
@@ -53,6 +60,8 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 GLWindow::~GLWindow()
 {
 	// Done in reverse-order, bottom of visual hierarchy to the top
+	delete animationLabel;
+	delete animationSlider;
 	delete skeletalAnimationCheckBox;
 	delete animationCheckBox;
 	delete xRotLabel;
@@ -67,6 +76,7 @@ GLWindow::~GLWindow()
 	delete rowThreeLayout;
 	delete rowFourLayout;
 	delete rowFiveLayout;
+	delete rowSixLayout;
 	delete windowLayout;
 	delete actionQuit;
 	delete fileMenu;
@@ -79,6 +89,11 @@ void GLWindow::setDrawable(Drawable* newDrawable)
 	// Also make sure the canvas widget knows about
 	// the new drawable so it can be rendered
 	canvasWidget->setDrawable(newDrawable);
+}
+
+void GLWindow::setAnimator(Animator* newAnimator)
+{
+    animator = newAnimator;
 }
 
 void GLWindow::resetInterface()
@@ -100,6 +115,16 @@ void GLWindow::resetInterface()
     	xRotSlider->setValue(0);
     	yRotSlider->setValue(0);
     	zRotSlider->setValue(0);
+    }
+    if (animator)
+    {
+        animationSlider->setMaximum(animator->totalFrames());
+        animationSlider->setValue(animator->currentFrame());    
+    }
+    else
+    {
+        animationSlider->setMaximum(1);    
+        animationSlider->setValue(0);
     }
 
 	update(); // force refresh

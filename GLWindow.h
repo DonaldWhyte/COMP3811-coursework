@@ -10,6 +10,7 @@
 #include <QBoxLayout>
 #include <QComboBox>
 #include "Drawable.h"
+#include "animation/Animator.h"
 #include "GLCanvasWidget.h"
 
 /* Main window for application. */
@@ -19,10 +20,11 @@ class GLWindow : public QWidget
 	Q_OBJECT
 
 public:
-	GLWindow(QWidget* parent, Drawable* drawableObject);
+	GLWindow(QWidget* parent, Drawable* drawableObject, Animator* animator);
 	virtual ~GLWindow();
 
 	void setDrawable(Drawable* newDrawable);
+	void setAnimator(Animator* newAnimator);	
 
 	/* Called when the state of the model changes. Ensures all
  	 * widgets' states reflect the model's state and everything
@@ -36,6 +38,7 @@ public:
 	QSlider* xRotSlider;
 	QSlider* yRotSlider;
 	QSlider* zRotSlider;
+	QSlider* animationSlider;
 	QCheckBox* animationCheckBox;
 	QCheckBox* skeletalAnimationCheckBox;
 
@@ -43,6 +46,7 @@ public:
 
 private:
 	Drawable* drawable;
+	Animator* animator;
 
 	// Visual hierarchy
 	QMenuBar* menuBar;
@@ -56,6 +60,8 @@ private:
 		QBoxLayout* rowFourLayout;
 			QLabel* zRotLabel;
 		QBoxLayout* rowFiveLayout;
+		QBoxLayout* rowSixLayout;
+		    QLabel* animationLabel;
 
 };
 

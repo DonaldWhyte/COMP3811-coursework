@@ -117,10 +117,9 @@ void Surface::render()
     Texture* texture = TextureManager::getInstance()->getTexture(surfaceTextureID);
     if (texture)
     {
-        std::cout << texture << std::endl;
         glEnable(GL_TEXTURE_2D);
         texture->bind();
-//        glColor4f(1.0, 1.0, 1.0, 1.0);
+        glColor4f(1.0, 1.0, 1.0, 1.0);
     }
     // Otherwise, use the surface's colour instead!
     else
