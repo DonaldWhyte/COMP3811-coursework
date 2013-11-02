@@ -47,6 +47,7 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject, Animator* animator
 		animationSlider = new QSlider(Qt::Horizontal);
 		rowFiveLayout->addWidget(animationSlider);
 		skeletalAnimationCheckBox = new QCheckBox("Skeletal Animation Enabled");
+		skeletalAnimationCheckBox->setCheckState(Qt::Checked);
 		rowFiveLayout->addWidget(skeletalAnimationCheckBox);
 
     resetInterface();

@@ -43,16 +43,14 @@ Bone* Person::createBones(SurfaceFactory* surfaceFactory)
     chestSurface->setColour(ARM_LEG_CHEST_COLOUR);
 
     // Define animation for root of person.
-    // This will get them to run around in a circle
-    KeyFrameList pelvisKeyframes;
-    pelvisKeyframes.push_back( KeyFrame(0, Vector3(0, 0, 10.0f), Vector3(0, 90.0f, 0)) );
-    pelvisKeyframes.push_back( KeyFrame(50, Vector3(10.0f, 0, 0.0f), Vector3(0, 180.0f, 0)) );
-    pelvisKeyframes.push_back( KeyFrame(100, Vector3(0, 0, -10.0f), Vector3(0, 270.0f, 0)) );    
-    pelvisKeyframes.push_back( KeyFrame(150, Vector3(-10.0f, 0, 0.0f), Vector3(0, 360.0f, 0)) );
-    pelvisKeyframes.push_back( KeyFrame(200, Vector3(0, 0, 10.0f), Vector3(0, 450.0f, 0)) );    
-
+    KeyFrameList rootKeyframes;
+    rootKeyframes.push_back( KeyFrame(0, Vector3(0, 0, 0), Vector3(0, 90, 0)) );
+    rootKeyframes.push_back( KeyFrame(200, Vector3(0, 0, 0), Vector3(0, 450, 0)) );    
+    // Create root of person (there just to make the person move in a circle)
+    Bone* root = new Bone(NULL, rootKeyframes);
     // Create person's body
-    Bone* pelvisBone = new Bone(pelvisSurface, pelvisKeyframes);
+    Bone* pelvisBone = new Bone(pelvisSurface, Vector3(0, 0, 10.0f), Vector3(0, 90.0f, 0));
+    root->addChild(pelvisBone);
     Bone* chestBone = new Bone(chestSurface, Vector3(0.0f, 1.8f, 0.0f));
     pelvisBone->addChild(chestBone);
     // Create person's head (and neck)
@@ -75,7 +73,7 @@ Bone* Person::createBones(SurfaceFactory* surfaceFactory)
     pelvisBone->addChild(leftLeg);
     pelvisBone->addChild(rightLeg);
     
-    return pelvisBone;
+    return root;
 }
 
 Bone* Person::createLeg(SurfaceFactory* surfaceFactory, Vector3 rootPosition, Vector3 rootOrientation, bool reverseDirection)

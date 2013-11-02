@@ -15,6 +15,8 @@ GLApplicationController::GLApplicationController(GLWindow* window, Drawable* dra
 		this, SLOT(yRotSliderChanged(int)));
 	connect(window->zRotSlider, SIGNAL(valueChanged(int)),
 		this, SLOT(zRotSliderChanged(int)));
+	connect(window->animationSlider, SIGNAL(valueChanged(int)),
+		this, SLOT(animationSliderChanged(int)));
 	connect(window->skeletalAnimationCheckBox, SIGNAL(stateChanged(int)),
 		this, SLOT(skeletalAnimationCheckBoxChanged(int)));
 
