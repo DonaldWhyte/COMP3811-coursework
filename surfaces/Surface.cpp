@@ -126,6 +126,7 @@ void Surface::render()
     {
         glEnable(GL_TEXTURE_2D);
         surfaceTexture->bind();
+        glColor4f(1.0, 1.0, 1.0, 1.0);
     }
     // Otherwise, use the surface's colour instead!
     else

@@ -1,12 +1,14 @@
 #include "Texture.h"
 #include <QGLWidget>
 
+#include <iostream>
 Texture::Texture(const std::string& imageFilename)
 {
 	// Load image to use for the texture from a file
-	QImage loadedImage = QImage(imageFilename.c_str());
+	QImage loadedImage(imageFilename.c_str());
 	// Make sure the image is in the correct format to be consumed by OpenGL
 	texImage = QGLWidget::convertToGLFormat(loadedImage);
+	std::cout << texImage.width() << " " << texImage.height() << std::endl;
 	// Define a texture in OpenGL
 	glGenTextures(1, &texID);
 	glBindTexture(GL_TEXTURE_2D, texID);
@@ -19,7 +21,7 @@ Texture::Texture(const std::string& imageFilename)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	// Set texture mode (how texels are combined with vertex pixels)
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 }
 
 Texture::~Texture()

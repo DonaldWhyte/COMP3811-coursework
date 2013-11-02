@@ -1,4 +1,5 @@
 #include "Person.h"
+#include "../surfaces/Texture.h"
 
 Person::Person(SurfaceFactory* surfaceFactory) : Skeleton(NULL)
 {
@@ -35,6 +36,10 @@ Bone* Person::createBones(SurfaceFactory* surfaceFactory)
     pelvisKeyframes.push_back( KeyFrame(100, Vector3(0, 0, -10.0f), Vector3(0, 270.0f, 0)) );    
     pelvisKeyframes.push_back( KeyFrame(150, Vector3(-10.0f, 0, 0.0f), Vector3(0, 360.0f, 0)) );
     pelvisKeyframes.push_back( KeyFrame(200, Vector3(0, 0, 10.0f), Vector3(0, 450.0f, 0)) );    
+    
+    // Create head and apply face texture to it
+    Surface* headSurface = surfaceFactory->createSphere(0.9f, 32, 32);
+    headSurface->setTexture( new Texture("resources/face_texture.png") );
 
     // Create person's body
     Bone* pelvisBone = new Bone(surfaceFactory->createBox(2.0f, 1.8f, 1.1f), pelvisKeyframes);
@@ -45,7 +50,7 @@ Bone* Person::createBones(SurfaceFactory* surfaceFactory)
     Bone* neckBone = new Bone(surfaceFactory->createCylinder(0.3f, 0.5f, 32),
         Vector3(1.0f, 2.2f, 0.5f), Vector3(90.0f, 0.0f, 0.0f));
     chestBone->addChild(neckBone);
-    Bone* headBone = new Bone(surfaceFactory->createSphere(0.9f, 32, 32),
+    Bone* headBone = new Bone(headSurface,
         Vector3(0.0f, 0.0f, -0.7f));
     neckBone->addChild(headBone);
     // Create person's left and right arms
