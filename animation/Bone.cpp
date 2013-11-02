@@ -81,7 +81,12 @@ void Bone::render()
 
 int Bone::currentKeyFrameIndex() const
 {
-    return 0;
+    // Search through keyframes and return index of first
+    // keyframe whose frame number is GREATER THAN OR
+    // EQUAL to the current frame
+    for (int i = 0; (i < keyframes.size()); i++)
+        if (currentFrame <= keyframes[i].frameNumber)
+            return i;
 }
 
 const KeyFrame& Bone::currentKeyFrame() const

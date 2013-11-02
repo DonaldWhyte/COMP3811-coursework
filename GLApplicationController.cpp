@@ -65,13 +65,19 @@ void GLApplicationController::skeletalAnimationCheckBoxChanged(int newState)
 
 void GLApplicationController::nextAnimationFrame()
 {
-	if (!animating) return;
-
-	Vector3 rotation = drawable->rotation();
-	if (rotation.y < 0.0f || rotation.y > 360.0f) rotation.y = 0.0f;
-	else rotation.y += 1.0f;
-	drawable->setRotation(rotation);
-
-	window->resetInterface();
+	if (animating) // if Y-rotation animation is playing
+	{
+		Vector3 rotation = drawable->rotation();
+		if (rotation.y < 0.0f || rotation.y > 360.0f) rotation.y = 0.0f;
+		else rotation.y += 1.0f;
+		drawable->setRotation(rotation);
+	}
+	if (skeletalAnimationPlaying) // if skeletal animations are playing
+	{
+	    // TOOD
+    }
+	// If ANY animation is playing, update the animation
+	if (animating || skeletalAnimationPlaying)
+		window->resetInterface();
 }
 
