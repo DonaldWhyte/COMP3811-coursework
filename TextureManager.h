@@ -19,9 +19,11 @@ public:
      * exists). */
     Texture* loadTextureFromFile(const std::string& id, const std::string& filename);
     
-    static TextureManager getInstance();
+    static TextureManager* getInstance();
     
 private:
+    static TextureManager* instance;
+
     typedef std::map<std::string, Texture*> TextureMap;
     TextureMap textures;
     

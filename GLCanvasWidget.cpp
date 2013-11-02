@@ -2,6 +2,7 @@
 
 #include "GLCanvasWidget.h"
 #include "Geometry.h"
+#include "TextureManager.h"
 
 GLCanvasWidget::GLCanvasWidget(QWidget* parent, Drawable* drawableObject) :
 	QGLWidget(parent), drawable(drawableObject), oldMouseY(0.0f)
@@ -38,6 +39,9 @@ void GLCanvasWidget::initializeGL()
 
 	lightingManager.initialise();
 	//lightingManager.setLightingModel(LIGHTING_MODEL_SMOOTH);
+	
+	// Load all textures required by scene
+	TextureManager::getInstance()->loadTextureFromFile("face", "resources/face_texture.jpg");
 }
 
 void GLCanvasWidget::resizeGL(int width, int height)
@@ -61,7 +65,6 @@ void GLCanvasWidget::setupViewport(int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-#include <iostream>
 void GLCanvasWidget::paintGL()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

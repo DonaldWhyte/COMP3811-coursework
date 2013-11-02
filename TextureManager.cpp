@@ -21,8 +21,11 @@ Texture* TextureManager::loadTextureFromFile(const std::string& id, const std::s
     textures.insert( std::pair<std::string, Texture*>(id, texture) );
 }
 
-TextureManager TextureManager::getInstance()
+TextureManager* TextureManager::instance = NULL;
+TextureManager* TextureManager::getInstance()
 {
-    static TextureManager texManager;
-    return texManager;
+    // Lazy initialisation of singleton instance
+    if (!instance)
+        instance = new TextureManager();
+    return instance;
 }
