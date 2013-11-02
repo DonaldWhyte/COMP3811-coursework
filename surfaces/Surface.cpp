@@ -1,4 +1,5 @@
 #include "Surface.h"
+#include "../TextureManager.h"
 #include <QGLWidget>
 
 // Functions only used in this translation unit - don't need to be in header!
@@ -33,17 +34,10 @@ void renderLines(const VertexList& vertices, const TriangleList& triangles)
 
 
 Surface::Surface(const VertexList& vertices, const TriangleList& triangles,
-    Texture* surfaceTexture, const Vector3& colour) :
+    const std::string& surfaceTextureID, const Vector3& colour) :
 	verts(vertices), tris(triangles), surfaceColour(colour),
-	surfaceTexture(surfaceTexture), showPoints(false), showLines(false)
+	surfaceTextureID(surfaceTextureID), showPoints(false), showLines(false)
 {
-}
-
-Surface::~Surface()
-{
-    // Makes sure to cleanup the texture if a surface has one
-    if (surfaceTexture)
-        delete surfaceTexture;
 }
 
 const VertexList& Surface::vertices() const
@@ -76,15 +70,14 @@ void Surface::setColour(const Vector3& newColour)
 	surfaceColour = newColour;
 }
 
-Texture* Surface::texture() const
+const std::string& Surface::textureID() const
 {
-    return surfaceTexture;
+    return surfaceTextureID;
 }
 
-void Surface::setTexture(Texture* newTexture)
+void Surface::setTextureID(const std::string& newTextureID)
 {
-    delete surfaceTexture;
-    surfaceTexture = newTexture;
+    surfaceTextureID = newTextureID;
 }
 
 bool Surface::showingPoints() const
@@ -120,12 +113,12 @@ void Surface::render()
         glColor3f(0.0f, 0.0f, 1.0f);
         renderLines(verts, tris);
     }
-    // If surface has a texture, enable texturing and
-    // bind said texture    
-    if (surfaceTexture)
+    // If texture with given ID exists, enable texturing with it in OpenGL!
+    Texture* texture = TextureManager::getInstance().getTexture(surfaceTextureID);
+    if (texture)
     {
         glEnable(GL_TEXTURE_2D);
-        surfaceTexture->bind();
+        texture->bind();
         glColor4f(1.0, 1.0, 1.0, 1.0);
     }
     // Otherwise, use the surface's colour instead!
@@ -138,9 +131,9 @@ void Surface::render()
 		renderTriangle(*it);
     glEnd();
     // Be sure to disasble texturing and unbind the texture after rendering surface
-    if (surfaceTexture)
+    if (texture)
     {
-        surfaceTexture->unbind();
+        texture->unbind();
         glDisable(GL_TEXTURE_2D);
     }
 }

@@ -2,16 +2,13 @@
 #define ANIMATION_SURFACE_H
 
 #include "../util/Geometry.h"
-#include "Texture.h"
 
 class Surface 
 {
 
 public:
 	Surface(const VertexList& vertices, const TriangleList& triangles,
-	    Texture* surfaceTexture = NULL,
-	    const Vector3& colour = Vector3(1.0f, 0.0f, 0.0f));
-	virtual ~Surface();
+	    const std::string& textureID = "", const Vector3& colour = Vector3(1.0f, 0.0f, 0.0f));
 	
 	const VertexList& vertices() const;
 	void setVertices(const VertexList& newVertices);
@@ -19,8 +16,9 @@ public:
 	void setTriangles(const TriangleList& newTriangles);
 	const Vector3& colour() const;
     void setColour(const Vector3& newColour);
-    Texture* texture() const;
-    void setTexture(Texture* newTexture); 
+
+    const std::string& textureID() const;
+    void setTextureID(const std::string& newTextureID); 
 	
 	bool showingPoints() const;
 	void setShowPoints(bool showPoints);
@@ -36,8 +34,8 @@ private:
 	VertexList verts;
 	TriangleList tris;
 	Vector3 surfaceColour;
-	Texture* surfaceTexture;
-	
+	std::string surfaceTextureID;
+
 	bool showPoints;
 	bool showLines;	
 

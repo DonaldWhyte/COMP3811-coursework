@@ -1,5 +1,4 @@
 #include "Person.h"
-#include "../surfaces/Texture.h"
 
 Person::Person(SurfaceFactory* surfaceFactory) : Skeleton(NULL)
 {
@@ -39,7 +38,7 @@ Bone* Person::createBones(SurfaceFactory* surfaceFactory)
     
     // Create head and apply face texture to it
     Surface* headSurface = surfaceFactory->createSphere(0.9f, 32, 32);
-    headSurface->setTexture( new Texture("resources/face_texture.png") );
+    headSurface->setTextureID("face");
 
     // Create person's body
     Bone* pelvisBone = new Bone(surfaceFactory->createBox(2.0f, 1.8f, 1.1f), pelvisKeyframes);
