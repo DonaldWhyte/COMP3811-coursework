@@ -55,7 +55,6 @@ private:
  	 * and the next as a float in the range of 0 to 1. */
 	float currentFrameProgress();
 
-	Vector3 interpolate(const Vector3& a, const Vector3& b, float t);
 	Vector3 interpolatePositionKeyframes();
 	Vector3 interpolateRotationKeyframes();
 

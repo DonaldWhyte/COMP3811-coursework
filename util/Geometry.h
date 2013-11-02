@@ -47,5 +47,6 @@ typedef std::vector<Vertex> VertexList;
 extern const double PI;
 
 float degreesToRadians(float degrees);
+float radiansToDegrees(float radians);
 
 #endif

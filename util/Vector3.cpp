@@ -51,7 +51,8 @@ Vector3 Vector3::lerp(const Vector3& vec, float t) const
 
 Vector3 Vector3::slerp(const Vector3& vec, float t) const
 {
-    float omega = this->dot(vec); 
+    // TODO: get working
+    float omega = acos( this->dot(vec) );
     float sinOmega = sin(omega);
     float aMult = sin((1 - t) * omega) / sinOmega;
     float bMult = sin(t * omega) / sinOmega;
@@ -72,7 +73,6 @@ Vector3 operator *(const Vector3& vec, float scalar)
 {
 	return Vector3(vec.x * scalar, vec.y * scalar, vec.z * scalar);
 }
-
 
 std::ostream& operator<<(std::ostream& os, const Vector3& vec)
 {
