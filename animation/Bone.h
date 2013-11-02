@@ -50,7 +50,7 @@ private:
     /* Return current keyframe of bone animation. */ 
     const KeyFrame& currentKeyFrame() const;
     /* Return next keyframe of bone animation. */
-    const KeyFrame& nextKeyFrame() const;    
+    const KeyFrame& nextKeyFrame() const;
 	/* Return the progress between the current key frame
  	 * and the next as a float in the range of 0 to 1. */
 	float currentFrameProgress();

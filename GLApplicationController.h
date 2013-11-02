@@ -4,6 +4,7 @@
 #include <QTimer>
 #include "GLWindow.h"
 #include "Drawable.h"
+#include "animation/Bone.h"
 
 /* Controller for main program. */
 class GLApplicationController : public QObject
@@ -12,7 +13,8 @@ class GLApplicationController : public QObject
 	Q_OBJECT
 
 public:
-	GLApplicationController(GLWindow* window, Drawable* drawableObject);
+	GLApplicationController(GLWindow* window, Drawable* drawableObject,
+		const std::vector<Bone*>& animatedObjects);
 
 public slots:
 	void canvasWidgetChanged();
@@ -29,6 +31,9 @@ private:
 
 	GLWindow* window;
 	Drawable* drawable;
+	// List of all animated objects in scene. Here so they
+	// can all be updated by the animation timer
+	std::vector<Bone*> animatedObjects;
 	QTimer* animationTimer;
 
 	// If set to true, then the polygon drawn will be rotated continuously

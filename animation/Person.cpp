@@ -20,10 +20,19 @@ Person::~Person()
     delete rootBone;
 }
 
+Bone* Person::getRootBone()
+{
+    return rootBone;
+}
+
 Bone* Person::createBones(SurfaceFactory* surfaceFactory)
 {
+    std::vector<KeyFrame> keyframes;
+    keyframes.push_back( KeyFrame(0, Vector3(0, 0, 0), Vector3(0, 0, 0)) );
+    keyframes.push_back( KeyFrame(250, Vector3(5.0f, 0, 0), Vector3(0, 90.0f, 0)) );    
+
     // Create person's body
-    Bone* pelvisBone = new Bone(surfaceFactory->createBox(2.0f, 1.8f, 1.1f));
+    Bone* pelvisBone = new Bone(surfaceFactory->createBox(2.0f, 1.8f, 1.1f), keyframes);
     Bone* chestBone = new Bone(surfaceFactory->createBox(2.0f, 2.2f, 1.1f),
         Vector3(0.0f, 1.8f, 0.0f));
     pelvisBone->addChild(chestBone);

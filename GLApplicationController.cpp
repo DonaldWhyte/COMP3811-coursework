@@ -7,8 +7,10 @@
 #include "Cone.h"
 #include "Torus.h"
 
-GLApplicationController::GLApplicationController(GLWindow* window, Drawable* drawableObject)
-	: window(window), drawable(drawableObject), animating(false), skeletalAnimationPlaying(false)
+GLApplicationController::GLApplicationController(GLWindow* window, Drawable* drawableObject,
+    const std::vector<Bone*>& animatedObjects)
+	: window(window), drawable(drawableObject), animatedObjects(animatedObjects),
+	animating(false), skeletalAnimationPlaying(false)
 {
 	connect(window->canvasWidget, SIGNAL(changed()),
 		this, SLOT(canvasWidgetChanged()));
@@ -73,8 +75,12 @@ void GLApplicationController::nextAnimationFrame()
 		drawable->setRotation(rotation);
 	}
 	if (skeletalAnimationPlaying) // if skeletal animations are playing
-	{
-	    // TOOD
+	{	
+	    for (std::vector<Bone*>::const_iterator it = animatedObjects.begin();
+	        (it != animatedObjects.end()); it++)
+	    {
+	        (*it)->update();
+        }
     }
 	// If ANY animation is playing, update the animation
 	if (animating || skeletalAnimationPlaying)

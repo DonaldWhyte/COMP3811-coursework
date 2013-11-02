@@ -55,21 +55,22 @@ const Bone::BoneList& Bone::children() const {
 
 void Bone::update()
 {
-    // Increase frame count
-    currentFrame += 1;
+    // Increase frame count if animation hasn't ended (i.e. not on last keyframe)
+    if (currentKeyFrame().frameNumber != (keyframes.size() - 1))
+        currentFrame += 1;
 }
 
 void Bone::render()
 {
 	glPushMatrix();
-    // Apply bone transformations for the current ke
+    // Apply bone transformations using the current key frame's progress
     Vector3 interpolatedPosition = interpolatePositionKeyframes();
     Vector3 interpolatedRotation = interpolateRotationKeyframes();
 	glTranslatef(interpolatedPosition.x, interpolatedPosition.y, interpolatedPosition.z);
 	glRotatef(interpolatedRotation.x, 1.0f, 0.0f, 0.0f);	
 	glRotatef(interpolatedRotation.y, 0.0f, 1.0f, 0.0f);
 	glRotatef(interpolatedRotation.z, 0.0f, 0.0f, 1.0f);	
-	// Render all of this bone's childBones
+	// Render all of this bone's children
 	for (BoneList::iterator it = childBones.begin(); (it != childBones.end()); it++)
 		(*it)->render();
 	// Render current bone itself
@@ -81,12 +82,14 @@ void Bone::render()
 
 int Bone::currentKeyFrameIndex() const
 {
-    // Search through keyframes and return index of first
-    // keyframe whose frame number is GREATER THAN OR
-    // EQUAL to the current frame
-    for (int i = 0; (i < keyframes.size()); i++)
+    // Search through keyframes and return index of keyframe
+    // BEFORE the keyframe which has not occurred yet
+    for (int i = 1; (i < keyframes.size()); i++)
         if (currentFrame <= keyframes[i].frameNumber)
-            return i;
+            return i - 1;
+    // If control reaches this point, the current frame
+    // has exceeded all keyframes, so just return the last one
+    return (keyframes.size() - 1);
 }
 
 const KeyFrame& Bone::currentKeyFrame() const
@@ -97,7 +100,7 @@ const KeyFrame& Bone::currentKeyFrame() const
 const KeyFrame& Bone::nextKeyFrame() const
 {
     int currentIndex = currentKeyFrameIndex();
-    // If current keyftrame is not last key frame in animation
+    // If current keyframe is not last key frame in animation
     if (currentIndex < (keyframes.size() - 1))
         return keyframes[currentIndex + 1];
     else
@@ -108,18 +111,17 @@ float Bone::currentFrameProgress()
 {
     // If the current key frame is the last one, then the frame
     // progress is fixed at 0
-    const KeyFrame& current = currentKeyFrame();
-    int currentKeyframeNo = current.frameNumber;
-    if (currentKeyframeNo == (keyframes.size() - 1))
+    if (currentKeyFrameIndex() == (keyframes.size() - 1))
     {
         return 0.0f;
     }
     else
     {
+        int currentKeyframeNo = currentKeyFrame().frameNumber;    
         int nextKeyframeNo = nextKeyFrame().frameNumber;
         int frameDifference = (nextKeyframeNo - currentKeyframeNo);
-        int intermediateFrameNo = std::max(1, (currentFrame - currentKeyframeNo));
-        return (frameDifference / intermediateFrameNo);    
+        int intermediateFrameNo = std::max(0, (currentFrame - currentKeyframeNo));
+        return (static_cast<float>(intermediateFrameNo) / static_cast<float>(frameDifference));
     }
 }
 
@@ -147,7 +149,8 @@ Vector3 Bone::interpolateRotationKeyframes()
 
 Vector3 Bone::interpolate(const Vector3& a, const Vector3& b, float t)
 {
-	return Vector3(t * a.x + (1 - t) * b.x,
-		t * a.y + (1 - t) * b.y,
-		t * a.z + (1 - t) * b.z);
+	Vector3 result((1 - t) * a.x + t * b.x,
+		(1 - t) * a.y + t * b.y,
+		(1 - t) * a.z + t * b.z);
+    return result;
 }

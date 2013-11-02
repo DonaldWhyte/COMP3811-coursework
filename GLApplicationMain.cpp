@@ -21,10 +21,15 @@ int main(int argc, char* argv[])
     SurfaceFactory surfaceFactory(false, false, true);
     Person* person = new Person(&surfaceFactory);
     compositeDrawable->addDrawable(person);
+    // Add animated objects to a special list the controller
+    // can use to keep the animations updated
+    std::vector<Bone*> animatedObjects;
+    animatedObjects.push_back(person->getRootBone());
 
 	// Now build view and controller
 	GLWindow* window = new GLWindow(NULL, compositeDrawable);
-	GLApplicationController* controller = new GLApplicationController(window, compositeDrawable);
+	GLApplicationController* controller = new GLApplicationController(
+	    window, compositeDrawable, animatedObjects);
 
 	window->resize(1280, 1280);
 	window->show();

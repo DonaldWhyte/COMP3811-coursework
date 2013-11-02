@@ -11,6 +11,8 @@ public:
     Person(SurfaceFactory* surfaceFactory);
     virtual ~Person();
     
+    Bone* getRootBone();
+    
 private:
     // Bone generation methods
     Bone* createBones(SurfaceFactory* surfaceFactory);
