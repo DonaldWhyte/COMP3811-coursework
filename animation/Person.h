@@ -16,7 +16,7 @@ public:
 private:
     // Bone generation methods
     Bone* createBones(SurfaceFactory* surfaceFactory);
-    Bone* createLeg(SurfaceFactory* surfaceFactory, Vector3 rootPosition, Vector3 rootOrientation);
+    Bone* createLeg(SurfaceFactory* surfaceFactory, Vector3 rootPosition, Vector3 rootOrientation, bool reverseDirection);
     Bone* createArm(SurfaceFactory* surfaceFactory, Vector3 rootPosition, Vector3 rootOrientation, bool reverseDirection);
 
     std::vector<Surface*> surfaces;

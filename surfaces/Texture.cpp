@@ -1,14 +1,12 @@
 #include "Texture.h"
 #include <QGLWidget>
 
-#include <iostream>
 Texture::Texture(const std::string& imageFilename)
 {
 	// Load image to use for the texture from a file
 	QImage loadedImage(imageFilename.c_str());
 	// Make sure the image is in the correct format to be consumed by OpenGL
 	texImage = QGLWidget::convertToGLFormat(loadedImage);
-	std::cout << texImage.width() << " " << texImage.height() << std::endl;
 	// Define a texture in OpenGL
 	glGenTextures(1, &texID);
 	glBindTexture(GL_TEXTURE_2D, texID);
