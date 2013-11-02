@@ -154,5 +154,5 @@ Vector3 Bone::interpolateRotationKeyframes()
         return currentRot;
     const Vector3& nextRot = nextKeyFrame().rotation;
     // Interpolate between the two key frames
-    return currentRot.slerp(nextRot, currentFrameProgress());
+    return currentRot.lerp(nextRot, currentFrameProgress());
 }
