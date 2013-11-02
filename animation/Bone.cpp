@@ -11,13 +11,15 @@ KeyFrame::KeyFrame(int frameNumber, const Vector3& position, const Vector3& rota
 Bone::Bone(Surface* surface, const KeyFrameList& keyframes) :
 	 boneSurface(surface), keyframes(keyframes), currentFrame(0)
 {
+    const KeyFrame& lastKeyFrame = keyframes[keyframes.size() - 1];
+    totalFrames = lastKeyFrame.frameNumber;
 }
 
 Bone::Bone(Surface* surface, const Vector3& boneOrigin, const Vector3& boneRotation) :
-	boneSurface(surface), currentFrame(0)
+	boneSurface(surface), currentFrame(0), totalFrames(1)
 {
 	// Construct initial keyframe to work with animation
-	keyframes.push_back( KeyFrame(0, boneOrigin, boneRotation) );
+	keyframes.push_back( KeyFrame(0, boneOrigin, boneRotation) );	
 }
 
 Bone::~Bone()
@@ -55,8 +57,10 @@ const Bone::BoneList& Bone::children() const {
 
 void Bone::update()
 {
-    // Increase frame count if animation hasn't ended (i.e. not on last keyframe)
-    if (currentKeyFrame().frameNumber != (keyframes.size() - 1))
+    // Loop back to beginning of animation if the end of it has been reached
+    if (onLastFrame())
+        currentFrame = 0;
+    else
         currentFrame += 1;
 }
 
@@ -92,6 +96,11 @@ int Bone::currentKeyFrameIndex() const
     return (keyframes.size() - 1);
 }
 
+bool Bone::onLastFrame() const
+{
+    return (currentFrame == totalFrames);
+}
+
 const KeyFrame& Bone::currentKeyFrame() const
 {
     return keyframes[currentKeyFrameIndex()];
@@ -100,17 +109,18 @@ const KeyFrame& Bone::currentKeyFrame() const
 const KeyFrame& Bone::nextKeyFrame() const
 {
     int currentIndex = currentKeyFrameIndex();
-    // If current keyframe is not last key frame in animation
-    if (currentIndex < (keyframes.size() - 1))
-        return keyframes[currentIndex + 1];
+    // If current keyframe is last key frame in animation,
+    // loop back to the first key frame
+    if (currentIndex == (keyframes.size() - 1))
+        return keyframes[0];
     else
-        return keyframes[currentIndex];
+        return keyframes[currentIndex + 1];
 }
 
 float Bone::currentFrameProgress()
 {
-    // If the current key frame is the last one, then the frame
-    // progress is fixed at 0
+    // If the current key frame is the last one, then we
+    // consider frame progress being 1
     if (currentKeyFrameIndex() == (keyframes.size() - 1))
     {
         return 0.0f;

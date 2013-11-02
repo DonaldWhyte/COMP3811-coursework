@@ -46,7 +46,10 @@ public:
 
 private:
     /* Return INDEX to current keyframe of bone animation. */
-    int currentKeyFrameIndex() const;    
+    int currentKeyFrameIndex() const;
+    /* Return true if animation has finished and the bone is
+     * on the last frame. */
+    bool onLastFrame() const;
     /* Return current keyframe of bone animation. */ 
     const KeyFrame& currentKeyFrame() const;
     /* Return next keyframe of bone animation. */
@@ -63,6 +66,7 @@ private:
 	
 	KeyFrameList keyframes;	
 	int currentFrame; // what frame of the animation the bone is currently in
+	int totalFrames; // total number of frames in animation described by 'keyframes'
 
 };
 
