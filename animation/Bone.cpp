@@ -57,6 +57,9 @@ const Bone::BoneList& Bone::children() const {
 
 void Bone::update()
 {
+	// Update all of this bone's children
+	for (BoneList::iterator it = childBones.begin(); (it != childBones.end()); it++)
+		(*it)->update();
     // Loop back to beginning of animation if the end of it has been reached
     if (onLastFrame())
         currentFrame = 1;

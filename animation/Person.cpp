@@ -27,14 +27,14 @@ Bone* Person::getRootBone()
 
 Bone* Person::createBones(SurfaceFactory* surfaceFactory)
 {
-    // Create keyframes for root of person.
+    // Define animation for root of person.
     // This will get them to run around in a circle
-    std::vector<KeyFrame> pelvisKeyframes;
+    KeyFrameList pelvisKeyframes;
     pelvisKeyframes.push_back( KeyFrame(0, Vector3(0, 0, 10.0f), Vector3(0, 90.0f, 0)) );
     pelvisKeyframes.push_back( KeyFrame(50, Vector3(10.0f, 0, 0.0f), Vector3(0, 180.0f, 0)) );
     pelvisKeyframes.push_back( KeyFrame(100, Vector3(0, 0, -10.0f), Vector3(0, 270.0f, 0)) );    
     pelvisKeyframes.push_back( KeyFrame(150, Vector3(-10.0f, 0, 0.0f), Vector3(0, 360.0f, 0)) );
-    pelvisKeyframes.push_back( KeyFrame(200, Vector3(0, 0, 10.0f), Vector3(0, 450.0f, 0)) );
+    pelvisKeyframes.push_back( KeyFrame(200, Vector3(0, 0, 10.0f), Vector3(0, 450.0f, 0)) );    
 
     // Create person's body
     Bone* pelvisBone = new Bone(surfaceFactory->createBox(2.0f, 1.8f, 1.1f), pelvisKeyframes);
@@ -88,6 +88,8 @@ Bone* Person::createLeg(SurfaceFactory* surfaceFactory, Vector3 rootPosition, Ve
 
 Bone* Person::createArm(SurfaceFactory* surfaceFactory, Vector3 rootPosition, Vector3 rootOrientation, bool reverseDirection)
 {
+    // Depending on which arm this is for (left or right), the
+    // bone transformations differ
     float armDirection = 10.0f;
     Vector3 upperArmPosition(0.15f, -0.7f, 0.0f);    
     Vector3 lowerArmPosition(-0.14f, 0.0f, 0.8f);     
@@ -97,16 +99,30 @@ Bone* Person::createArm(SurfaceFactory* surfaceFactory, Vector3 rootPosition, Ve
         upperArmPosition.x = -upperArmPosition.x;
         lowerArmPosition.x = -lowerArmPosition.x;
     }
+    // Define shoulder and elbow animations
+    KeyFrameList shoulderKeyframes;
+    shoulderKeyframes.push_back( KeyFrame(0, rootPosition,
+        Vector3(rootOrientation.x - 60.0f, rootOrientation.y, rootOrientation.z)) );
+    shoulderKeyframes.push_back( KeyFrame(25, rootPosition,
+        Vector3(rootOrientation.x + 60.0f, rootOrientation.y, rootOrientation.z)) );
+    shoulderKeyframes.push_back( KeyFrame(50, rootPosition,
+        Vector3(rootOrientation.x - 60.0f, rootOrientation.y, rootOrientation.z)) );
+        
+    Vector3 elbowPosition = Vector3(0.0f, 0.0f, 1.1f);
+    Vector3 elbowOrientation = Vector3(0, 0, 0) + Vector3(-45.0f, 0, 0);
+    KeyFrameList elbowKeyframes;
+    elbowKeyframes.push_back( KeyFrame(0, elbowPosition, elbowOrientation) );    
    
+    // Create surfaces to give to bones
     Surface* shoulderJoint = surfaceFactory->createSphere(0.4f, 32, 32);
     Surface* upperArmComponent = surfaceFactory->createCylinder(2.0f, 0.25f, 32);
     Surface* elbowJoint = surfaceFactory->createSphere(0.3f, 32, 32);
     Surface* lowerArmComponent = surfaceFactory->createCylinder(1.4f, 0.25f, 32);    
         
-    Bone* shoulder = new Bone(shoulderJoint, rootPosition, rootOrientation);
+    Bone* shoulder = new Bone(shoulderJoint, shoulderKeyframes);
     Bone* upperArm = new Bone(upperArmComponent, upperArmPosition, Vector3(90.0f, armDirection, 0.0f));
     shoulder->addChild(upperArm);
-    Bone* elbow = new Bone(elbowJoint, Vector3(0.0f, 0.0f, 1.1f), Vector3(0, 0, 0));
+    Bone* elbow = new Bone(elbowJoint, elbowKeyframes);
     upperArm->addChild(elbow);    
     Bone* lowerArm = new Bone(lowerArmComponent, lowerArmPosition, Vector3(0, -armDirection, 0));
     elbow->addChild(lowerArm);
