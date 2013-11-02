@@ -5,6 +5,9 @@
 #include "../surfaces/Surface.h"
 #include "../util/Vector3.h"
 
+/* Represents a single key frame of a bone in skeletal animation.
+ * Contains the position and rotation of a bone at specific
+ * frame. */
 struct KeyFrame
 {
     int frameNumber;
@@ -42,16 +45,25 @@ public:
 	void render();
 
 private:
-    Vector3 interpolate(const Vector3& a, const Vector3& b, float t);
-    Vector3 interpolatePositionKeyframes();
-    Vector3 interpolateRotationKeyframes();
+    /* Return INDEX to current keyframe of bone animation. */
+    int currentKeyFrameIndex() const;    
+    /* Return current keyframe of bone animation. */ 
+    const KeyFrame& currentKeyFrame() const;
+    /* Return next keyframe of bone animation. */
+    const KeyFrame& nextKeyFrame() const;    
+	/* Return the progress between the current key frame
+ 	 * and the next as a float in the range of 0 to 1. */
+	float currentFrameProgress();
+
+	Vector3 interpolate(const Vector3& a, const Vector3& b, float t);
+	Vector3 interpolatePositionKeyframes();
+	Vector3 interpolateRotationKeyframes();
 
 	BoneList childBones;
 	Surface* boneSurface;
 	
 	KeyFrameList keyframes;	
-	int currentKeyframe;
-	float currentFrameProgress; // (0 = start of keyframe, 1 = end of keyframe)
+	int currentFrame; // what frame of the animation the bone is currently in
 
 };
 

@@ -9,12 +9,12 @@ KeyFrame::KeyFrame(int frameNumber, const Vector3& position, const Vector3& rota
 }
 
 Bone::Bone(Surface* surface, const KeyFrameList& keyframes) :
-	 boneSurface(surface), keyframes(keyframes), currentKeyframe(0), currentFrameProgress(0.0f)
+	 boneSurface(surface), keyframes(keyframes), currentFrame(0)
 {
 }
 
 Bone::Bone(Surface* surface, const Vector3& boneOrigin, const Vector3& boneRotation) :
-	boneSurface(surface), currentKeyframe(0), currentFrameProgress(0.0f)
+	boneSurface(surface), currentFrame(0)
 {
 	// Construct initial keyframe to work with animation
 	keyframes.push_back( KeyFrame(0, boneOrigin, boneRotation) );
@@ -55,7 +55,8 @@ const Bone::BoneList& Bone::children() const {
 
 void Bone::update()
 {
-    // TODO
+    // Increase frame count
+    currentFrame += 1;
 }
 
 void Bone::render()
@@ -78,24 +79,65 @@ void Bone::render()
 	glPopMatrix();
 }
 
+int Bone::currentKeyFrameIndex() const
+{
+    return 0;
+}
+
+const KeyFrame& Bone::currentKeyFrame() const
+{
+    return keyframes[currentKeyFrameIndex()];
+}
+
+const KeyFrame& Bone::nextKeyFrame() const
+{
+    int currentIndex = currentKeyFrameIndex();
+    // If current keyftrame is not last key frame in animation
+    if (currentIndex < (keyframes.size() - 1))
+        return keyframes[currentIndex + 1];
+    else
+        return keyframes[currentIndex];
+}
+
+float Bone::currentFrameProgress()
+{
+    // If the current key frame is the last one, then the frame
+    // progress is fixed at 0
+    const KeyFrame& current = currentKeyFrame();
+    int currentKeyframeNo = current.frameNumber;
+    if (currentKeyframeNo == (keyframes.size() - 1))
+    {
+        return 0.0f;
+    }
+    else
+    {
+        int nextKeyframeNo = nextKeyFrame().frameNumber;
+        int frameDifference = (nextKeyframeNo - currentKeyframeNo);
+        int intermediateFrameNo = std::max(1, (currentFrame - currentKeyframeNo));
+        return (frameDifference / intermediateFrameNo);    
+    }
+}
+
 Vector3 Bone::interpolatePositionKeyframes()
 {
-    const Vector3& current = keyframes[currentKeyframe].position;
-    if (currentKeyframe == (keyframes.size() - 1))
-        return current;
-    const Vector3& next = keyframes[currentKeyframe + 1].position;
+    const KeyFrame& current = currentKeyFrame();
+    const Vector3& currentPos = current.position;
+    if (current.frameNumber == (keyframes.size() - 1))
+        return currentPos;
+    const Vector3& nextPos = nextKeyFrame().position;
     // Interpolate between the two key frames
-    return interpolate(current, next, currentFrameProgress);
+    return interpolate(currentPos, nextPos, currentFrameProgress());
 }
 
 Vector3 Bone::interpolateRotationKeyframes()
 {
-    const Vector3& current = keyframes[currentKeyframe].rotation;
-    if (currentKeyframe == (keyframes.size() - 1))
-        return current;
-    const Vector3& next = keyframes[currentKeyframe + 1].rotation;
+    const KeyFrame& current = currentKeyFrame();
+    const Vector3& currentRot = current.rotation;
+    if (current.frameNumber == (keyframes.size() - 1))
+        return currentRot;
+    const Vector3& nextRot = nextKeyFrame().rotation;
     // Interpolate between the two key frames
-    return interpolate(current, next, currentFrameProgress);
+    return interpolate(currentRot, nextRot, currentFrameProgress());
 }
 
 Vector3 Bone::interpolate(const Vector3& a, const Vector3& b, float t)
