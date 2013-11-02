@@ -143,7 +143,7 @@ Vector3 Bone::interpolatePositionKeyframes()
         return currentPos;
     const Vector3& nextPos = nextKeyFrame().position;
     // Interpolate between the two key frames
-    return currentPos.slerp(nextPos, currentFrameProgress());
+    return currentPos.lerp(nextPos, currentFrameProgress());
 }
 
 Vector3 Bone::interpolateRotationKeyframes()
@@ -154,5 +154,5 @@ Vector3 Bone::interpolateRotationKeyframes()
         return currentRot;
     const Vector3& nextRot = nextKeyFrame().rotation;
     // Interpolate between the two key frames
-    return currentRot.lerp(nextRot, currentFrameProgress());
+    return currentRot.slerp(nextRot, currentFrameProgress());
 }

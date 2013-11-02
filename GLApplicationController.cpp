@@ -1,12 +1,6 @@
 #include <QCoreApplication>
 #include "GLApplicationController.h"
 
-#include <typeinfo>
-#include "Sphere.h"
-#include "Cylinder.h"
-#include "Cone.h"
-#include "Torus.h"
-
 GLApplicationController::GLApplicationController(GLWindow* window, Drawable* drawableObject,
     const std::vector<Bone*>& animatedObjects)
 	: window(window), drawable(drawableObject), animatedObjects(animatedObjects),
