@@ -22,7 +22,6 @@ public slots:
 	void yRotSliderChanged(int newValue);
 	void zRotSliderChanged(int newValue);
 	void animationSliderChanged(int newValue);
-	void animationCheckBoxChanged(int state);
 	void skeletalAnimationCheckBoxChanged(int state);
 	void nextAnimationFrame(); // used to provide animation to objects 
 
@@ -36,8 +35,6 @@ private:
     Animator* animator;
 	QTimer* animationTimer;
 
-	// If set to true, then the polygon drawn will be rotated continuously
-	bool animating;
 	// Ifset to true, then the skeletal animation of the person will be playing
 	bool skeletalAnimationPlaying;
 	// If set to true, triangles composing the faces of polyhedra

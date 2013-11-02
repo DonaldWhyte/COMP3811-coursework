@@ -3,8 +3,7 @@
 
 GLApplicationController::GLApplicationController(GLWindow* window, Drawable* drawableObject,
     Animator* animator)
-	: window(window), drawable(drawableObject), animator(animator),
-	animating(false), skeletalAnimationPlaying(true)
+	: window(window), drawable(drawableObject), animator(animator), skeletalAnimationPlaying(true)
 {
 	connect(window->canvasWidget, SIGNAL(changed()),
 		this, SLOT(canvasWidgetChanged()));
@@ -16,10 +15,6 @@ GLApplicationController::GLApplicationController(GLWindow* window, Drawable* dra
 		this, SLOT(yRotSliderChanged(int)));
 	connect(window->zRotSlider, SIGNAL(valueChanged(int)),
 		this, SLOT(zRotSliderChanged(int)));
-	connect(window->animationSlider, SIGNAL(valueChanged(int)),
-		this, SLOT(animationSliderChanged(int)));
-	connect(window->animationCheckBox, SIGNAL(stateChanged(int)),
-		this, SLOT(animationCheckBoxChanged(int)));
 	connect(window->skeletalAnimationCheckBox, SIGNAL(stateChanged(int)),
 		this, SLOT(skeletalAnimationCheckBoxChanged(int)));
 
@@ -57,11 +52,6 @@ void GLApplicationController::animationSliderChanged(int newValue)
 	window->resetInterface();
 }
 
-void GLApplicationController::animationCheckBoxChanged(int newState)
-{
-	animating = (newState == Qt::Checked);
-}
-
 void GLApplicationController::skeletalAnimationCheckBoxChanged(int newState)
 {
     skeletalAnimationPlaying = (newState == Qt::Checked);
@@ -69,19 +59,11 @@ void GLApplicationController::skeletalAnimationCheckBoxChanged(int newState)
 
 void GLApplicationController::nextAnimationFrame()
 {
-	if (animating) // if Y-rotation animation is playing
-	{
-		Vector3 rotation = drawable->rotation();
-		if (rotation.y < 0.0f || rotation.y > 360.0f) rotation.y = 0.0f;
-		else rotation.y += 1.0f;
-		drawable->setRotation(rotation);
-	}
-	if (skeletalAnimationPlaying) // if skeletal animations are playing
+	if (skeletalAnimationPlaying)
 	{	
         animator->update();
+        window->resetInterface();
     }
-	// If ANY animation is playing, update the animation
-	if (animating || skeletalAnimationPlaying)
-		window->resetInterface();
+		
 }
 

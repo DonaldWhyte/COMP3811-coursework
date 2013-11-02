@@ -39,7 +39,6 @@ public:
 	QSlider* yRotSlider;
 	QSlider* zRotSlider;
 	QSlider* animationSlider;
-	QCheckBox* animationCheckBox;
 	QCheckBox* skeletalAnimationCheckBox;
 
 	QAction* actionQuit;
@@ -60,7 +59,6 @@ private:
 		QBoxLayout* rowFourLayout;
 			QLabel* zRotLabel;
 		QBoxLayout* rowFiveLayout;
-		QBoxLayout* rowSixLayout;
 		    QLabel* animationLabel;
 
 };

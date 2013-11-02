@@ -42,17 +42,12 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject, Animator* animator
 
 	rowFiveLayout = new QBoxLayout(QBoxLayout::LeftToRight);
 	windowLayout->addLayout(rowFiveLayout);
-		animationCheckBox = new QCheckBox("Y Rotation Animation Enabled");
-		rowFiveLayout->addWidget(animationCheckBox);
-		
-	rowSixLayout = new QBoxLayout(QBoxLayout::LeftToRight);
-	windowLayout->addLayout(rowSixLayout);		
 		animationLabel = new QLabel("Animation Progress");
-		rowSixLayout->addWidget(animationLabel);		
+		rowFiveLayout->addWidget(animationLabel);		
 		animationSlider = new QSlider(Qt::Horizontal);
-		rowSixLayout->addWidget(animationSlider);
+		rowFiveLayout->addWidget(animationSlider);
 		skeletalAnimationCheckBox = new QCheckBox("Skeletal Animation Enabled");
-		rowSixLayout->addWidget(skeletalAnimationCheckBox);
+		rowFiveLayout->addWidget(skeletalAnimationCheckBox);
 
     resetInterface();
 }
@@ -63,7 +58,6 @@ GLWindow::~GLWindow()
 	delete animationLabel;
 	delete animationSlider;
 	delete skeletalAnimationCheckBox;
-	delete animationCheckBox;
 	delete xRotLabel;
 	delete yRotLabel;
 	delete zRotLabel;
@@ -76,7 +70,6 @@ GLWindow::~GLWindow()
 	delete rowThreeLayout;
 	delete rowFourLayout;
 	delete rowFiveLayout;
-	delete rowSixLayout;
 	delete windowLayout;
 	delete actionQuit;
 	delete fileMenu;
