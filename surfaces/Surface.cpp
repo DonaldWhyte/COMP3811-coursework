@@ -13,21 +13,21 @@ void renderPoints(const VertexList& vertices)
 
 void renderLines(const VertexList& vertices, const TriangleList& triangles)
 {
-        glColor3f(0.0f, 0.0f, 1.0f);
-        glBegin(GL_LINES);
-                for (TriangleList::const_iterator it = triangles.begin(); (it != triangles.end()); it++)
-                {
-                        const Vertex& v1 = vertices[it->v1];
-                        const Vertex& v2 = vertices[it->v2];
-                        const Vertex& v3 = vertices[it->v3];
-                        glVertex3fv(v1.position.elems);
-                        glVertex3fv(v2.position.elems);
-                        glVertex3fv(v2.position.elems);
-                        glVertex3fv(v3.position.elems);
-                        glVertex3fv(v3.position.elems);                                                                                                
-                        glVertex3fv(v1.position.elems);                                                                                                                     
-                }
-        glEnd();
+    glColor3f(0.0f, 0.0f, 1.0f);
+    glBegin(GL_LINES);
+    for (TriangleList::const_iterator it = triangles.begin(); (it != triangles.end()); it++)
+    {
+        const Vertex& v1 = vertices[it->v1];
+        const Vertex& v2 = vertices[it->v2];
+        const Vertex& v3 = vertices[it->v3];
+        glVertex3fv(v1.position.elems);
+        glVertex3fv(v2.position.elems);
+        glVertex3fv(v2.position.elems);
+        glVertex3fv(v3.position.elems);
+        glVertex3fv(v3.position.elems);                                                                                                
+        glVertex3fv(v1.position.elems);                                                                                                                     
+    }
+    glEnd();
 }
 
 

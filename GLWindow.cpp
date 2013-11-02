@@ -85,13 +85,22 @@ void GLWindow::resetInterface()
 {
 	xRotSlider->setMinimum(0);
 	xRotSlider->setMaximum(360);
-	xRotSlider->setValue(drawable->xRotation());
 	yRotSlider->setMinimum(0);
 	yRotSlider->setMaximum(360);
-	yRotSlider->setValue(drawable->yRotation());
 	zRotSlider->setMinimum(0);
 	zRotSlider->setMaximum(360);
-	zRotSlider->setValue(drawable->zRotation());
+	if (drawable)
+	{
+    	xRotSlider->setValue(drawable->xRotation());
+    	yRotSlider->setValue(drawable->yRotation());
+    	zRotSlider->setValue(drawable->zRotation());
+    }
+    else
+    {
+    	xRotSlider->setValue(0);
+    	yRotSlider->setValue(0);
+    	zRotSlider->setValue(0);
+    }
 
 	update(); // force refresh
 	canvasWidget->update(); // wasn't repainting with update()...

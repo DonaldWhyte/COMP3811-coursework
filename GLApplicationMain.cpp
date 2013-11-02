@@ -10,12 +10,15 @@
 
 int main(int argc, char* argv[])
 {
+    // Create application and window BEFORE drawables, so an OpenGL
+    // context has been established and textures can be correctly loaded
 	QApplication app(argc, argv);
-
+	
+	// Built objects that will be drawn on the screen
     CompositeDrawable* compositeDrawable = new CompositeDrawable();
     compositeDrawable->setZ(-30.0f); // so everything is visible
     // Create axes
-    Bone* axes = Axes::createXYZAxes(7.5f, 0.5f);
+    Bone* axes = Axes::createXYZAxes(15.0f, 0.5f);
     compositeDrawable->addDrawable(new Skeleton(axes));
     // Create a person using bone transformations
     SurfaceFactory surfaceFactory(false, false, true);
@@ -26,7 +29,7 @@ int main(int argc, char* argv[])
     std::vector<Bone*> animatedObjects;
     animatedObjects.push_back(person->getRootBone());
 
-	// Now build view and controller
+	// Create view and controller
 	GLWindow* window = new GLWindow(NULL, compositeDrawable);
 	GLApplicationController* controller = new GLApplicationController(
 	    window, compositeDrawable, animatedObjects);
