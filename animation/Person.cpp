@@ -27,15 +27,17 @@ Bone* Person::getRootBone()
 
 Bone* Person::createBones(SurfaceFactory* surfaceFactory)
 {
-    std::vector<KeyFrame> keyframes;
-    keyframes.push_back( KeyFrame(0, Vector3(0, 0, 0), Vector3(0, 90.0f, 0)) );
-    keyframes.push_back( KeyFrame(50, Vector3(5.0f, 0, -5.0f), Vector3(0, 180.0f, 0)) );
-    keyframes.push_back( KeyFrame(100, Vector3(0, 0, -10.0f), Vector3(0, 270.0f, 0)) );    
-    keyframes.push_back( KeyFrame(150, Vector3(-5.0f, 0, -5.0f), Vector3(0, 360.0f, 0)) );
-    keyframes.push_back( KeyFrame(200, Vector3(0, 0, 0), Vector3(0, 450.0f, 0)) );
+    // Create keyframes for root of person.
+    // This will get them to run around in a circle
+    std::vector<KeyFrame> pelvisKeyframes;
+    pelvisKeyframes.push_back( KeyFrame(0, Vector3(0, 0, 10.0f), Vector3(0, 90.0f, 0)) );
+    pelvisKeyframes.push_back( KeyFrame(50, Vector3(10.0f, 0, 0.0f), Vector3(0, 180.0f, 0)) );
+    pelvisKeyframes.push_back( KeyFrame(100, Vector3(0, 0, -10.0f), Vector3(0, 270.0f, 0)) );    
+    pelvisKeyframes.push_back( KeyFrame(150, Vector3(-10.0f, 0, 0.0f), Vector3(0, 360.0f, 0)) );
+    pelvisKeyframes.push_back( KeyFrame(200, Vector3(0, 0, 10.0f), Vector3(0, 450.0f, 0)) );
 
     // Create person's body
-    Bone* pelvisBone = new Bone(surfaceFactory->createBox(2.0f, 1.8f, 1.1f), keyframes);
+    Bone* pelvisBone = new Bone(surfaceFactory->createBox(2.0f, 1.8f, 1.1f), pelvisKeyframes);
     Bone* chestBone = new Bone(surfaceFactory->createBox(2.0f, 2.2f, 1.1f),
         Vector3(0.0f, 1.8f, 0.0f));
     pelvisBone->addChild(chestBone);

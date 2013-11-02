@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 	QApplication app(argc, argv);
 
     CompositeDrawable* compositeDrawable = new CompositeDrawable();
-    compositeDrawable->setZ(-20.0f); // so everything is visible
+    compositeDrawable->setZ(-30.0f); // so everything is visible
     // Create axes
     Bone* axes = Axes::createXYZAxes(7.5f, 0.5f);
     compositeDrawable->addDrawable(new Skeleton(axes));

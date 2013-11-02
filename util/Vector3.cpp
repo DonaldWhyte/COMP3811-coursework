@@ -49,16 +49,6 @@ Vector3 Vector3::lerp(const Vector3& vec, float t) const
 		(1 - t) * z + t * vec.z);
 }
 
-Vector3 Vector3::slerp(const Vector3& vec, float t) const
-{
-    // TODO: get working
-    float omega = acos( this->dot(vec) );
-    float sinOmega = sin(omega);
-    float aMult = sin((1 - t) * omega) / sinOmega;
-    float bMult = sin(t * omega) / sinOmega;
-    return ((*this) * aMult) + (vec * bMult);
-}
-
 Vector3 operator +(const Vector3& a, const Vector3& b)
 {
 	return Vector3(a.x + b.x, a.y + a.y, a.z + b.z);

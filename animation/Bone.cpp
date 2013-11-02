@@ -59,7 +59,7 @@ void Bone::update()
 {
     // Loop back to beginning of animation if the end of it has been reached
     if (onLastFrame())
-        currentFrame = 0;
+        currentFrame = 1;
     else
         currentFrame += 1;
 }
@@ -143,7 +143,7 @@ Vector3 Bone::interpolatePositionKeyframes()
         return currentPos;
     const Vector3& nextPos = nextKeyFrame().position;
     // Interpolate between the two key frames
-    return currentPos.lerp(nextPos, currentFrameProgress());
+    return currentPos.slerp(nextPos, currentFrameProgress());
 }
 
 Vector3 Bone::interpolateRotationKeyframes()
