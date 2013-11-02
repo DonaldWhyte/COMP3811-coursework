@@ -12,7 +12,7 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 	actionQuit = new QAction("&Quit", this);
 	fileMenu->addAction(actionQuit);
 
-	// Row one, which contains OpenGL widget and verticval slider
+	// Row one, which contains OpenGL widget and vertical slider
 	rowOneLayout = new QBoxLayout(QBoxLayout::LeftToRight);
 	windowLayout->addLayout(rowOneLayout);
 
@@ -44,13 +44,16 @@ GLWindow::GLWindow(QWidget* parent, Drawable* drawableObject)
 	windowLayout->addLayout(rowFiveLayout);
 		animationCheckBox = new QCheckBox("Y Rotation Animation Enabled");
 		rowFiveLayout->addWidget(animationCheckBox);
+		skeletalAnimationCheckBox = new QCheckBox("Skeletal Animation Enabled");
+		rowFiveLayout->addWidget(skeletalAnimationCheckBox);
 
-	resetInterface();
+    resetInterface();
 }
 
 GLWindow::~GLWindow()
 {
 	// Done in reverse-order, bottom of visual hierarchy to the top
+	delete skeletalAnimationCheckBox;
 	delete animationCheckBox;
 	delete xRotLabel;
 	delete yRotLabel;

@@ -37,6 +37,7 @@ public:
 	QSlider* yRotSlider;
 	QSlider* zRotSlider;
 	QCheckBox* animationCheckBox;
+	QCheckBox* skeletalAnimationCheckBox;
 
 	QAction* actionQuit;
 

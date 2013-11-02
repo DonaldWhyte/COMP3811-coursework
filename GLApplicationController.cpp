@@ -8,7 +8,7 @@
 #include "Torus.h"
 
 GLApplicationController::GLApplicationController(GLWindow* window, Drawable* drawableObject)
-	: window(window), drawable(drawableObject), animating(false)
+	: window(window), drawable(drawableObject), animating(false), skeletalAnimationPlaying(false)
 {
 	connect(window->canvasWidget, SIGNAL(changed()),
 		this, SLOT(canvasWidgetChanged()));
@@ -22,6 +22,8 @@ GLApplicationController::GLApplicationController(GLWindow* window, Drawable* dra
 		this, SLOT(zRotSliderChanged(int)));
 	connect(window->animationCheckBox, SIGNAL(stateChanged(int)),
 		this, SLOT(animationCheckBoxChanged(int)));
+	connect(window->skeletalAnimationCheckBox, SIGNAL(stateChanged(int)),
+		this, SLOT(skeletalAnimationCheckBoxChanged(int)));
 
 	animationTimer = new QTimer(this);
 	connect(animationTimer, SIGNAL(timeout()), this, SLOT(nextAnimationFrame()));
@@ -54,6 +56,11 @@ void GLApplicationController::zRotSliderChanged(int newValue)
 void GLApplicationController::animationCheckBoxChanged(int newState)
 {
 	animating = (newState == Qt::Checked);
+}
+
+void GLApplicationController::skeletalAnimationCheckBoxChanged(int newState)
+{
+    skeletalAnimationPlaying = (newState == Qt::Checked);
 }
 
 void GLApplicationController::nextAnimationFrame()
