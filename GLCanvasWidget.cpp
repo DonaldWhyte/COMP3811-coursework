@@ -41,7 +41,8 @@ void GLCanvasWidget::initializeGL()
 	//lightingManager.setLightingModel(LIGHTING_MODEL_SMOOTH);
 	
 	// Load all textures required by scene
-	TextureManager::getInstance()->loadTextureFromFile("face", "resources/face_texture.jpg");
+    glEnable(GL_TEXTURE_2D);
+	TextureManager::getInstance()->loadTextureFromFile("face", "resources/face_texture.png");
 }
 
 void GLCanvasWidget::resizeGL(int width, int height)
