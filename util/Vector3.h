@@ -18,6 +18,9 @@ public:
 	 
 	float dot(const Vector3& vec) const;
 	Vector3 cross(const Vector3& vec) const;
+	
+	Vector3 lerp(const Vector3& vec, float t) const;
+	Vector3 slerp(const Vector3& vec, float t) const;
 
 	union 
 	{
